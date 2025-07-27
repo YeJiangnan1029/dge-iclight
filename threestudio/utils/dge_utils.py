@@ -155,8 +155,10 @@ def compute_epipolar_constrains(cam1, cam2, current_H=64, current_W=64):
     n_frames = 1
     sequence_length = current_W * current_H
     fundamental_matrix_1 = []
-    
-    fundamental_matrix_1.append(get_fundamental_matrix_with_H(cam1, cam2, current_H, current_W))
+    F = get_fundamental_matrix_with_H(cam1, cam2, current_H, current_W)
+    # F = F / F.norm()  # 或 F = F / F[-1, -1]（如果最后一个元素不是0）
+    fundamental_matrix_1.append(F)
+    # fundamental_matrix_1.append(get_fundamental_matrix_with_H(cam1, cam2, current_H, current_W))
     fundamental_matrix_1 = torch.stack(fundamental_matrix_1, dim=0)
 
     x = torch.arange(current_W)
@@ -173,6 +175,41 @@ def compute_epipolar_constrains(cam1, cam2, current_H=64, current_W=64):
 
     
     idx1_epipolar = distance1 > 1 # sequence_length x sequence_lengths
+
+    vis = False
+    if vis and current_H*current_W == 64*64:
+        import matplotlib.pyplot as plt
+        image_path = "edit_cache/data-dge_data-face-scene_point_cloud.ply/origin_render"
+        image_1 = f"{image_path}/{cam1.uid:04d}.png"
+        image_2 = f"{image_path}/{cam2.uid:04d}.png"
+        image_1 = Image.open(image_1)
+        image_2 = Image.open(image_2)
+        image_1 = np.array(image_1.resize((current_H, current_W)))
+        image_2 = np.array(image_2.resize((current_H, current_W)))
+        random_token_id = np.random.randint(0, current_H * current_W)
+        epipolar_bool = idx1_epipolar.cpu().numpy().astype(bool)[:, random_token_id].reshape(current_H, current_W)
+        row, col = divmod(random_token_id, current_H)
+
+        fig, axs = plt.subplots(1, 2, figsize=(8, 4))
+        axs[0].imshow(image_1)
+        # axs[0].scatter([col], [row], c="red", s=40, marker="o")
+        axs[0].imshow(epipolar_bool, alpha=0.45, cmap='gray')
+        axs[0].set_title(f"Cam_1 {cam1.uid}")
+        axs[0].axis("off")
+
+        image_2[row, col] = [255, 0, 0]  # Mark the point on image_2
+        axs[1].imshow(image_2)
+        
+        # axs[1].scatter([col], [row], c="red", s=40, marker="o")
+        # axs[1].imshow(epipolar_bool, alpha=0.45, cmap='gray')
+        axs[1].set_title(f"Cam_2 {cam2.uid}: token {random_token_id}")
+        axs[1].axis("off")
+
+        plt.tight_layout()
+        out_file = f"temp/match/cam_{cam1.uid}_cam_{cam2.uid}_token{random_token_id}_res{current_H*current_W}.png"
+        plt.savefig(out_file, dpi=200)
+        print(f"saved: {out_file}")
+        plt.close(fig)
 
     return idx1_epipolar
 
@@ -449,6 +486,67 @@ def make_dge_block(block_class: Type[torch.nn.Module]) -> Type[torch.nn.Module]:
                         sim[idx1_epipolar] = 0
                         sim_max = sim.max(dim=-1)
                         idx1.append(sim_max[1])
+
+                        if False:
+                            for idx, cam in enumerate(self.cams):
+                                import matplotlib.pyplot as plt
+                                from matplotlib.pyplot import get_cmap
+                                key_cam_idx = closest_cam[idx, 0].item()
+                                key_cam = self.key_cams[key_cam_idx]
+                                image_path = "edit_cache/data-dge_data-face-scene_point_cloud.ply/origin_render"
+                                n_tokens = sequence_length
+                                res = int(math.sqrt(n_tokens))
+                                image_1 = np.array(Image.open(f"{image_path}/{key_cam.uid:04}.png").resize((res, res)))
+                                image_2 = np.array(Image.open(f"{image_path}/{cam.uid:04}.png").resize((res, res)))
+
+                                random_token_id = np.random.randint(0, n_tokens)
+                                row, col = divmod(random_token_id, res)
+                                match_token_id = sim_max[1][idx*n_tokens+random_token_id].item()
+                                mrow, mcol = divmod(match_token_id, res)
+                                sim_heatmap = sim[idx*n_tokens+random_token_id].reshape(res, res).cpu().numpy()
+                                epipolar_bool = idx1_epipolar[idx*n_tokens+random_token_id].reshape(res, res).cpu().numpy()
+
+                                fig, axs = plt.subplots(2, 2, figsize=(8, 4))
+
+                                # 0,0-普通帧图
+                                axs[0][0].imshow(image_2)
+                                axs[0][0].scatter([col], [row], c="red", s=20, marker="o")
+                                axs[0][0].set_title(f"Cam {cam.uid}: token {random_token_id}")
+                                axs[0][0].axis("off")
+            
+                                # 0,1-关键帧+极线图
+                                axs[0][1].imshow(image_1)
+                                axs[0][1].imshow(epipolar_bool, alpha=0.6, cmap="gray")   # 半透明叠加
+                                axs[0][1].scatter([mcol], [mrow], c="red", s=20, marker="o")
+                                axs[0][1].set_title(f"Key-cam {key_cam.uid}: epipolar line")
+                                axs[0][1].axis("off")
+
+                                # 1,0-热力图
+                                axs[1][0].imshow(sim_heatmap, cmap="jet")
+                                axs[0][1].set_title(f"Key-cam {key_cam.uid}: similarity heatmap")
+                                axs[0][1].axis("off")
+                                
+                                # 1,1-热力图+极线图
+                                cmap = get_cmap('jet')
+                                heat_rgb = cmap(sim_heatmap)[:, :, :3]  # shape: [res, res, 3]
+                                heat_rgb = (heat_rgb * 255).astype(np.uint8)
+                                image_1_rgb = image_1.copy()
+                                mask = (epipolar_bool == False)
+                                composite_image = image_1_rgb.copy()
+                                composite_image[mask] = heat_rgb[mask]
+                                axs[1][1].imshow(composite_image)
+                                axs[1][1].scatter([mcol], [mrow], c="red", s=20, marker="o")
+                                axs[1][1].set_title(f"Key-cam {key_cam.uid}: match token {match_token_id}")
+                                axs[1][1].axis("off")
+
+                                plt.tight_layout()
+                                plt.subplots_adjust(wspace=0.2, hspace=0.2)  # 控制横向和纵向的子图间距
+
+                                # 保存 / 显示
+                                out_file = f"temp/heatmap/heatmap_cam{cam.uid}_key{key_cam.uid}.png"
+                                plt.savefig(out_file, dpi=200)
+                                print(f"saved: {out_file}")
+                                plt.close(fig)
                             
                     idx1 = torch.stack(idx1 * 3, dim=0) # 3, n_frames * seq_len
                     idx1 = idx1.squeeze(1)

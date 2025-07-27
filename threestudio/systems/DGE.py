@@ -579,7 +579,8 @@ class DGE(BaseLift3DSystem):
                 images,
                 original_frames,
                 self.prompt_processor(),
-                cams = cams_sorted
+                cams = cams_sorted,
+                is_first_edit = global_step<=self.cfg.camera_update_per_step
             )
 
             for view_index_tmp in range(len(self.view_list)):
@@ -615,7 +616,8 @@ class DGE(BaseLift3DSystem):
             
 
     def training_step(self, batch, batch_idx):
-        if self.true_global_step % self.cfg.camera_update_per_step == 0 and self.cfg.guidance_type == 'dge-guidance' and not self.cfg.loss.use_sds:
+        # if self.true_global_step % self.cfg.camera_update_per_step == 0 and self.cfg.guidance_type == 'dge-guidance' and not self.cfg.loss.use_sds:
+        if self.true_global_step % self.cfg.camera_update_per_step == 0 and (self.cfg.guidance_type == 'dge-guidance' or self.cfg.guidance_type == 'dge-iclight') and not self.cfg.loss.use_sds:
             self.edit_all_view(original_render_name='origin_render', cache_name="edited_views", update_camera=self.true_global_step >= self.cfg.camera_update_per_step, global_step=self.true_global_step) 
     
         self.gaussian.update_learning_rate(self.true_global_step)
@@ -623,7 +625,7 @@ class DGE(BaseLift3DSystem):
 
         if isinstance(batch_index, int):
             batch_index = [batch_index]
-        if self.cfg.guidance_type == 'dge-guidance': 
+        if (self.cfg.guidance_type == 'dge-guidance' or self.cfg.guidance_type == 'dge-iclight'): 
             for img_index, cur_index in enumerate(batch_index):
                 if cur_index not in self.edit_frames:
                     batch_index[img_index] = self.view_list[img_index]

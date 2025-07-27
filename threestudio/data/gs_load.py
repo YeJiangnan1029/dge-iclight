@@ -359,7 +359,8 @@ class GS_load(pl.LightningDataModule):
             self.cfg.source, h=self.cfg.height, w=self.cfg.width
         )
         self.eval_scene = CamScene(
-            self.cfg.source, h=self.cfg.eval_height, w=self.cfg.eval_width
+            # self.cfg.source, h=self.cfg.eval_height, w=self.cfg.eval_width
+            self.cfg.source, h=self.cfg.height, w=self.cfg.width
         )
 
     def setup(self, stage=None) -> None:

@@ -2,6 +2,8 @@ name: "dge"
 tag: "${rmspace:${system.prompt_processor.prompt},_}"
 exp_root_dir: "outputs"
 seed: 0
+# timestamp: "@test"
+# resume: "/mnt/16T/yejiangnan/work/dge_dev/outputs/dge/Let_the_sunlight_shine_on_the_man's_face@20250612-054054/ckpts/last.ckpt"
  
 data_type: "gs-load"
 data:
@@ -45,7 +47,8 @@ system:
 
   mask_thres: 0.8
 
-  guidance_type: "dge-guidance"
+  # guidance_type: "dge-guidance"
+  guidance_type: "dge-iclight"
   guidance:
     min_step_percent: 0.02
     max_step_percent: 0.98

@@ -22,6 +22,7 @@ from pathlib import Path
 from plyfile import PlyData, PlyElement
 from gaussiansplatting.utils.sh_utils import SH2RGB
 from gaussiansplatting.scene.gaussian_model import BasicPointCloud
+from scipy.spatial.transform import Rotation
 
 class CameraInfo(NamedTuple):
     uid: int
@@ -203,9 +204,32 @@ def readColmapSceneInfo_hw(path, h, w, images, eval, llffhold=8):
         cam_extrinsics = read_extrinsics_text(cameras_extrinsic_file)
         cam_intrinsics = read_intrinsics_text(cameras_intrinsic_file)
 
+
+    # with open("/mnt/16T/yejiangnan/work/instruct-gs2gs/data/in2n-data/face/transforms.json", "r") as fp:
+    #     transforms_dict = json.load(fp)
+    #     imgpath_matrix_list = []
+    #     for frame in transforms_dict["frames"]:
+    #         file_path = frame["file_path"]
+    #         img_name = os.path.basename(file_path)
+    #         imgpath_matrix_list.append((img_name, np.array(frame["transform_matrix"])))
+    # imgpath_matrix_list.sort(key = lambda x : x[0])
+
+    # R1 = np.array([i_m[1][:3, :3] for i_m in imgpath_matrix_list])
+    # T1 = np.array([i_m[1][:3, 3] for i_m in imgpath_matrix_list])
+
+
     reading_dir = "images" if images == None else images
     cam_infos_unsorted = readColmapCameras_hw(cam_extrinsics=cam_extrinsics, height=h, width=w, cam_intrinsics=cam_intrinsics, images_folder=os.path.join(path, reading_dir))
     cam_infos = sorted(cam_infos_unsorted.copy(), key = lambda x : x.image_name)
+
+    # R2 = np.array([cam.R for cam in cam_infos])  # w2c -> c2w
+    # T2 = np.array([cam.T for cam in cam_infos])
+
+    # data = np.load("temp/transform_matrix_save.npz")
+    # np.savez("temp/transform_matrix_save.npz", R_nerf=R1, T_nerf=T1, R_colmap=R2, T_colmap=T2)
+
+
+   
 
     if eval:
         train_cam_infos = [c for idx, c in enumerate(cam_infos) if idx % llffhold != 0]
@@ -213,6 +237,8 @@ def readColmapSceneInfo_hw(path, h, w, images, eval, llffhold=8):
     else:
         train_cam_infos = cam_infos
         test_cam_infos = []
+
+    # test_cam_infos = readCamerasFromTransforms(path, "transforms_test.json", True, extension=".jpg")
 
     nerf_normalization = getNerfppNorm(train_cam_infos)
 
@@ -254,12 +280,16 @@ def readColmapSceneInfo(path, images, eval, llffhold=8):
     cam_infos_unsorted = readColmapCameras(cam_extrinsics=cam_extrinsics, cam_intrinsics=cam_intrinsics, images_folder=os.path.join(path, reading_dir))
     cam_infos = sorted(cam_infos_unsorted.copy(), key = lambda x : x.image_name)
 
+
     if eval:
         train_cam_infos = [c for idx, c in enumerate(cam_infos) if idx % llffhold != 0]
         test_cam_infos = [c for idx, c in enumerate(cam_infos) if idx % llffhold == 0]
     else:
         train_cam_infos = cam_infos
         test_cam_infos = []
+
+    # return List[CameraInfo]
+    # test_cam_infos = readCamerasFromTransforms(path, "transforms_test.json", True, extension=".jpg")
 
     nerf_normalization = getNerfppNorm(train_cam_infos)
 
@@ -297,13 +327,14 @@ def readCamerasFromTransforms(path, transformsfile, white_background, extension=
             cam_name = os.path.join(path, frame["file_path"] + extension)
 
             matrix = np.linalg.inv(np.array(frame["transform_matrix"]))
-            R = -np.transpose(matrix[:3,:3])
-            R[:,0] = -R[:,0]
-            T = -matrix[:3, 3]
+            R = matrix[:3, :3]
+            q_vec = Rotation.from_matrix(R).as_quat()   # in w2c format
+            R = R.T                                     # in c2w format
+            T = matrix[:3, 3]                           # in w2c format
 
-            image_path = os.path.join(path, cam_name)
+            # image_path = os.path.join(path, cam_name)
             image_name = Path(cam_name).stem
-            image = Image.open(image_path)
+            image = Image.open(cam_name)
 
             im_data = np.array(image.convert("RGBA"))
 
@@ -318,7 +349,7 @@ def readCamerasFromTransforms(path, transformsfile, white_background, extension=
             FovX = fovx
 
             cam_infos.append(CameraInfo(uid=idx, R=R, T=T, FovY=FovY, FovX=FovX, image=image,
-                            image_path=image_path, image_name=image_name, width=image.size[0], height=image.size[1]))
+                            image_path=cam_name, image_name=image_name, width=image.size[0], height=image.size[1], qvec=q_vec))
 
     return cam_infos
 

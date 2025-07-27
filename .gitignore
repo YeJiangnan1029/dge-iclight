@@ -1,0 +1,8 @@
+.threestudio_cache
+outputs
+temp
+data
+edit_cache
+
+*.pyc
+threestudio/models/weights

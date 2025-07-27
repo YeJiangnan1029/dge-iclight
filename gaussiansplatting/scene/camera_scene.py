@@ -15,7 +15,7 @@ from gaussiansplatting.utils.camera_utils import cameraList_load
 
 
 class CamScene:
-    def __init__(self, source_path, h=512, w=512, aspect=-1):
+    def __init__(self, source_path, h=512, w=512, aspect=-1, tag="train"):
         """b
         :param path: Path to colmap scene main folder.
         """
@@ -39,7 +39,7 @@ class CamScene:
             assert False, "Could not recognize scene type!"
 
         self.cameras_extent = scene_info.nerf_normalization["radius"]
-        self.cameras = cameraList_load(scene_info.train_cameras, h, w)
+        self.cameras = cameraList_load(scene_info.train_cameras if tag == "train" else scene_info.test_cameras, h, w)
 
     def save(self, iteration):
         point_cloud_path = os.path.join(self.model_path, "point_cloud/iteration_{}".format(iteration))
