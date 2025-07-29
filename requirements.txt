@@ -50,3 +50,5 @@ git+https://github.com/luca-medeiros/lang-segment-anything.git@9bdf777
 # gaussian splatting
 gaussiansplatting/submodules/diff-gaussian-rasterization
 gaussiansplatting/submodules/simple-knn
+
+git+https://github.com/kornia/kornia

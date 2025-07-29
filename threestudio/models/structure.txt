@@ -1,0 +1,3 @@
+/homeB/Public/yejiangnan/.cache/huggingface/hub/models--Stable-X--yoso-normal-v1-0/snapshots/4f76e36e9086c12ad925615341789513b25428d0
+
+/homeB/Public/yejiangnan/.cache/torch/hub/Stable-X_StableNormal_main

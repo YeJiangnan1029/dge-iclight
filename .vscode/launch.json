@@ -28,7 +28,7 @@
             "name": "Current file",
             "type": "debugpy",
             "request": "launch",
-            "program": "${file}/",
+            "program": "${file}",
             "console": "integratedTerminal",
             "env": {
                 "CUDA_VISIBLE_DEVICES": "0"
