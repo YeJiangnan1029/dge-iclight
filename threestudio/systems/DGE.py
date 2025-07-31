@@ -239,6 +239,7 @@ class DGE(BaseLift3DSystem):
         }
 
     def render_all_view(self, cache_name):
+        # torch.save(self.trainer.datamodule.train_dataset.scene.cameras, "temp/cameras.pkl")
         cache_dir = os.path.join(self.cache_dir, cache_name)
         os.makedirs(cache_dir, exist_ok=True)
         with torch.no_grad():

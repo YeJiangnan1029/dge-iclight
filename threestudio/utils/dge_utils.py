@@ -156,7 +156,7 @@ def compute_epipolar_constrains(cam1, cam2, current_H=64, current_W=64):
     sequence_length = current_W * current_H
     fundamental_matrix_1 = []
     F = get_fundamental_matrix_with_H(cam1, cam2, current_H, current_W)
-    # F = F / F.norm()  # 或 F = F / F[-1, -1]（如果最后一个元素不是0）
+    F = F / F.norm()  # 或 F = F / F[-1, -1]（如果最后一个元素不是0）
     fundamental_matrix_1.append(F)
     # fundamental_matrix_1.append(get_fundamental_matrix_with_H(cam1, cam2, current_H, current_W))
     fundamental_matrix_1 = torch.stack(fundamental_matrix_1, dim=0)

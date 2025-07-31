@@ -121,145 +121,186 @@ def visualize_w2c_cameras(w2cs: torch.Tensor, ax=None, scale=0.1, color='b', lab
     plt.savefig(f"temp/cameras_{label_prefix}.png")
     
 
-cams = torch.load("temp/cams.pkl")
+# cams = torch.load("temp/cams.pkl")
+cams_all = torch.load("temp/cameras.pkl")
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 dtype = torch.bfloat16 if torch.cuda.get_device_capability()[0] >= 8 else torch.float16
 
-# model = VGGT.from_pretrained("facebook/VGGT-1B").to(device)
+model = VGGT.from_pretrained("facebook/VGGT-1B").to(device)
 # model = VGGT.from_pretrained("/data/vjuicefs_ai_camera_vgroup_ql/11184175/models/VGGT-1B").to(device)
-# image_names = [pathlib.Path(f"edit_cache/-data-vjuicefs_ai_camera_vgroup_ql-11184175-data-dge-face-scene_point_cloud.ply/origin_render/{cam.uid:04d}.png") for cam in cams]
-image_names = [pathlib.Path(f"edit_cache/data-dge_data-face-scene_point_cloud.ply/origin_render/{cam.uid:04d}.png") for cam in cams]
-n_images = 5
-idx_list = list(range(0, len(image_names), len(image_names) // n_images))
-image_names = [image_names[i] for i in idx_list]
-cams = [cams[i] for i in idx_list]
-w2cs = torch.stack([cam.world_view_transform.T for cam in cams], dim=0).to(device)
-image_origin = [Image.open(path) for path in image_names]
-W, H = image_origin[0].size[0], image_origin[0].size[1]
-padded_W = (W + 13) // 14 * 14
-padded_H = (H + 13) // 14 * 14
+normal_predictor = torch.hub.load("Stable-X/StableNormal", "StableNormal_turbo", trust_repo=True)
 
-preprocess = TF.Compose([
-    TF.Resize((padded_H, padded_W), interpolation=TF.InterpolationMode.BICUBIC),
-    TF.ToTensor()
-    ])
-images = torch.stack([preprocess(image).to(device) for image in image_origin], dim=0)
+cam_batch = 36
+batch_start = list(range(0, len(cams_all), cam_batch))
+depth_maps = None
+normal_maps = None
+intris_est = None
+for st in batch_start:
+    ed = min(st + cam_batch, len(cams_all))
+    cams = cams_all[st:ed]
+    print(f"Processing cameras {st} to {ed}...")
 
-with torch.no_grad():
-    # with torch.cuda.amp.autocast(dtype=dtype):
-    #     predictions = model(images)
-    #     torch.save(predictions, "temp/predictions.pkl")
-    
-    # normal prediction
-    predictor = torch.hub.load("Stable-X/StableNormal", "StableNormal_turbo", trust_repo=True)
-    normal_list = []
-    for idx, img in enumerate(image_origin):
-        img = img.resize((padded_W, padded_H), Image.BICUBIC)
-        normals_pil = predictor(img)
-        normals = torch.tensor(np.array(normals_pil)).to(device).permute(2, 0, 1)
-        normals = normals.float() / 255.0
-        normal_list.append(normals)
-        normals_pil.save(f"temp/stable_normal/normal_{idx:02d}.png")
-        print(f"Saved normals to temp/stable_normal/normal_{idx:02d}.png")
-    normal_map = torch.stack(normal_list, dim=0)  # (N, H, W, 3)
-    
-    predictions = torch.load("temp/predictions.pkl")
-    w2cs_est, intri_est = pose_encoding_to_extri_intri(predictions['pose_enc'], (padded_H, padded_W))
-    w2cs_est = w2cs_est.squeeze() # (S, 3, 4)
-    bottom = torch.tensor([0, 0, 0, 1], dtype=w2cs_est.dtype, device=w2cs_est.device).view(1, 1, 4).expand(w2cs_est.shape[0], -1, -1)  # (B, 1, 4)
-    w2cs_est = torch.cat([w2cs_est, bottom], dim=1)  # (B, 4, 4)
-    w2cs = w2cs.squeeze() # (S, 4, 4)
-    
-    gt_centers = get_camera_centers(w2cs)
-    est_centers = get_camera_centers(w2cs_est)
-    
-    scale, R, t = compute_similarity_transform(est_centers, gt_centers)
+    # image_names = [pathlib.Path(f"edit_cache/-data-vjuicefs_ai_camera_vgroup_ql-11184175-data-dge-face-scene_point_cloud.ply/origin_render/{cam.uid:04d}.png") for cam in cams]
+    image_names = [pathlib.Path(f"edit_cache/data-dge_data-face-scene_point_cloud.ply/origin_render/{cam.uid:04d}.png") for cam in cams]
+    w2cs = torch.stack([cam.world_view_transform.T for cam in cams], dim=0).to(device)
+    image_origin = [Image.open(path) for path in image_names]
+    W, H = image_origin[0].size[0], image_origin[0].size[1]
+    padded_W = (W + 13) // 14 * 14
+    padded_H = (H + 13) // 14 * 14
 
-    w2cs_aligned = apply_sim_transform(w2cs_est, scale, R, t)
-    
-    aligned_centers = get_camera_centers(w2cs_aligned)
-    error = torch.norm(aligned_centers - gt_centers, dim=1)
-    error_before = torch.norm(est_centers - gt_centers, dim=1)
-    print("对齐前误差：", error_before.mean())
-    print("对齐后误差：", error.mean())
-    visualize_w2c_cameras(w2cs.detach().cpu().numpy(), color='g', label_prefix='GT')
-    visualize_w2c_cameras(w2cs_est.detach().cpu().numpy(), color='r', label_prefix='EST')
-    visualize_w2c_cameras(w2cs_aligned.detach().cpu().numpy(), color='b', label_prefix='ALIGNED')
+    preprocess = TF.Compose([
+        TF.Resize((padded_H, padded_W), interpolation=TF.InterpolationMode.BICUBIC),
+        TF.ToTensor()
+        ])
+    images = torch.stack([preprocess(image).to(device) for image in image_origin], dim=0)
 
-    depth_map = predictions['depth'].squeeze().unsqueeze(1)  # (B, 1, H, W)
-    intri_est = intri_est.squeeze(0)  # (B, 3, 3)
-    # points_map = predictions['world_points']  # (B, H, W, 3)
-    depth_map = depth_map * scale
-    depth_map = KF.gaussian_blur2d(depth_map, kernel_size=(5, 5), sigma=(1.0, 1.0))  # (B, 1, H, W)
-    # normal_map = depth_to_normals(depth_map, intri_est)
+    with torch.no_grad():
+        with torch.cuda.amp.autocast(dtype=dtype):
+            predictions = model(images)
 
-    # image_cmp = torch.cat([image, shading_rgb], dim=2)  # (3, H, 2W)
-    # image_cmp_pil = to_pil_image(image_cmp)
-    # image_cmp_pil.save(f"temp/vis_shading_smoothed/shading_{i:02d}.png")
-    # print(f"Saved shading visualization for image {i:02d}")
+        w2cs_est, intri_est = pose_encoding_to_extri_intri(predictions['pose_enc'], (padded_H, padded_W))
+        w2cs_est = w2cs_est.squeeze() # (S, 3, 4)
+        bottom = torch.tensor([0, 0, 0, 1], dtype=w2cs_est.dtype, device=w2cs_est.device).view(1, 1, 4).expand(w2cs_est.shape[0], -1, -1)  # (B, 1, 4)
+        w2cs_est = torch.cat([w2cs_est, bottom], dim=1)  # (B, 4, 4)
+        w2cs = w2cs.squeeze() # (S, 4, 4)
+        
+        gt_centers = get_camera_centers(w2cs)
+        est_centers = get_camera_centers(w2cs_est)
+        scale, R, t = compute_similarity_transform(est_centers, gt_centers)
+        w2cs_aligned = apply_sim_transform(w2cs_est, scale, R, t)
+        
+        aligned_centers = get_camera_centers(w2cs_aligned)
+        error = torch.norm(aligned_centers - gt_centers, dim=1)
+        error_before = torch.norm(est_centers - gt_centers, dim=1)
+        print("对齐前误差：", error_before.mean())
+        print("对齐后误差：", error.mean())
+        # visualize_w2c_cameras(w2cs.detach().cpu().numpy(), color='g', label_prefix='GT')
+        # visualize_w2c_cameras(w2cs_est.detach().cpu().numpy(), color='r', label_prefix='EST')
+        # visualize_w2c_cameras(w2cs_aligned.detach().cpu().numpy(), color='b', label_prefix='ALIGNED')
+
+        depth_map = predictions['depth'].squeeze().unsqueeze(1)  # (B, 1, H, W)
+        intri_est = intri_est.squeeze(0)  # (B, 3, 3)
+        # points_map = predictions['world_points']  # (B, H, W, 3)
+        depth_map = depth_map * scale
+        depth_map = KF.gaussian_blur2d(depth_map, kernel_size=(5, 5), sigma=(1.0, 1.0))  # (B, 1, H, W)
+        # normal_map = depth_to_normals(depth_map, intri_est)
+
+        # image_cmp = torch.cat([image, shading_rgb], dim=2)  # (3, H, 2W)
+        # image_cmp_pil = to_pil_image(image_cmp)
+        # image_cmp_pil.save(f"temp/vis_shading_smoothed/shading_{i:02d}.png")
+        # print(f"Saved shading visualization for image {i:02d}")
+
+        # normal prediction
+        
+        normal_list = []
+        for idx, img in enumerate(image_origin):
+            img = img.resize((padded_W, padded_H), Image.BICUBIC)
+            normals_pil = normal_predictor(img)
+            normals = torch.tensor(np.array(normals_pil)).to(device).permute(2, 0, 1)
+            normals = normals.float() / 255.0 * 2.0 - 1.0
+            normals[..., 2] = -normals[..., 2]  # 转换为右手坐标系
+            normal_list.append(normals)
+        normal_map = torch.stack(normal_list, dim=0)  # (N, 3, H, W)
+
+        # merge depth and normal maps
+        depth_maps = torch.cat([depth_maps, depth_map], dim=0) if depth_maps is not None else depth_map
+        normal_maps = torch.cat([normal_maps, normal_map], dim=0) if normal_maps is not None else normal_map
+        intris_est = torch.cat([intris_est, intri_est], dim=0) if intris_est is not None else intri_est
+        
 
     # normal visualization
-    depth_map_normalize = (depth_map-depth_map.min()) / depth_map.max()  # Normalize depth map to [0, 1]
-    mapping = ApplyColorMap(ColorMap(base=ColorMapType.jet, num_colors=4096, device=depth_map.device))
-    depth_vis = rgb_to_rgb255(mapping(depth_map_normalize))  # Convert to RGB for visualization
-    normal_vis = normals_to_rgb255(normal_map)
-    for i, (image, depth, normal) in enumerate(zip(images, depth_vis, normal_vis)):
-        image = image * 255.0
-        image_cmp = torch.cat([image, depth, normal], dim=2).to(torch.uint8)  # (3, H, W) + (3, H, W) = (3, H, 2W)
-        image_cmp = to_pil_image(image_cmp.cpu())
-        image_cmp.save(f"temp/vis_normal_smoothed/normal_{i:02d}.png")
-        print(f"Saved normal visualization for image {i:02d}")
+    # depth_map_normalize = (depth_map-depth_map.min()) / depth_map.max()  # Normalize depth map to [0, 1]
+    # mapping = ApplyColorMap(ColorMap(base=ColorMapType.jet, num_colors=4096, device=depth_map.device))
+    # depth_vis = rgb_to_rgb255(mapping(depth_map_normalize))  # Convert to RGB for visualization
+    # normal_vis = normals_to_rgb255(normal_map)
+    # for i, (image, depth, normal) in enumerate(zip(images, depth_vis, normal_vis)):
+    #     image = image * 255.0
+    #     image_cmp = torch.cat([image, depth, normal], dim=2).to(torch.uint8)  # (3, H, W) + (3, H, W) = (3, H, 2W)
+    #     image_cmp = to_pil_image(image_cmp.cpu())
+    #     image_cmp.save(f"temp/vis_normal_smoothed/normal_{i:02d}.png")
+    #     print(f"Saved normal visualization for image {i:02d}")
     
-    # we get normal map to use
-    # 第0张图的光源位置：相机中心（在世界坐标系下）
-    light_pos_world = get_camera_centers(w2cs)[0]  # (3,) tensor
-    n_frames = 30
-    dxyz_camera0 = torch.tensor([5.0, 5.0, 0], device=light_pos_world.device)  # 光源位置的微小变化
-    c2w0 = torch.inverse(w2cs[0])  # (4, 4)
+# we get normals and depth to use
+# 第0张图的光源位置：相机中心（在世界坐标系下）dxy x朝右 y朝下
+w2c0 = cams_all[0].world_view_transform.T.to(device)
+c2w0 = torch.inverse(w2c0)  # (4, 4)
+dxyz_camera0 = torch.tensor([0.0, 0.0, -10.0], device=c2w0.device)  # 光源位置变化
+light_pos_world = c2w0[:3, :3] @ dxyz_camera0 + c2w0[:3, 3]
+init_latents_dir = "edit_cache/data-dge_data-face-scene_point_cloud.ply/init_latents"
+for i in range(len(cams_all)):
+
+    w2c = cams_all[i].world_view_transform.T.to(device)  # (4, 4)
+    light_pos_cam = w2c[:3, :3] @ light_pos_world + w2c[:3, 3]  # (3,)
+
+    depth = depth_maps[i]  # (1, H, W)
+    normals = normal_maps[i]  # (3, H, W)
+
+    _, _H, _W = depth.shape
+    y, x = torch.meshgrid(torch.arange(_H, device=depth.device), torch.arange(_W, device=depth.device), indexing='ij')
+    xy_homo = torch.stack([x, y, torch.ones_like(x)], dim=0).float()  # (3, H, W)
+    intri_inv = torch.inverse(intris_est[i])  # (3, 3)
+    cam_rays = intri_inv @ xy_homo.view(3, -1)  # (3, H*W)
+    cam_points = cam_rays * depth.view(1, -1)  # (3, H*W)
+
+    # l: 光源方向向量 = light_pos_cam - 每个像素的3D点
+    l = light_pos_cam.view(3, 1) - cam_points  # (3, H*W)
+    l = l / (torch.norm(l, dim=0, keepdim=True) + 1e-6)  # 单位化 (3, H*W)
+    n = normals.view(3, -1)  # (3, H*W)
+    diffuse = ((n * -l).sum(dim=0)**2).clamp(min=0.0)  # (H*W,)
+
+    shading = diffuse.view(_H, _W)  # (H, W)
+    shading = torch.nn.functional.interpolate(shading.unsqueeze(0).unsqueeze(0), (H, W)).squeeze()
+    shading = (shading * 255.0).clamp(0, 255).to(torch.uint8)
+    shading = torch.stack([shading]*3, dim=0).permute(1,2,0)  # (3, H, W)
+    shading_rgb = Image.fromarray(shading.detach().cpu().numpy())
+    shading_rgb.save(f"{init_latents_dir}/{cams_all[i].uid:04d}.png")
+    print(f"Saving init latents {cams_all[i].uid}")
+
+
     
-    for j in range(n_frames):
-        # 在第0张图的光源位置基础上，添加一个小的随机扰动
-        light_pos_world =  c2w0[:3, :3] @ dxyz_camera0 * ((j*2-n_frames) / n_frames) + c2w0[:3, 3]
-        num_views = 4
-        frames = []
-        for i in range(min(num_views, len(images))):
-            # 当前相机的 w2c 矩阵
-            w2c = w2cs[i]  # (4, 4)
+    # for j in range(n_frames):
+    #     # 在第0张图的光源位置基础上，添加一个小的随机扰动
+    #     light_pos_world =  c2w0[:3, :3] @ dxyz_camera0 * ((j*2-n_frames) / n_frames) + c2w0[:3, 3]
+    #     num_views = 4
+    #     frames = []
+    #     for i in range(min(num_views, len(images))):
+    #         # 当前相机的 w2c 矩阵
+    #         w2c = w2cs[i]  # (4, 4)
 
-            # 将 light_pos_world 转为当前视角下的相机坐标系
-            light_pos_cam = w2c[:3, :3] @ light_pos_world + w2c[:3, 3]  # (3,)
+    #         # 将 light_pos_world 转为当前视角下的相机坐标系
+    #         light_pos_cam = w2c[:3, :3] @ light_pos_world + w2c[:3, 3]  # (3,)
 
-            # 获取当前的 depth map 和 normal map
-            depth = depth_map[i]  # (1, H, W)
-            normals = normal_map[i]  # (3, H, W)
+    #         # 获取当前的 depth map 和 normal map
+    #         depth = depth_map[i]  # (1, H, W)
+    #         normals = normal_map[i]  # (3, H, W)
 
-            # 构建像素网格并反投影到相机坐标系下的 3D 点（使用内参）
-            _, H, W = depth.shape
-            y, x = torch.meshgrid(torch.arange(H, device=depth.device), torch.arange(W, device=depth.device), indexing='ij')
-            xy_homo = torch.stack([x, y, torch.ones_like(x)], dim=0).float()  # (3, H, W)
+    #         # 构建像素网格并反投影到相机坐标系下的 3D 点（使用内参）
+    #         _, H, W = depth.shape
+    #         y, x = torch.meshgrid(torch.arange(H, device=depth.device), torch.arange(W, device=depth.device), indexing='ij')
+    #         xy_homo = torch.stack([x, y, torch.ones_like(x)], dim=0).float()  # (3, H, W)
 
-            intri_inv = torch.inverse(intri_est[i])  # (3, 3)
-            cam_rays = intri_inv @ xy_homo.view(3, -1)  # (3, H*W)
-            cam_points = cam_rays * depth.view(1, -1)  # (3, H*W)
+    #         intri_inv = torch.inverse(intri_est[i])  # (3, 3)
+    #         cam_rays = intri_inv @ xy_homo.view(3, -1)  # (3, H*W)
+    #         cam_points = cam_rays * depth.view(1, -1)  # (3, H*W)
 
-            # l: 光源方向向量 = light_pos_cam - 每个像素的3D点
-            l = light_pos_cam.view(3, 1) - cam_points  # (3, H*W)
-            l = l / (torch.norm(l, dim=0, keepdim=True) + 1e-6)  # 单位化 (3, H*W)
+    #         # l: 光源方向向量 = light_pos_cam - 每个像素的3D点
+    #         l = light_pos_cam.view(3, 1) - cam_points  # (3, H*W)
+    #         l = l / (torch.norm(l, dim=0, keepdim=True) + 1e-6)  # 单位化 (3, H*W)
 
-            n = normals.view(3, -1)  # (3, H*W)
-            diffuse = (n * -l).sum(dim=0).clamp(min=0.0)  # (H*W,)
+    #         n = normals.view(3, -1)  # (3, H*W)
+    #         diffuse = (n * -l).sum(dim=0).clamp(min=0.0)  # (H*W,)
 
-            # 变换回图像 (H, W)，转为灰度图显示
-            shading = diffuse.view(H, W)  # (H, W)
-            shading_vis = (shading * 255.0).clamp(0, 255).to(torch.uint8).cpu()
+    #         # 变换回图像 (H, W)，转为灰度图显示
+    #         shading = diffuse.view(H, W)  # (H, W)
+    #         shading_vis = (shading * 255.0).clamp(0, 255).to(torch.uint8).cpu()
 
-            # 可视化合成：原图 + 光照图
-            image = (images[i] * 255).to(torch.uint8).cpu()  # (3, H, W)
-            shading_rgb = torch.stack([shading_vis]*3, dim=0)  # (3, H, W)
-            frames.append(shading_rgb)
+    #         # 可视化合成：原图 + 光照图
+    #         image = (images[i] * 255).to(torch.uint8).cpu()  # (3, H, W)
+    #         shading_rgb = torch.stack([shading_vis]*3, dim=0)  # (3, H, W)
+    #         frames.append(shading_rgb)
 
-        frames = torch.cat(frames, dim=2)
-        image_cmp_pil = to_pil_image(frames.cpu())
-        image_cmp_pil.save(f"temp/vis_shading_anime/frame_{j:03d}.png")
-        print(f"Saved frame {j:02d}")
+    #     frames = torch.cat(frames, dim=2)
+    #     image_cmp_pil = to_pil_image(frames.cpu())
+    #     image_cmp_pil.save(f"temp/vis_shading_anime/frame_{j:03d}.png")
+    #     print(f"Saved frame {j:02d}")

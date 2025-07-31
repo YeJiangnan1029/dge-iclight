@@ -245,13 +245,19 @@ class IClight(DGEGuidance):
 
         RH, RW = height, width
         is_edit_first = kwargs.get('is_first_edit', False)
-        if is_edit_first and False:
+        if is_edit_first:
             # generate background image to indicate the light source
-            gradient = torch.linspace(1, 0, W, dtype=torch.float32, device=self.device)
-            image = torch.tile(gradient, (H, 1))
-            input_bg = torch.stack((image,) * 3, dim=-1)
-            rgb_BCHW = input_bg.repeat(batch_size, 1, 1, 1).permute(0, 3, 1, 2)
-            print("Using background image to indicate the light source.")
+            # gradient = torch.linspace(1, 0, W, dtype=torch.float32, device=self.device)
+            # image = torch.tile(gradient, (H, 1))
+            # input_bg = torch.stack((image,) * 3, dim=-1)
+            # rgb_BCHW = input_bg.repeat(batch_size, 1, 1, 1).permute(0, 3, 1, 2)
+            # print("Using background image to indicate the light source.")
+
+            # reading shading image as init latents
+            from PIL import Image
+            toTensor = transforms.ToTensor()
+            shading = [toTensor(Image.open(f"edit_cache/data-dge_data-face-scene_point_cloud.ply/init_latents/{cam.uid:04d}.png")) for cam in cams]
+            rgb_BCHW = torch.stack(shading, dim=0).to(self.device)
 
         rgb_BCHW_HW8 = F.interpolate(
             rgb_BCHW, (RH, RW), mode="bilinear", align_corners=False
@@ -349,7 +355,7 @@ class IClight(DGEGuidance):
         # self.scheduler.config.num_train_timesteps = t.item() if len(t.shape) < 1 else t[0].item()
         self.scheduler.set_timesteps(self.cfg.diffusion_steps)
         timesteps = self.scheduler.timesteps
-        add_t = timesteps[1]
+        add_t = timesteps[1:2]
         timesteps = timesteps[timesteps<=add_t]
 
         current_H = image_cond_latents.shape[2]
