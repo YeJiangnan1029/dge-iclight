@@ -9,8 +9,10 @@ import shutil
 import torch
 import threestudio
 import os
+from threestudio.models.auxiliary.geometry import GeometryModel
 from threestudio.systems.base import BaseLift3DSystem
 
+from threestudio.systems.utils import compute_metrics, compute_clip_metrics
 from threestudio.utils.typing import *
 from gaussiansplatting.gaussian_renderer import render
 from gaussiansplatting.scene import GaussianModel
@@ -304,6 +306,12 @@ class DGE(BaseLift3DSystem):
         out = self(batch)
         for idx in range(len(batch["index"])):
             cam_index = batch["index"][idx].item()
+            # add tensorboard record
+            edited_img = self.edit_frames[cam_index][0] if cam_index in self.edit_frames else torch.zeros_like(self.origin_frames[cam_index][0])
+            render_img = out["comp_rgb"][idx]
+            metrics = compute_metrics(edited_img, render_img)
+            for k, v in metrics.items():
+                self.log(f"val/{k}", value=v)
             self.save_image_grid(
                 f"it{self.true_global_step}-val/{batch['index'][idx]}.png",
                 (
@@ -460,7 +468,16 @@ class DGE(BaseLift3DSystem):
             step=self.true_global_step,
         )
         save_list = []
+        clip_scores = []
+        clip_d_scores = []
         for index, image in sorted(self.edit_frames.items(), key=lambda item: item[0]):
+            # add clip score to record
+            image_before = self.origin_frames[index]
+            image_after = image
+            text_prompt = self.cfg.prompt_processor.prompt
+            clip_score, clip_d_score = compute_clip_metrics(image_before, image_after, text_prompt)
+            clip_scores.append(clip_score)
+            clip_d_scores.append(clip_d_score)
             save_list.append(
                 {
                     "type": "rgb",
@@ -468,6 +485,12 @@ class DGE(BaseLift3DSystem):
                     "kwargs": {"data_format": "HWC"},
                 },
             )
+        if len(clip_scores) > 0:
+            mean_clip_score = np.mean(np.array(clip_scores))
+            self.log("test/clip_score", value=mean_clip_score)
+        if len(clip_d_scores) > 0:
+            mean_clip_d_score = np.mean(np.array(clip_d_scores))
+            self.log("test/clip_directional_score", value=mean_clip_d_score)
         if len(save_list) > 0:
             self.save_image_grid(
                 f"edited_images.png",
@@ -605,6 +628,8 @@ class DGE(BaseLift3DSystem):
         super().on_fit_start()
         self.render_all_view(cache_name="origin_render")
 
+        self.prepare_prior()
+
         if len(self.cfg.seg_prompt) > 0:
             self.update_mask()
 
@@ -614,6 +639,14 @@ class DGE(BaseLift3DSystem):
             )
         if self.cfg.loss.lambda_l1 > 0 or self.cfg.loss.lambda_p > 0 or self.cfg.loss.use_sds:
             self.guidance = threestudio.find(self.cfg.guidance_type)(self.cfg.guidance)
+
+    def prepare_prior(self):
+        # get geometry
+        cameras = self.trainer.datamodule.train_dataset.scene.cameras
+        images = self.origin_frames
+        geo_model = GeometryModel()
+        depths, normals = geo_model.get_geometry(images, cameras)
+        pass
             
 
     def training_step(self, batch, batch_idx):
