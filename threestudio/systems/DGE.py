@@ -10,6 +10,7 @@ import torch
 import threestudio
 import os
 from threestudio.models.auxiliary.geometry import GeometryModel
+from threestudio.models.auxiliary.qwen import QwenModel
 from threestudio.systems.base import BaseLift3DSystem
 
 from threestudio.systems.utils import compute_metrics, compute_clip_metrics
@@ -27,6 +28,10 @@ from argparse import ArgumentParser
 from threestudio.utils.misc import get_device
 from threestudio.utils.perceptual import PerceptualLoss
 from threestudio.utils.sam import LangSAMTextSegmentor
+
+from torch.nn import functional as F
+from torchvision.transforms.functional import to_pil_image
+import json 
 
 @threestudio.register("dge-system")
 class DGE(BaseLift3DSystem):
@@ -645,8 +650,105 @@ class DGE(BaseLift3DSystem):
         cameras = self.trainer.datamodule.train_dataset.scene.cameras
         images = self.origin_frames
         geo_model = GeometryModel()
-        depths, normals = geo_model.get_geometry(images, cameras)
-        pass
+        depths, normals, intris_est = geo_model.get_geometry(images, cameras, batch_size=13)
+        
+        print(f"depths: {depths.shape}")
+        print(f"normals: {normals.shape}")
+
+        # get rough position from mllm
+        text_prompt = self.cfg.prompt_processor.prompt
+        ref_id = 44
+        image = images[ref_id]  # (1,H,W,3)
+        image = image.permute(0, 3, 1, 2).squeeze(0)  # (3,H,W)
+        image = to_pil_image(image)
+        with QwenModel() as qwen_model:
+            result_str = qwen_model.inference(image=image, prompt=text_prompt)
+            if isinstance(result_str, str):
+                try:
+                    result_dict = json.loads(result_str)
+                except json.JSONDecodeError:
+                    raise ValueError(f"Qwen 输出不是有效 JSON: {result_str}")
+            else:
+                result_dict = result_str
+            print(result_dict)
+            
+        # get mask of the reference object
+        position_preset = result_dict["Position"]
+        object_prompt = result_dict["Object"]
+        with torch.no_grad():
+            obj_mask = self.text_segmentor(images[ref_id], object_prompt).squeeze()
+
+        print(obj_mask.shape)
+        ys, xs = torch.nonzero(obj_mask, as_tuple=True)
+        W, H = image.size
+        if len(xs) == 0:
+            center_x, center_y = W/2, H/2  # 或抛出异常，表示没有找到物体
+        else:
+            center_x = xs.float().mean().item()
+            center_y = ys.float().mean().item()
+
+        xy_homo = torch.tensor([center_x, center_y, 1.0]).float().to(intris_est.device)  # (3,)
+        u = (center_x + 0.5) * 2.0 / W - 1.0
+        v = (center_y + 0.5) * 2.0 / H - 1.0
+        grid = torch.tensor([u, v]).view(1, -1, 1, 2).to(intris_est.device)
+        depth_xy = F.grid_sample(depths[ref_id].squeeze().unsqueeze(0).unsqueeze(0), grid, mode="bilinear", align_corners=False).squeeze()
+        
+        intri_inv = torch.inverse(intris_est[ref_id])  # (3, 3)
+        cam_rays = intri_inv @ xy_homo.view(3, -1)  # (3, 1)
+        light_pos_init = cam_rays * depth_xy  # (3, 1)
+        
+        print(f"light_pos_init: {light_pos_init}")
+        
+        # assume the init light position is at the origin of the camera coordinate
+        # image coord define as OPENCV, +x: right, +y: down, +z: inside the screen
+        if "left" in position_preset.lower():
+            offset = [-5.0, 0.0, 0.0]
+        elif "right" in position_preset.lower():
+            offset = [5.0, 0.0, 0.0]
+        elif "top" in position_preset.lower():
+            offset = [0.0, 5.0, 0.0]
+        elif "bottom" in position_preset.lower():
+            offset = [0.0, -5.0, 0.0]
+        elif "front" in position_preset.lower():
+            offset = [0.0, 0.0, -10.0]
+        else:
+            offset = [0.0, 0.0, 0.0]
+        camera_ref = cameras[ref_id]
+        w2c_ref = camera_ref.world_view_transform.T.to(self.device)
+        c2w_ref = torch.inverse(w2c_ref)  # (4, 4)
+        offset2ref = torch.tensor(offset, device=c2w_ref.device)  # 光源位置变化
+        light_pos_cam = light_pos_init.view(-1) + offset2ref
+        light_pos_world = c2w_ref[:3, :3] @ (light_pos_cam) + c2w_ref[:3, 3]
+        init_latents_dir = "edit_cache/data-dge_data-face-scene_point_cloud.ply/init_latents"
+        
+        for i in range(len(cameras)):
+
+            w2c = cameras[i].world_view_transform.T.to(self.device)  # (4, 4)
+            light_pos_cam = w2c[:3, :3] @ light_pos_world + w2c[:3, 3]  # (3,)
+
+            depth = depths[i]  # (1, H, W)
+            normal = normals[i]  # (3, H, W)
+
+            _, _H, _W = depth.shape
+            y, x = torch.meshgrid(torch.arange(_H, device=depth.device), torch.arange(_W, device=depth.device), indexing='ij')
+            xy_homo = torch.stack([x, y, torch.ones_like(x)], dim=0).float()  # (3, H, W)
+            intri_inv = torch.inverse(intris_est[i])  # (3, 3)
+            cam_rays = intri_inv @ xy_homo.view(3, -1)  # (3, H*W)
+            cam_points = cam_rays * depth.view(1, -1)  # (3, H*W)
+
+            # l: 光源方向向量 = light_pos_cam - 每个像素的3D点
+            l = light_pos_cam.view(3, 1) - cam_points  # (3, H*W)
+            l = l / (torch.norm(l, dim=0, keepdim=True) + 1e-6)  # 单位化 (3, H*W)
+            n = normal.view(3, -1)  # (3, H*W)
+            diffuse = ((n * -l).sum(dim=0)**2).clamp(min=0.0)  # (H*W,)
+
+            shading = diffuse.view(_H, _W)  # (H, W)
+            shading = torch.nn.functional.interpolate(shading.unsqueeze(0).unsqueeze(0), (H, W)).squeeze()
+            shading = (shading * 255.0).clamp(0, 255).to(torch.uint8)
+            shading = torch.stack([shading]*3, dim=0).permute(1,2,0)  # (3, H, W)
+            shading_rgb = Image.fromarray(shading.detach().cpu().numpy())
+            shading_rgb.save(f"{init_latents_dir}/{cameras[i].uid:04d}.png")
+            print(f"Saving init latents {cameras[i].uid}")
             
 
     def training_step(self, batch, batch_idx):

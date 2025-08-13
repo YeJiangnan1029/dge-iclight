@@ -1,4 +1,5 @@
 import gc
+import os
 from typing import Dict, List
 import torch
 from torchvision.transforms import transforms as TF
@@ -14,16 +15,28 @@ import kornia.filters as KF
 # We use VGGT to generate depth and StableNormal to normals. 
 class GeometryModel:
     
-    def __init__(self, vggt_path: str|None=None, stable_normal_path: str|None=None, device=None) -> None:
+    def __init__(self, vggt_path: str|None=None, stable_normal_repo: str|None=None, device=None) -> None:
         if vggt_path is None:
-            vggt_path = "facebook/VGGT-1B"
-            # vggt_path = "/data/vjuicefs_ai_camera_vgroup_ql/11184175/models/VGGT-1B"
+            cache_dir = "/data/vjuicefs_ai_camera_vgroup_ql/11184175/models/VGGT-1B"
+            if os.path.exists(cache_dir):
+                vggt_path = cache_dir
+            else:
+                vggt_path = "facebook/VGGT-1B"
         self.vggt_path = vggt_path
         
-        if stable_normal_path is None:
-            stablenormal_path = "facebook/VGGT-1B"
-            # stable_normal_path = "/data/vjuicefs_ai_camera_vgroup_ql/11184175/models/stable-normal/weights"
-        self.stable_normal_path = stable_normal_path
+        stable_normal_weights = None
+        source_local = False
+        if stable_normal_repo is None:
+            cache_dir = "/data/juicefs_sharing_data/11184175/work/dge-iclight/StableNormal"
+            if os.path.exists(cache_dir):
+                stable_normal_repo = cache_dir
+                stable_normal_weights = "/data/vjuicefs_ai_camera_vgroup_ql/11184175/models/stable-normal/weights"
+                source_local = True
+            else:
+                stable_normal_repo = "Stable-X/StableNormal"
+        self.stable_normal_repo = stable_normal_repo
+        self.stable_normal_weights = stable_normal_weights
+        self.source_local = source_local
             
         if device is None:
             device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
@@ -44,10 +57,11 @@ class GeometryModel:
         if self.stable_normal is None:
             print("Loading StableNormal model...")
             self.stable_normal = torch.hub.load(
-                "Stable-X/StableNormal", 
+                self.stable_normal_repo, 
                 "StableNormal_turbo", 
+                source="local" if self.source_local else "github",
                 trust_repo=True, 
-                local_cache_dir=self.stable_normal_path
+                local_cache_dir=self.stable_normal_weights
             )
             
     def unload_vggt(self):
@@ -144,11 +158,12 @@ class GeometryModel:
             for img_pil in image_pils:
                 normal_pil = self.stable_normal(img_pil) # type: ignore
                 normals.append(normal_postprocess(normal_pil))
+        self.unload_stable_normal()
         normals = torch.stack(normals, dim=0)
         norms = torch.sqrt((normals**2).sum(dim=1, keepdim=True).clamp_min(1e-8))
         normals = normals / norms
 
-        return depths, normals
+        return depths, normals.to(depths.device), intri_est.squeeze()
     
     @staticmethod
     def scale_align(w2c_gt: torch.Tensor, w2cs_est: torch.Tensor):

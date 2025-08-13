@@ -20,8 +20,8 @@
                 "--train",
                 "data.source=\"data/dge_data/face\"",
                 "system.gs_source=\"data/dge_data/face/scene_point_cloud.ply\"",
-                // "system.prompt_processor.prompt=\"detailed face, sunshine, indoor, warm atmosphere\"",
-                "system.prompt_processor.prompt=\"Let the sunlight shine on the man's face\"",   
+                "system.prompt_processor.prompt=\"detailed face, sunshine, indoor, warm atmosphere, light from right\"",
+                // "system.prompt_processor.prompt=\"Let the sunlight shine on the man's face\"",   
             ]
         },
         {

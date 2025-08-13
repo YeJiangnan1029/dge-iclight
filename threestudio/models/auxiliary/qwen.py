@@ -12,8 +12,8 @@ class QwenModel:
 
     def __init__(self, model_path: str|None=None, device=None) -> None:
         if model_path is None:
-            # model_path = "Qwen/Qwen2.5-VL-7B-Instruct"
-            model_path = "/data/vjuicefs_ai_camera_vgroup_ql/11184175/models/Qwen2.5-VL-7B-Instruct"
+            model_path = "/homeC/Public/yjn_data/hf_models/Qwen2.5-VL-7B-Instruct"
+            # model_path = "/data/vjuicefs_ai_camera_vgroup_ql/11184175/models/Qwen2.5-VL-7B-Instruct"
         self.model_path = model_path
             
         if device is None:
@@ -47,7 +47,7 @@ class QwenModel:
                 "content": [
                     {
                         "type": "image",
-                        "image": "file:///data/juicefs_sharing_data/11184175/work/VPP-LLaVA/test_asset/front.png",
+                        "image": "file:///homeB/Public/yejiangnan/work/dge/test_assets/front.png",
                     },
                     {"type": "text", "text": "This is an image which will be edited according to the text prompt: \"cyberpunk, neon light, indoor\". Tell me what light source position is relative to which objects in the edited image."}
                 ]
