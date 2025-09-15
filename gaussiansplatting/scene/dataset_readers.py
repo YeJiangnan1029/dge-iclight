@@ -45,27 +45,32 @@ class SceneInfo(NamedTuple):
     ply_path: str
 
 def getNerfppNorm(cam_info):
-    def get_center_and_diag(cam_centers):
+    def get_center_and_diag(cam_centers, cam_ups):
         cam_centers = np.hstack(cam_centers)
         avg_cam_center = np.mean(cam_centers, axis=1, keepdims=True)
+        cam_ups = np.hstack(cam_ups)
+        avg_cam_up = np.mean(cam_ups, axis=1    )
+        avg_cam_up /= np.linalg.norm(avg_cam_up)
         center = avg_cam_center
         dist = np.linalg.norm(cam_centers - center, axis=0, keepdims=True)
         diagonal = np.max(dist)
-        return center.flatten(), diagonal
+        return center.flatten(), diagonal, avg_cam_up
 
     cam_centers = []
+    cam_ups = []
 
     for cam in cam_info:
         W2C = getWorld2View2(cam.R, cam.T)
         C2W = np.linalg.inv(W2C)
         cam_centers.append(C2W[:3, 3:4])
+        cam_ups.append(C2W[:3, 1:2])
 
-    center, diagonal = get_center_and_diag(cam_centers)
+    center, diagonal, up = get_center_and_diag(cam_centers, cam_ups)
     radius = diagonal * 1.1
 
     translate = -center
 
-    return {"translate": translate, "radius": radius}
+    return {"translate": translate, "radius": radius, "center": center, "up": up}
 
 def readColmapCameras_hw(cam_extrinsics, cam_intrinsics, height, width, images_folder):
     cam_infos = []

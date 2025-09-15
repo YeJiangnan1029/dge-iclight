@@ -4,6 +4,88 @@ from gaussiansplatting.utils.graphics_utils import fov2focal
 from gaussiansplatting.scene.cameras import Simple_Camera
 import torch.nn.functional as F
 from threestudio.utils.typing import *
+import numpy as np
+
+import numpy as np
+
+def get_spiral_path(cameras, center, radius, up, frames=200, n_rot=1):
+    """
+    绕场景中心的水平环绕轨迹（无上下浮动），
+    lookAt = center 在所有输入 camera 中轴线上的投影点的均值。
+    
+    Args:
+        cameras: list，相机对象，需包含 world_view_transform
+        center: ndarray (3,) 原始场景中心
+        radius: float 环绕半径
+        up: ndarray (3,) 上方向
+        frames: int, 帧数
+        n_rot: int, 旋转圈数
+
+    Returns:
+        list[np.ndarray]，每个 4x4 c2w 矩阵
+    """
+
+    proj_points = []
+
+    # --- 1) 遍历每个相机，将 center 投影到相机中轴线上
+    for cam in cameras:
+        c2w = np.linalg.inv(cam.world_view_transform.T.cpu().numpy())
+        cam_center = c2w[:3, 3]
+        cam_forward = c2w[:3, 2]  # 第三列为 forward
+        cam_forward /= np.linalg.norm(cam_forward)
+
+        v = center - cam_center
+        alpha = np.dot(v, cam_forward)  # 投影长度
+        proj_point = cam_center + alpha * cam_forward
+        proj_points.append(proj_point)
+
+    proj_points = np.stack(proj_points, axis=0)
+    look_at = proj_points.mean(axis=0)  # --- 新的 lookAt
+
+    # --- 2) 归一化 up
+    up_norm = np.linalg.norm(up)
+    if up_norm < 1e-8:
+        up = np.array([0.0, 1.0, 0.0])
+    else:
+        up = up / up_norm
+
+    # --- 3) 构建水平基：取第一个相机到 lookAt 的向量投影到水平面
+    cam0_center = np.linalg.inv(cameras[0].world_view_transform.T.cpu().numpy())[:3, 3]
+    init_dir = cam0_center - look_at
+    proj = init_dir - np.dot(init_dir, up) * up  # 投影到水平面
+    proj_norm = np.linalg.norm(proj)
+    if proj_norm < 1e-6:
+        tmp = np.array([0.0, 1.0, 0.0]) if abs(up[1]) < 0.9 else np.array([1.0, 0.0, 0.0])
+        proj = tmp - np.dot(tmp, up) * up
+        proj /= np.linalg.norm(proj)
+    else:
+        proj /= proj_norm
+
+    forward0 = proj
+    right0 = np.cross(forward0, up)
+    right0 /= np.linalg.norm(right0)
+
+    # --- 4) 沿圆生成轨迹
+    c2ws = []
+    for i in range(frames):
+        theta = 2.0 * np.pi * n_rot * (i / frames)
+        pos = look_at + radius * (np.cos(theta) * forward0 + np.sin(theta) * right0)
+
+        forward_dir = (look_at - pos)
+        forward_dir /= np.linalg.norm(forward_dir)
+
+        right_dir = np.cross(forward_dir, up)
+        right_dir /= np.linalg.norm(right_dir)
+        up_dir = np.cross(right_dir, forward_dir)
+
+        c2w = np.eye(4, dtype=np.float64)
+        c2w[:3, 0] = right_dir
+        c2w[:3, 1] = up_dir
+        c2w[:3, 2] = forward_dir
+        c2w[:3, 3] = pos
+        c2ws.append(c2w)
+
+    return c2ws
 
 
 def camera_ray_sample_points(

@@ -18,10 +18,14 @@
             "args": [
                 "--config", "configs/dge.yaml",
                 "--train",
-                "data.source=\"data/dge_data/face\"",
-                "system.gs_source=\"data/dge_data/face/scene_point_cloud.ply\"",
-                "system.prompt_processor.prompt=\"detailed face, sunshine, indoor, warm atmosphere, light from right\"",
-                // "system.prompt_processor.prompt=\"Let the sunlight shine on the man's face\"",   
+                "data.source=\"/homeC/Public/yjn_data/mipnerf360/bonsai\"",
+                "system.gs_source=\"/homeC/Public/yjn_data/3dgs_output/mipnerf360/bonsai/point_cloud/iteration_30000/point_cloud.ply\"",
+                "system.prompt_processor.prompt=\"detailed leaves, sunshine, indoor, natural atmosphere, sunlight shines on the right side of the bonsai\"",
+                // "system.prompt_processor.prompt=\"Let the sunlight shine on the man's face from right side\"",
+                "exp_root_dir=\"/homeC/Public/yjn_data/dge_iclight_output\"",
+                "system.cache_dir=\"/homeC/Public/yjn_data/3dgs_output/mipnerf360/bonsai/cache\"",
+                "system.guidance_type=\"dge-iclight\"",
+                "name=\"dge-iclight-test2\""
             ]
         },
         {

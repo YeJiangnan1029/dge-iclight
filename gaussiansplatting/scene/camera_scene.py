@@ -10,6 +10,8 @@
 #
 
 import os
+
+import numpy as np
 from gaussiansplatting.scene.dataset_readers import sceneLoadTypeCallbacks
 from gaussiansplatting.utils.camera_utils import cameraList_load
 
@@ -39,6 +41,22 @@ class CamScene:
             assert False, "Could not recognize scene type!"
 
         self.cameras_extent = scene_info.nerf_normalization["radius"]
+        self.scene_center = scene_info.nerf_normalization["center"]
+        self.cameras_up = scene_info.nerf_normalization["up"]
+
+        # if too much cameras, tends to cause CUDA OOM
+        train_num, test_num = len(scene_info.train_cameras), len(scene_info.test_cameras)
+        num_th = 50
+        new_train_cameras, new_test_cameras = scene_info.train_cameras, scene_info.test_cameras
+        if train_num>num_th or test_num>num_th:
+            print(f"[INFO] Too many cameras, randomly select {num_th} cameras for training and testing.")
+            train_num, test_num = min(train_num, num_th), min(test_num, num_th)
+            train_ids = np.random.permutation(train_num)[:num_th]
+            test_ids = np.random.permutation(test_num)[:num_th]
+            new_train_cameras = [scene_info.train_cameras[i] for i in train_ids]
+            new_test_cameras = [scene_info.test_cameras[i] for i in test_ids]
+            scene_info = scene_info._replace(train_cameras=new_train_cameras, test_cameras=new_test_cameras)
+
         self.cameras = cameraList_load(scene_info.train_cameras if tag == "train" else scene_info.test_cameras, h, w)
 
     def save(self, iteration):

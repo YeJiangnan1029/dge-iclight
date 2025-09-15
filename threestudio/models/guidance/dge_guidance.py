@@ -178,98 +178,259 @@ class DGEGuidance(BaseObject):
         register_normal_attention(self)
         register_normal_attn_flag(self.unet, True)
 
+    # 优化显存版本
     def edit_latents(
         self,
         text_embeddings: Float[Tensor, "BB 77 768"],
         latents: Float[Tensor, "B 4 DH DW"],
         image_cond_latents: Float[Tensor, "B 4 DH DW"],
         t: Int[Tensor, "B"],
-        cams= None,
+        cams=None,
     ) -> Float[Tensor, "B 4 DH DW"]:
-        
+
+        # === prepare scheduler ===
         self.scheduler.config.num_train_timesteps = t.item() if len(t.shape) < 1 else t[0].item()
         self.scheduler.set_timesteps(self.cfg.diffusion_steps)
 
-        current_H = image_cond_latents.shape[2]
-        current_W = image_cond_latents.shape[3]
-
+        current_H, current_W = image_cond_latents.shape[2:4]
         camera_batch_size = self.cfg.camera_batch_size
         print("Start editing images...")
 
         with torch.no_grad():
-            # add noise
+            # === add noise ===
             noise = torch.randn_like(latents)
-            latents = self.scheduler.add_noise(latents, noise, t) 
+            latents = self.scheduler.add_noise(latents, noise, t)
+            del noise
+            torch.cuda.empty_cache()
 
-            # sections of code used from https://github.com/huggingface/diffusers/blob/main/src/diffusers/pipelines/stable_diffusion/pipeline_stable_diffusion_instruct_pix2pix.py
+            # === split embeddings & cond latents ===
             positive_text_embedding, negative_text_embedding, _ = text_embeddings.chunk(3)
             split_image_cond_latents, _, zero_image_cond_latents = image_cond_latents.chunk(3)
-            for t in self.scheduler.timesteps:
-                if t < 100:
+            del text_embeddings, image_cond_latents
+            torch.cuda.empty_cache()
+
+            # === main diffusion loop ===
+            for step_idx, step_t in enumerate(self.scheduler.timesteps):
+                if step_t < 100:
                     self.use_normal_unet()
                 else:
                     register_normal_attn_flag(self.unet, False)
-                with torch.no_grad():
-                    # pred noise
-                    noise_pred_text = []
-                    noise_pred_image = []
-                    noise_pred_uncond = []
-                    pivotal_idx = torch.randint(camera_batch_size, (len(latents)//camera_batch_size,)) + torch.arange(0, len(latents), camera_batch_size) 
-                    register_pivotal(self.unet, True)
-                    
-                    key_cams = [cams[cam_pivotal_idx] for cam_pivotal_idx in pivotal_idx.tolist()]
-                    latent_model_input = torch.cat([latents[pivotal_idx]] * 3)
-                    pivot_text_embeddings = torch.cat([positive_text_embedding[pivotal_idx], negative_text_embedding[pivotal_idx], negative_text_embedding[pivotal_idx]], dim=0)
-                    pivot_image_cond_latetns = torch.cat([split_image_cond_latents[pivotal_idx], split_image_cond_latents[pivotal_idx], zero_image_cond_latents[pivotal_idx]], dim=0)
-                    latent_model_input = torch.cat([latent_model_input, pivot_image_cond_latetns], dim=1)
 
-                    self.forward_unet(latent_model_input, t, encoder_hidden_states=pivot_text_embeddings)
-                    register_pivotal(self.unet, False)
+                # ---- pivotal forward ----
+                pivotal_idx = (
+                    torch.randint(camera_batch_size, (len(latents) // camera_batch_size,))
+                    + torch.arange(0, len(latents), camera_batch_size)
+                )
+                key_cams = [cams[idx] for idx in pivotal_idx.tolist()]
 
-                    for i, b in enumerate(range(0, len(latents), camera_batch_size)):
-                        register_batch_idx(self.unet, i)
-                        register_cams(self.unet, cams[b:b + camera_batch_size], pivotal_idx[i] % camera_batch_size, key_cams) 
-                        
-                        epipolar_constrains = {}
-                        for down_sample_factor in [1, 2, 4, 8]:
-                            H = current_H // down_sample_factor
-                            W = current_W // down_sample_factor
-                            epipolar_constrains[H * W] = []
-                            for cam in cams[b:b + camera_batch_size]:
-                                cam_epipolar_constrains = []
-                                for key_cam in key_cams:
-                                    cam_epipolar_constrains.append(compute_epipolar_constrains(key_cam, cam, current_H=H, current_W=W))
-                                epipolar_constrains[H * W].append(torch.stack(cam_epipolar_constrains, dim=0))
-                            epipolar_constrains[H * W] = torch.stack(epipolar_constrains[H * W], dim=0)
-                        register_epipolar_constrains(self.unet, epipolar_constrains)
+                latent_model_input = torch.cat([latents[pivotal_idx]] * 3)
+                pivot_text_embeddings = torch.cat(
+                    [
+                        positive_text_embedding[pivotal_idx],
+                        negative_text_embedding[pivotal_idx],
+                        negative_text_embedding[pivotal_idx],
+                    ],
+                    dim=0,
+                )
+                pivot_image_cond_latents = torch.cat(
+                    [
+                        split_image_cond_latents[pivotal_idx],
+                        split_image_cond_latents[pivotal_idx],
+                        zero_image_cond_latents[pivotal_idx],
+                    ],
+                    dim=0,
+                )
+                latent_model_input = torch.cat([latent_model_input, pivot_image_cond_latents], dim=1)
 
-                        batch_model_input = torch.cat([latents[b:b + camera_batch_size]] * 3)
-                        batch_text_embeddings = torch.cat([positive_text_embedding[b:b + camera_batch_size], negative_text_embedding[b:b + camera_batch_size], negative_text_embedding[b:b + camera_batch_size]], dim=0)
-                        batch_image_cond_latents = torch.cat([split_image_cond_latents[b:b + camera_batch_size], split_image_cond_latents[b:b + camera_batch_size], zero_image_cond_latents[b:b + camera_batch_size]], dim=0)
-                        batch_model_input = torch.cat([batch_model_input, batch_image_cond_latents], dim=1)
+                register_pivotal(self.unet, True)
+                self.forward_unet(latent_model_input, step_t, encoder_hidden_states=pivot_text_embeddings)
+                register_pivotal(self.unet, False)
 
-                        batch_noise_pred = self.forward_unet(batch_model_input, t, encoder_hidden_states=batch_text_embeddings)
-                        batch_noise_pred_text, batch_noise_pred_image, batch_noise_pred_uncond = batch_noise_pred.chunk(3)
-                        noise_pred_text.append(batch_noise_pred_text)
-                        noise_pred_image.append(batch_noise_pred_image)
-                        noise_pred_uncond.append(batch_noise_pred_uncond)
+                del latent_model_input, pivot_text_embeddings, pivot_image_cond_latents
+                torch.cuda.empty_cache()
 
-                    noise_pred_text = torch.cat(noise_pred_text, dim=0)
-                    noise_pred_image = torch.cat(noise_pred_image, dim=0)
-                    noise_pred_uncond = torch.cat(noise_pred_uncond, dim=0)
+                # ---- per-batch forward ----
+                noise_pred_text_all, noise_pred_image_all, noise_pred_uncond_all = [], [], []
+                for i, b in enumerate(range(0, len(latents), camera_batch_size)):
+                    register_batch_idx(self.unet, i)
+                    register_cams(self.unet, cams[b : b + camera_batch_size], pivotal_idx[i] % camera_batch_size, key_cams)
 
-                    # perform classifier-free guidance
-                    noise_pred = (
-                        noise_pred_uncond
-                        + self.cfg.guidance_scale * (noise_pred_text - noise_pred_image)
-                        + self.cfg.condition_scale * (noise_pred_image - noise_pred_uncond)
+                    # build epipolar constraints
+                    epipolar_constrains = {}
+                    for down_sample_factor in [1, 2, 4, 8]:
+                        H = current_H // down_sample_factor
+                        W = current_W // down_sample_factor
+                        per_cam_list = []
+                        for cam in cams[b : b + camera_batch_size]:
+                            cam_ep_list = []
+                            for key_cam in key_cams:
+                                cam_ep_list.append(
+                                    compute_epipolar_constrains(key_cam, cam, current_H=H, current_W=W)
+                                )
+                            per_cam_list.append(torch.stack(cam_ep_list, dim=0))
+                        epipolar_constrains[H * W] = torch.stack(per_cam_list, dim=0)
+                        del per_cam_list, cam_ep_list
+                    register_epipolar_constrains(self.unet, epipolar_constrains)
+                    del epipolar_constrains
+                    torch.cuda.empty_cache()
+
+                    # forward unet
+                    batch_model_input = torch.cat([latents[b : b + camera_batch_size]] * 3)
+                    batch_text_embeddings = torch.cat(
+                        [
+                            positive_text_embedding[b : b + camera_batch_size],
+                            negative_text_embedding[b : b + camera_batch_size],
+                            negative_text_embedding[b : b + camera_batch_size],
+                        ],
+                        dim=0,
                     )
+                    batch_image_cond_latents = torch.cat(
+                        [
+                            split_image_cond_latents[b : b + camera_batch_size],
+                            split_image_cond_latents[b : b + camera_batch_size],
+                            zero_image_cond_latents[b : b + camera_batch_size],
+                        ],
+                        dim=0,
+                    )
+                    batch_model_input = torch.cat([batch_model_input, batch_image_cond_latents], dim=1)
 
-                    # get previous sample, continue loop
-                    latents = self.scheduler.step(noise_pred, t, latents).prev_sample
-                    
+                    batch_noise_pred = self.forward_unet(
+                        batch_model_input, step_t, encoder_hidden_states=batch_text_embeddings
+                    )
+                    batch_noise_pred_text, batch_noise_pred_image, batch_noise_pred_uncond = batch_noise_pred.chunk(3)
+
+                    noise_pred_text_all.append(batch_noise_pred_text)
+                    noise_pred_image_all.append(batch_noise_pred_image)
+                    noise_pred_uncond_all.append(batch_noise_pred_uncond)
+
+                    del (
+                        batch_model_input,
+                        batch_text_embeddings,
+                        batch_image_cond_latents,
+                        batch_noise_pred,
+                        batch_noise_pred_text,
+                        batch_noise_pred_image,
+                        batch_noise_pred_uncond,
+                    )
+                    torch.cuda.empty_cache()
+
+                # concat batch results
+                noise_pred_text = torch.cat(noise_pred_text_all, dim=0)
+                noise_pred_image = torch.cat(noise_pred_image_all, dim=0)
+                noise_pred_uncond = torch.cat(noise_pred_uncond_all, dim=0)
+                del noise_pred_text_all, noise_pred_image_all, noise_pred_uncond_all
+                torch.cuda.empty_cache()
+
+                # guidance
+                noise_pred = (
+                    noise_pred_uncond
+                    + self.cfg.guidance_scale * (noise_pred_text - noise_pred_image)
+                    + self.cfg.condition_scale * (noise_pred_image - noise_pred_uncond)
+                )
+                del noise_pred_text, noise_pred_image, noise_pred_uncond
+                torch.cuda.empty_cache()
+
+                # scheduler step
+                latents = self.scheduler.step(noise_pred, step_t, latents).prev_sample
+                del noise_pred
+                torch.cuda.empty_cache()
+
         print("Editing finished.")
         return latents
+
+
+    # def edit_latents(
+    #     self,
+    #     text_embeddings: Float[Tensor, "BB 77 768"],
+    #     latents: Float[Tensor, "B 4 DH DW"],
+    #     image_cond_latents: Float[Tensor, "B 4 DH DW"],
+    #     t: Int[Tensor, "B"],
+    #     cams= None,
+    # ) -> Float[Tensor, "B 4 DH DW"]:
+        
+    #     self.scheduler.config.num_train_timesteps = t.item() if len(t.shape) < 1 else t[0].item()
+    #     self.scheduler.set_timesteps(self.cfg.diffusion_steps)
+
+    #     current_H = image_cond_latents.shape[2]
+    #     current_W = image_cond_latents.shape[3]
+
+    #     camera_batch_size = self.cfg.camera_batch_size
+    #     print("Start editing images...")
+
+    #     with torch.no_grad():
+    #         # add noise
+    #         noise = torch.randn_like(latents)
+    #         latents = self.scheduler.add_noise(latents, noise, t) 
+
+    #         # sections of code used from https://github.com/huggingface/diffusers/blob/main/src/diffusers/pipelines/stable_diffusion/pipeline_stable_diffusion_instruct_pix2pix.py
+    #         positive_text_embedding, negative_text_embedding, _ = text_embeddings.chunk(3)
+    #         split_image_cond_latents, _, zero_image_cond_latents = image_cond_latents.chunk(3)
+    #         for t in self.scheduler.timesteps:
+    #             if t < 100:
+    #                 self.use_normal_unet()
+    #             else:
+    #                 register_normal_attn_flag(self.unet, False)
+    #             with torch.no_grad():
+    #                 # pred noise
+    #                 noise_pred_text = []
+    #                 noise_pred_image = []
+    #                 noise_pred_uncond = []
+    #                 pivotal_idx = torch.randint(camera_batch_size, (len(latents)//camera_batch_size,)) + torch.arange(0, len(latents), camera_batch_size) 
+    #                 register_pivotal(self.unet, True)
+                    
+    #                 key_cams = [cams[cam_pivotal_idx] for cam_pivotal_idx in pivotal_idx.tolist()]
+    #                 latent_model_input = torch.cat([latents[pivotal_idx]] * 3)
+    #                 pivot_text_embeddings = torch.cat([positive_text_embedding[pivotal_idx], negative_text_embedding[pivotal_idx], negative_text_embedding[pivotal_idx]], dim=0)
+    #                 pivot_image_cond_latetns = torch.cat([split_image_cond_latents[pivotal_idx], split_image_cond_latents[pivotal_idx], zero_image_cond_latents[pivotal_idx]], dim=0)
+    #                 latent_model_input = torch.cat([latent_model_input, pivot_image_cond_latetns], dim=1)
+
+    #                 self.forward_unet(latent_model_input, t, encoder_hidden_states=pivot_text_embeddings)
+    #                 register_pivotal(self.unet, False)
+
+    #                 for i, b in enumerate(range(0, len(latents), camera_batch_size)):
+    #                     register_batch_idx(self.unet, i)
+    #                     register_cams(self.unet, cams[b:b + camera_batch_size], pivotal_idx[i] % camera_batch_size, key_cams) 
+                        
+    #                     epipolar_constrains = {}
+    #                     for down_sample_factor in [1, 2, 4, 8]:
+    #                         H = current_H // down_sample_factor
+    #                         W = current_W // down_sample_factor
+    #                         epipolar_constrains[H * W] = []
+    #                         for cam in cams[b:b + camera_batch_size]:
+    #                             cam_epipolar_constrains = []
+    #                             for key_cam in key_cams:
+    #                                 cam_epipolar_constrains.append(compute_epipolar_constrains(key_cam, cam, current_H=H, current_W=W))
+    #                             epipolar_constrains[H * W].append(torch.stack(cam_epipolar_constrains, dim=0))
+    #                         epipolar_constrains[H * W] = torch.stack(epipolar_constrains[H * W], dim=0)
+    #                     register_epipolar_constrains(self.unet, epipolar_constrains)
+
+    #                     batch_model_input = torch.cat([latents[b:b + camera_batch_size]] * 3)
+    #                     batch_text_embeddings = torch.cat([positive_text_embedding[b:b + camera_batch_size], negative_text_embedding[b:b + camera_batch_size], negative_text_embedding[b:b + camera_batch_size]], dim=0)
+    #                     batch_image_cond_latents = torch.cat([split_image_cond_latents[b:b + camera_batch_size], split_image_cond_latents[b:b + camera_batch_size], zero_image_cond_latents[b:b + camera_batch_size]], dim=0)
+    #                     batch_model_input = torch.cat([batch_model_input, batch_image_cond_latents], dim=1)
+
+    #                     batch_noise_pred = self.forward_unet(batch_model_input, t, encoder_hidden_states=batch_text_embeddings)
+    #                     batch_noise_pred_text, batch_noise_pred_image, batch_noise_pred_uncond = batch_noise_pred.chunk(3)
+    #                     noise_pred_text.append(batch_noise_pred_text)
+    #                     noise_pred_image.append(batch_noise_pred_image)
+    #                     noise_pred_uncond.append(batch_noise_pred_uncond)
+
+    #                 noise_pred_text = torch.cat(noise_pred_text, dim=0)
+    #                 noise_pred_image = torch.cat(noise_pred_image, dim=0)
+    #                 noise_pred_uncond = torch.cat(noise_pred_uncond, dim=0)
+
+    #                 # perform classifier-free guidance
+    #                 noise_pred = (
+    #                     noise_pred_uncond
+    #                     + self.cfg.guidance_scale * (noise_pred_text - noise_pred_image)
+    #                     + self.cfg.condition_scale * (noise_pred_image - noise_pred_uncond)
+    #                 )
+
+    #                 # get previous sample, continue loop
+    #                 latents = self.scheduler.step(noise_pred, t, latents).prev_sample
+                    
+    #     print("Editing finished.")
+    #     return latents
 
     def compute_grad_sds(
         self,
@@ -348,15 +509,14 @@ class DGEGuidance(BaseObject):
         return grad
     
 
-
-
+    # 优化显存的版本
     def __call__(
         self,
         rgb: Float[Tensor, "B H W C"],
         cond_rgb: Float[Tensor, "B H W C"],
         prompt_utils: PromptProcessorOutput,
-        gaussians = None,
-        cams= None,
+        gaussians=None,
+        cams=None,
         render=None,
         pipe=None,
         background=None,
@@ -364,63 +524,158 @@ class DGEGuidance(BaseObject):
     ):
         assert cams is not None, "cams is required for dge guidance"
         batch_size, H, W, _ = rgb.shape
+
+        # === resize factor ===
         factor = 512 / max(W, H)
         factor = math.ceil(min(W, H) * factor / 64) * 64 / min(W, H)
-
         width = int((W * factor) // 64) * 64
         height = int((H * factor) // 64) * 64
-        rgb_BCHW = rgb.permute(0, 3, 1, 2)
-
         RH, RW = height, width
 
-        rgb_BCHW_HW8 = F.interpolate(
-            rgb_BCHW, (RH, RW), mode="bilinear", align_corners=False
-        )
+        # === encode rgb ===
+        rgb_BCHW = rgb.permute(0, 3, 1, 2)
+        rgb_BCHW_HW8 = F.interpolate(rgb_BCHW, (RH, RW), mode="bilinear", align_corners=False)
         latents = self.encode_images(rgb_BCHW_HW8)
-        
-        cond_rgb_BCHW = cond_rgb.permute(0, 3, 1, 2)
-        cond_rgb_BCHW_HW8 = F.interpolate(
-            cond_rgb_BCHW,
-            (RH, RW),
-            mode="bilinear",
-            align_corners=False,
-        )
-        cond_latents = self.encode_cond_images(cond_rgb_BCHW_HW8)
+        del rgb, rgb_BCHW, rgb_BCHW_HW8
+        torch.cuda.empty_cache()
 
-        temp = torch.zeros(batch_size).to(rgb.device)
+        # === encode cond_rgb ===
+        cond_rgb_BCHW = cond_rgb.permute(0, 3, 1, 2)
+        cond_rgb_BCHW_HW8 = F.interpolate(cond_rgb_BCHW, (RH, RW), mode="bilinear", align_corners=False)
+        cond_latents = self.encode_cond_images(cond_rgb_BCHW_HW8)
+        del cond_rgb, cond_rgb_BCHW, cond_rgb_BCHW_HW8
+        torch.cuda.empty_cache()
+
+        # === text embeddings ===
+        temp = torch.zeros(batch_size, device=latents.device)
         text_embeddings = prompt_utils.get_text_embeddings(temp, temp, temp, False)
         positive_text_embeddings, negative_text_embeddings = text_embeddings.chunk(2)
         text_embeddings = torch.cat(
-            [positive_text_embeddings, negative_text_embeddings, negative_text_embeddings], dim=0)  # [positive, negative, negative]
+            [positive_text_embeddings, negative_text_embeddings, negative_text_embeddings],
+            dim=0,
+        )
+        del positive_text_embeddings, negative_text_embeddings
+        torch.cuda.empty_cache()
 
-        # timestep ~ U(0.02, 0.98) to avoid very high/low noise level
+        # === timestep ===
         t = torch.randint(
             self.max_step - 1,
             self.max_step,
             [1],
             dtype=torch.long,
-            device=self.device,
+            device=latents.device,
         ).repeat(batch_size)
 
+        # === SDS branch ===
         if self.cfg.use_sds:
             grad = self.compute_grad_sds(text_embeddings, latents, cond_latents, t)
             grad = torch.nan_to_num(grad)
             if self.grad_clip_val is not None:
                 grad = grad.clamp(-self.grad_clip_val, self.grad_clip_val)
+
             target = (latents - grad).detach()
             loss_sds = 0.5 * F.mse_loss(latents, target, reduction="sum") / batch_size
+
+            del latents, cond_latents, text_embeddings, t, grad, target
+            torch.cuda.empty_cache()
+
             return {
                 "loss_sds": loss_sds,
-                "grad_norm": grad.norm(),
+                "grad_norm": grad.norm() if "grad" in locals() else torch.tensor(0.0),
                 "min_step": self.min_step,
                 "max_step": self.max_step,
             }
-        else:
-            edit_latents = self.edit_latents(text_embeddings, latents, cond_latents, t, cams)
-            edit_images = self.decode_latents(edit_latents)
-            edit_images = F.interpolate(edit_images, (H, W), mode="bilinear")
 
-            return {"edit_images": edit_images.permute(0, 2, 3, 1)}
+        # === Edit branch ===
+        else:
+            edit_latents = self.edit_latents(text_embeddings, latents, cond_latents, t, cams).detach()
+            del latents, cond_latents, text_embeddings, t
+            torch.cuda.empty_cache()
+
+            # decode
+            with torch.no_grad():
+                edit_images = self.decode_latents(edit_latents)
+            del edit_latents
+            torch.cuda.empty_cache()
+
+            # resize to original resolution
+            edit_images = F.interpolate(edit_images, (H, W), mode="bilinear")
+            result = {"edit_images": edit_images.permute(0, 2, 3, 1)}
+            return result
+
+
+
+    # def __call__(
+    #     self,
+    #     rgb: Float[Tensor, "B H W C"],
+    #     cond_rgb: Float[Tensor, "B H W C"],
+    #     prompt_utils: PromptProcessorOutput,
+    #     gaussians = None,
+    #     cams= None,
+    #     render=None,
+    #     pipe=None,
+    #     background=None,
+    #     **kwargs,
+    # ):
+    #     assert cams is not None, "cams is required for dge guidance"
+    #     batch_size, H, W, _ = rgb.shape
+    #     factor = 512 / max(W, H)
+    #     factor = math.ceil(min(W, H) * factor / 64) * 64 / min(W, H)
+
+    #     width = int((W * factor) // 64) * 64
+    #     height = int((H * factor) // 64) * 64
+    #     rgb_BCHW = rgb.permute(0, 3, 1, 2)
+
+    #     RH, RW = height, width
+
+    #     rgb_BCHW_HW8 = F.interpolate(
+    #         rgb_BCHW, (RH, RW), mode="bilinear", align_corners=False
+    #     )
+    #     latents = self.encode_images(rgb_BCHW_HW8)
+        
+    #     cond_rgb_BCHW = cond_rgb.permute(0, 3, 1, 2)
+    #     cond_rgb_BCHW_HW8 = F.interpolate(
+    #         cond_rgb_BCHW,
+    #         (RH, RW),
+    #         mode="bilinear",
+    #         align_corners=False,
+    #     )
+    #     cond_latents = self.encode_cond_images(cond_rgb_BCHW_HW8)
+
+    #     temp = torch.zeros(batch_size).to(rgb.device)
+    #     text_embeddings = prompt_utils.get_text_embeddings(temp, temp, temp, False)
+    #     positive_text_embeddings, negative_text_embeddings = text_embeddings.chunk(2)
+    #     text_embeddings = torch.cat(
+    #         [positive_text_embeddings, negative_text_embeddings, negative_text_embeddings], dim=0)  # [positive, negative, negative]
+
+    #     # timestep ~ U(0.02, 0.98) to avoid very high/low noise level
+    #     t = torch.randint(
+    #         self.max_step - 1,
+    #         self.max_step,
+    #         [1],
+    #         dtype=torch.long,
+    #         device=self.device,
+    #     ).repeat(batch_size)
+
+    #     if self.cfg.use_sds:
+    #         grad = self.compute_grad_sds(text_embeddings, latents, cond_latents, t)
+    #         grad = torch.nan_to_num(grad)
+    #         if self.grad_clip_val is not None:
+    #             grad = grad.clamp(-self.grad_clip_val, self.grad_clip_val)
+    #         target = (latents - grad).detach()
+    #         loss_sds = 0.5 * F.mse_loss(latents, target, reduction="sum") / batch_size
+    #         return {
+    #             "loss_sds": loss_sds,
+    #             "grad_norm": grad.norm(),
+    #             "min_step": self.min_step,
+    #             "max_step": self.max_step,
+    #         }
+    #     else:
+    #         edit_latents = self.edit_latents(text_embeddings, latents, cond_latents, t, cams)
+    #         edit_images = self.decode_latents(edit_latents)
+    #         edit_images = F.interpolate(edit_images, (H, W), mode="bilinear")
+
+    #         return {"edit_images": edit_images.permute(0, 2, 3, 1)}
 
     def update_step(self, epoch: int, global_step: int, on_load_weights: bool = False):
         # clip grad for stable training as demonstrated in

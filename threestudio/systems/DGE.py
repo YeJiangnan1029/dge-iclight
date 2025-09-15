@@ -7,6 +7,7 @@ import numpy as np
 import sys
 import shutil
 import torch
+from gaussiansplatting.scene.cameras import Simple_Camera
 import threestudio
 import os
 from threestudio.models.auxiliary.geometry import GeometryModel
@@ -14,6 +15,7 @@ from threestudio.models.auxiliary.qwen import QwenModel
 from threestudio.systems.base import BaseLift3DSystem
 
 from threestudio.systems.utils import compute_metrics, compute_clip_metrics
+from threestudio.utils.camera import get_spiral_path
 from threestudio.utils.typing import *
 from gaussiansplatting.gaussian_renderer import render
 from gaussiansplatting.scene import GaussianModel
@@ -32,6 +34,10 @@ from threestudio.utils.sam import LangSAMTextSegmentor
 from torch.nn import functional as F
 from torchvision.transforms.functional import to_pil_image
 import json 
+import torchvision.transforms.functional as TF
+
+from scipy.spatial.transform import Rotation
+import imageio
 
 @threestudio.register("dge-system")
 class DGE(BaseLift3DSystem):
@@ -80,7 +86,10 @@ class DGE(BaseLift3DSystem):
         # guidance 
         camera_update_per_step: int = 500
         added_noise_schedule: List[int] = field(default_factory=[999, 200, 200, 21])    
-        
+
+        # edit
+        ref_id : int = 0
+
 
     cfg: Config
 
@@ -101,9 +110,12 @@ class DGE(BaseLift3DSystem):
         self.text_segmentor = LangSAMTextSegmentor().to(get_device())
 
         if len(self.cfg.cache_dir) > 0:
-            self.cache_dir = os.path.join("edit_cache", self.cfg.cache_dir)
+            self.cache_dir = self.cfg.cache_dir
         else:
             self.cache_dir = os.path.join("edit_cache", self.cfg.gs_source.replace("/", "-"))
+        
+        # result
+        self.output_dict: dict = {}
 
     @torch.no_grad()
     def update_mask(self, save_name="mask") -> None:
@@ -291,17 +303,17 @@ class DGE(BaseLift3DSystem):
                     viewspace_point_tensor_grad, self.visibility_filter
                 )
                 # Densification
-                if (
-                        self.true_global_step >= self.cfg.densify_from_iter
-                        and self.true_global_step % self.cfg.densification_interval == 0
-                ):  # 500 100
-                    self.gaussian.densify_and_prune(
-                        self.cfg.max_grad,
-                        self.cfg.max_densify_percent,
-                        self.cfg.min_opacity,
-                        self.cameras_extent,
-                        5,
-                    )
+                # if (
+                #         self.true_global_step >= self.cfg.densify_from_iter
+                #         and self.true_global_step % self.cfg.densification_interval == 0
+                # ):  # 500 100
+                #     self.gaussian.densify_and_prune(
+                #         self.cfg.max_grad,
+                #         self.cfg.max_densify_percent,
+                #         self.cfg.min_opacity,
+                #         self.cameras_extent,
+                #         5,
+                #     )
 
     def validation_step(self, batch, batch_idx):
         batch["camera"] = [
@@ -309,14 +321,17 @@ class DGE(BaseLift3DSystem):
             for idx in batch["index"]
         ]
         out = self(batch)
+        metrics = {}
         for idx in range(len(batch["index"])):
             cam_index = batch["index"][idx].item()
             # add tensorboard record
             edited_img = self.edit_frames[cam_index][0] if cam_index in self.edit_frames else torch.zeros_like(self.origin_frames[cam_index][0])
             render_img = out["comp_rgb"][idx]
-            metrics = compute_metrics(edited_img, render_img)
-            for k, v in metrics.items():
-                self.log(f"val/{k}", value=v)
+            metrics_iter = compute_metrics(edited_img, render_img)
+            for k, v in metrics_iter.items():
+                if k not in metrics:
+                    metrics[k] = []
+                metrics[k].append(v)
             self.save_image_grid(
                 f"it{self.true_global_step}-val/{batch['index'][idx]}.png",
                 (
@@ -372,6 +387,11 @@ class DGE(BaseLift3DSystem):
                 name=f"validation_step_render_{idx}",
                 step=self.true_global_step,
             )
+            
+        for k, v in metrics.items():
+            v_avg = float(np.mean(np.array(v)))
+            self.log(f"val/{k}", v_avg) # type: ignore
+            self.output_dict[k] = v_avg
 
     def test_step(self, batch, batch_idx):
         only_rgb = True  # TODO add depth test step
@@ -463,6 +483,7 @@ class DGE(BaseLift3DSystem):
             )
 
     def on_test_epoch_end(self):
+        self.render_scene_video("edited_scene")
         self.save_img_sequence(
             f"it{self.true_global_step}-test",
             f"it{self.true_global_step}-test",
@@ -493,9 +514,11 @@ class DGE(BaseLift3DSystem):
         if len(clip_scores) > 0:
             mean_clip_score = np.mean(np.array(clip_scores))
             self.log("test/clip_score", value=mean_clip_score)
+            self.output_dict["clip_score"] = float(mean_clip_score)
         if len(clip_d_scores) > 0:
             mean_clip_d_score = np.mean(np.array(clip_d_scores))
             self.log("test/clip_directional_score", value=mean_clip_d_score)
+            self.output_dict["clip_directional_score"] = float(mean_clip_d_score)
         if len(save_list) > 0:
             self.save_image_grid(
                 f"edited_images.png",
@@ -524,6 +547,11 @@ class DGE(BaseLift3DSystem):
         save_path = self.get_save_path(f"last.ply")
         print("save_path", save_path)
         self.gaussian.save_ply(save_path)
+        
+        # save json
+        json_path = self.get_save_path(f"metrics.json")
+        with open(json_path, "w") as fp:
+            json.dump(self.output_dict, fp, indent=2)
 
     def configure_optimizers(self):
         self.parser = ArgumentParser(description="Training script parameters")
@@ -603,13 +631,16 @@ class DGE(BaseLift3DSystem):
                 original_frames.append(self.origin_frames[id])
             images = torch.cat(images, dim=0)
             original_frames = torch.cat(original_frames, dim=0)
+            save_cache_dir = self.get_save_dir()
+            latents_dir = os.path.join(save_cache_dir, "init_latents")
 
             edited_images = self.guidance(
                 images,
                 original_frames,
                 self.prompt_processor(),
                 cams = cams_sorted,
-                is_first_edit = global_step<=self.cfg.camera_update_per_step
+                is_first_edit = global_step<=self.cfg.camera_update_per_step,
+                init_latents_dir = latents_dir,
             )
 
             for view_index_tmp in range(len(self.view_list)):
@@ -633,7 +664,16 @@ class DGE(BaseLift3DSystem):
         super().on_fit_start()
         self.render_all_view(cache_name="origin_render")
 
-        self.prepare_prior()
+        # 编辑前场景render
+        cameras = self.trainer.datamodule.train_dataset.scene.cameras
+        radius = self.trainer.datamodule.train_dataset.scene.cameras_extent
+        center = self.trainer.datamodule.train_dataset.scene.scene_center
+        up = self.trainer.datamodule.train_dataset.scene.cameras_up
+        self.render_c2ws = get_spiral_path(cameras, center, radius, up, frames=200)
+        self.render_scene_video("origin_scene")
+
+        if self.cfg.guidance_type=="dge-iclight":
+            self.prepare_prior()
 
         if len(self.cfg.seg_prompt) > 0:
             self.update_mask()
@@ -645,19 +685,98 @@ class DGE(BaseLift3DSystem):
         if self.cfg.loss.lambda_l1 > 0 or self.cfg.loss.lambda_p > 0 or self.cfg.loss.use_sds:
             self.guidance = threestudio.find(self.cfg.guidance_type)(self.cfg.guidance)
 
+    def render_scene_video(self, video_name):
+        save_cache_dir = self.get_save_dir()
+        os.makedirs(save_cache_dir, exist_ok=True)
+        video_filepath = os.path.join(save_cache_dir, f"{video_name}.mp4")
+        c2ws = self.render_c2ws
+        
+        frames = []
+        c = self.trainer.datamodule.train_dataset.scene.cameras[0]
+
+        for idx, c2w in enumerate(c2ws):
+            # T和qvec是w2c矩阵的， R是c2w矩阵的
+            w2c = np.linalg.inv(c2w)
+            t = w2c[:3, 3]
+            R_qvec = w2c[:3, :3]
+            if np.linalg.det(R_qvec) < 0:  # 修正左手系
+                R_qvec[:, 2] *= -1
+            qvec = Rotation.from_matrix(R_qvec).as_quat()
+            _R = c2w[:3, :3]
+            cur_cam = Simple_Camera(
+                colmap_id=c.colmap_id, uid=c.uid,
+                R=_R, T=t, qvec=qvec,
+                FoVx=c.FoVx, FoVy=c.FoVy, h=c.image_height, w=c.image_width,
+                image_name=c.image_name
+            )
+
+            cur_batch = {
+                "index": idx,
+                "camera": [cur_cam],
+                "height": c.image_height,
+                "width": c.image_width,
+            }
+            out = self(cur_batch)["comp_rgb"]
+            out_to_save = (
+                out[0].cpu().detach().numpy().clip(0.0, 1.0) * 255.0
+            ).astype(np.uint8)
+
+            frames.append(out_to_save)
+
+        # 保存 mp4，fps 可调
+        imageio.mimsave(video_filepath, frames, fps=30, quality=8)  
+        print(f"视频已保存到 {video_filepath}")
+
     def prepare_prior(self):
+        save_cache_dir = self.get_save_dir()
+        latents_dir = os.path.join(save_cache_dir, "init_latents")
+        depths_dir = os.path.join(save_cache_dir, "depths")
+        normals_dir = os.path.join(save_cache_dir, "normals")
+
+        os.makedirs(latents_dir, exist_ok=True)
+        os.makedirs(depths_dir, exist_ok=True)
+        os.makedirs(normals_dir, exist_ok=True)
+
         # get geometry
         cameras = self.trainer.datamodule.train_dataset.scene.cameras
+        # 选择一帧为参考帧
+        ref_id = self.cfg.ref_id
+        assert 0 <= ref_id < len(cameras), f"ref_id {ref_id} out of range [0, {len(cameras)-1}]"
         images = self.origin_frames
         geo_model = GeometryModel()
         depths, normals, intris_est = geo_model.get_geometry(images, cameras, batch_size=13)
-        
-        print(f"depths: {depths.shape}")
-        print(f"normals: {normals.shape}")
+        print(f"{len(depths)} depths and normals generated.")
+
+        # visualize
+        # 深度归一化到 [0,255]
+        d_min, d_max = depths.min(), depths.max()
+        depths_norm = (depths - d_min) / (d_max - d_min + 1e-8)
+        depths_norm = depths_norm.detach().cpu()
+
+        # 法线从 [-1,1] → [0,1] → [0,255]
+        normals_vis = (normals + 1) / 2.0  
+        normals_vis = normals_vis.detach().cpu()
+
+        for i in range(depths.shape[0]):
+            # 保存 depth
+            d_img = (depths_norm[i, 0] * 255).to(torch.uint8)  # [H, W]
+            d_pil = TF.to_pil_image(d_img)
+            d_pil.save(os.path.join(depths_dir, f"{i:04d}.png"))
+
+            # 保存 normal
+            n_img = (normals_vis[i] * 255).to(torch.uint8)  # [3, H, W]
+            n_pil = TF.to_pil_image(n_img)
+            n_pil.save(os.path.join(normals_dir, f"{i:04d}.png"))
+
+            if i == ref_id:
+                d_pil.save(os.path.join(save_cache_dir, "ref_depth.png"))
+                n_pil.save(os.path.join(save_cache_dir, "ref_normal.png"))
+
+        print(f"保存完成: {depths.shape[0]} 张 depth 和 normal 图像")
 
         # get rough position from mllm
         text_prompt = self.cfg.prompt_processor.prompt
-        ref_id = 44
+        
         image = images[ref_id]  # (1,H,W,3)
         image = image.permute(0, 3, 1, 2).squeeze(0)  # (3,H,W)
         image = to_pil_image(image)
@@ -678,7 +797,6 @@ class DGE(BaseLift3DSystem):
         with torch.no_grad():
             obj_mask = self.text_segmentor(images[ref_id], object_prompt).squeeze()
 
-        print(obj_mask.shape)
         ys, xs = torch.nonzero(obj_mask, as_tuple=True)
         W, H = image.size
         if len(xs) == 0:
@@ -697,31 +815,36 @@ class DGE(BaseLift3DSystem):
         cam_rays = intri_inv @ xy_homo.view(3, -1)  # (3, 1)
         light_pos_init = cam_rays * depth_xy  # (3, 1)
         
-        print(f"light_pos_init: {light_pos_init}")
+        print(f"light_pos_init: {light_pos_init.squeeze().cpu().tolist()}")
         
         # assume the init light position is at the origin of the camera coordinate
         # image coord define as OPENCV, +x: right, +y: down, +z: inside the screen
         if "left" in position_preset.lower():
-            offset = [-5.0, 0.0, 0.0]
+            offset = [-5.0, -3.0, 0.0]
         elif "right" in position_preset.lower():
-            offset = [5.0, 0.0, 0.0]
+            offset = [5.0, -3.0, 0.0]
         elif "top" in position_preset.lower():
-            offset = [0.0, 5.0, 0.0]
+            offset = [0.0, -3.0, 0.0]
         elif "bottom" in position_preset.lower():
-            offset = [0.0, -5.0, 0.0]
+            offset = [0.0, 5.0, -3.0]
         elif "front" in position_preset.lower():
-            offset = [0.0, 0.0, -10.0]
+            offset = [0.0, -3.0, -10.0]
         else:
-            offset = [0.0, 0.0, 0.0]
+            offset = [0.0, -3.0, 0.0]
         camera_ref = cameras[ref_id]
+        print(f"select ref image {camera_ref.image_name}")
+        # save some result of ref image
+        image.save(os.path.join(save_cache_dir, "ref_image.png"))
+        mask_vis = (obj_mask.float().cpu().numpy() * 255).astype(np.uint8)
+        Image.fromarray(mask_vis).save(os.path.join(save_cache_dir, "ref_obj_mask.png"))
+        print(f"ref image and obj mask saved to {save_cache_dir}")
         w2c_ref = camera_ref.world_view_transform.T.to(self.device)
         c2w_ref = torch.inverse(w2c_ref)  # (4, 4)
         offset2ref = torch.tensor(offset, device=c2w_ref.device)  # 光源位置变化
         light_pos_cam = light_pos_init.view(-1) + offset2ref
         light_pos_world = c2w_ref[:3, :3] @ (light_pos_cam) + c2w_ref[:3, 3]
-        init_latents_dir = "edit_cache/data-dge_data-face-scene_point_cloud.ply/init_latents"
         
-        for i in range(len(cameras)):
+        for i in tqdm(range(len(cameras)), desc="Saving init latents"):
 
             w2c = cameras[i].world_view_transform.T.to(self.device)  # (4, 4)
             light_pos_cam = w2c[:3, :3] @ light_pos_world + w2c[:3, 3]  # (3,)
@@ -740,15 +863,17 @@ class DGE(BaseLift3DSystem):
             l = light_pos_cam.view(3, 1) - cam_points  # (3, H*W)
             l = l / (torch.norm(l, dim=0, keepdim=True) + 1e-6)  # 单位化 (3, H*W)
             n = normal.view(3, -1)  # (3, H*W)
-            diffuse = ((n * -l).sum(dim=0)**2).clamp(min=0.0)  # (H*W,)
+            diffuse = (n * -l).sum(dim=0).clamp(min=0.0)**2  # (H*W,)
 
             shading = diffuse.view(_H, _W)  # (H, W)
             shading = torch.nn.functional.interpolate(shading.unsqueeze(0).unsqueeze(0), (H, W)).squeeze()
             shading = (shading * 255.0).clamp(0, 255).to(torch.uint8)
             shading = torch.stack([shading]*3, dim=0).permute(1,2,0)  # (3, H, W)
             shading_rgb = Image.fromarray(shading.detach().cpu().numpy())
-            shading_rgb.save(f"{init_latents_dir}/{cameras[i].uid:04d}.png")
-            print(f"Saving init latents {cameras[i].uid}")
+            shading_rgb.save(f"{latents_dir}/{cameras[i].uid:04d}.png")
+
+            if i == ref_id:
+                shading_rgb.save(os.path.join(save_cache_dir, "ref_shading.png"))
             
 
     def training_step(self, batch, batch_idx):
