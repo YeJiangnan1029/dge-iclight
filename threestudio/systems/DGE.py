@@ -38,6 +38,7 @@ import torchvision.transforms.functional as TF
 
 from scipy.spatial.transform import Rotation
 import imageio
+import matplotlib.cm as cm
 
 @threestudio.register("dge-system")
 class DGE(BaseLift3DSystem):
@@ -361,29 +362,29 @@ class DGE(BaseLift3DSystem):
                         "img": out["comp_rgb"][idx],
                         "kwargs": {"data_format": "HWC"},
                     },
-                ]
-                + (
-                    [
-                        {
-                            "type": "rgb",
-                            "img": out["comp_normal"][idx],
-                            "kwargs": {"data_format": "HWC", "data_range": (0, 1)},
-                        }
-                    ]
-                    if "comp_normal" in out
-                    else []
-                )
-                + (
-                    [
-                        {
-                            "type": "rgb",
-                            "img": out["semantic"][idx].moveaxis(0, -1),
-                            "kwargs": {"data_format": "HWC", "data_range": (0, 1)},
-                        }
-                    ]
-                    if "semantic" in out
-                    else []
-                ),
+                ],
+                # + (
+                #     [
+                #         {
+                #             "type": "rgb",
+                #             "img": out["comp_normal"][idx],
+                #             "kwargs": {"data_format": "HWC", "data_range": (0, 1)},
+                #         }
+                #     ]
+                #     if "comp_normal" in out
+                #     else []
+                # )
+                # + (
+                #     [
+                #         {
+                #             "type": "rgb",
+                #             "img": out["semantic"][idx].moveaxis(0, -1),
+                #             "kwargs": {"data_format": "HWC", "data_range": (0, 1)},
+                #         }
+                #     ]
+                #     if "semantic" in out
+                #     else []
+                # ),
                 name=f"validation_step_render_{idx}",
                 step=self.true_global_step,
             )
@@ -759,8 +760,10 @@ class DGE(BaseLift3DSystem):
 
         for i in range(depths.shape[0]):
             # 保存 depth
-            d_img = (depths_norm[i, 0] * 255).to(torch.uint8)  # [H, W]
-            d_pil = TF.to_pil_image(d_img)
+            depth = (depths_norm[i, 0])  # [H, W]
+            depth_color = cm.inferno(depth.cpu().numpy())
+            depth_color = (depth_color[:, :, :3] * 255).astype('uint8')
+            d_pil = Image.fromarray(depth_color)
             d_pil.save(os.path.join(depths_dir, f"{i:04d}.png"))
 
             # 保存 normal
