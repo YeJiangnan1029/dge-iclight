@@ -6,3 +6,5 @@ edit_cache
 
 *.pyc
 threestudio/models/weights
+output_homeC
+*.csv

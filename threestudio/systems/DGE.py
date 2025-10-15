@@ -866,7 +866,8 @@ class DGE(BaseLift3DSystem):
             l = light_pos_cam.view(3, 1) - cam_points  # (3, H*W)
             l = l / (torch.norm(l, dim=0, keepdim=True) + 1e-6)  # 单位化 (3, H*W)
             n = normal.view(3, -1)  # (3, H*W)
-            diffuse = (n * -l).sum(dim=0).clamp(min=0.0)**2  # (H*W,)
+            gamma = 1.0
+            diffuse = (n * -l).sum(dim=0).clamp(min=0.0)**gamma  # (H*W,)
 
             shading = diffuse.view(_H, _W)  # (H, W)
             shading = torch.nn.functional.interpolate(shading.unsqueeze(0).unsqueeze(0), (H, W)).squeeze()

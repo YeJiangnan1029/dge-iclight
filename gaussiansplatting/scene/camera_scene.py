@@ -17,7 +17,7 @@ from gaussiansplatting.utils.camera_utils import cameraList_load
 
 
 class CamScene:
-    def __init__(self, source_path, h=512, w=512, aspect=-1, tag="train"):
+    def __init__(self, source_path, h=512, w=512, aspect=-1, tag="train", transforms_path=""):
         """b
         :param path: Path to colmap scene main folder.
         """
@@ -36,7 +36,8 @@ class CamScene:
                     w /= scale
             else:
                 scene_info = sceneLoadTypeCallbacks["Colmap_hw"](source_path, h, w, None, False)
-
+        elif os.path.exists(os.path.join(source_path, "transforms.json")):
+            scene_info = sceneLoadTypeCallbacks["Nerfstudio_hw"](source_path, transforms_path, h, w, None, False)
         else:
             assert False, "Could not recognize scene type!"
 

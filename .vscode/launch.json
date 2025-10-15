@@ -18,12 +18,13 @@
             "args": [
                 "--config", "configs/dge.yaml",
                 "--train",
-                "data.source=\"/homeC/Public/yjn_data/dge_data/face\"",
-                "system.gs_source=\"/homeC/Public/yjn_data/dge_data/face/scene_point_cloud.ply\"",
-                "system.prompt_processor.prompt=\"detailed face, sunshine, indoor, warm atmosphere, light from right\"",
-                // "system.prompt_processor.prompt=\"Let the sunlight shine on the man's face from right side\"",
                 "exp_root_dir=\"/homeC/Public/yjn_data/dge_iclight_output\"",
-                "system.cache_dir=\"/homeC/Public/yjn_data/dge_data/face/cache\"",
+                "data.source=\"/homeB/Public/yejiangnan/work/nerfstudio/data/in2n/bear\"",
+                "data.exp_folder=\"/homeB/Public/yejiangnan/work/nerfstudio/output/3dgs_output/in2n/bear/splatfacto/exp\"",
+                "system.gs_source=\"/homeB/Public/yejiangnan/work/nerfstudio/output/3dgs_output/in2n/bear/splatfacto/exp/nerfstudio_models/splat.ply\"",
+                "system.cache_dir=\"/homeB/Public/yejiangnan/work/nerfstudio/output/3dgs_output/in2n/bear/splatfacto/exp/cache\"",
+                "system.prompt_processor.prompt=\"bear statue, sunset, warm atmosphere, light from right\"",
+                // "system.prompt_processor.prompt=\"Let the sunlight shine on the man's face from right side\"",
                 "system.guidance_type=\"dge-iclight\"",
                 "name=\"dge-iclight-face\""
             ]

@@ -13,7 +13,7 @@ import os
 import sys
 from PIL import Image
 from typing import NamedTuple
-from gaussiansplatting.scene.colmap_loader import read_extrinsics_text, read_intrinsics_text, qvec2rotmat, \
+from gaussiansplatting.scene.colmap_loader import read_extrinsics_text, read_intrinsics_text, qvec2rotmat, rotmat2qvec, \
     read_extrinsics_binary, read_intrinsics_binary, read_points3D_binary, read_points3D_text
 from gaussiansplatting.utils.graphics_utils import getWorld2View2, focal2fov, fov2focal
 import numpy as np
@@ -394,8 +394,135 @@ def readNerfSyntheticInfo(path, white_background, eval, extension=".png"):
                            ply_path=ply_path)
     return scene_info
 
+def readNerfstudioInfo_hw(path, json_folder, h, w, images, eval, llffhold=8):
+    print("Reading Training Transforms")
+    with open(os.path.join(path, "transforms.json"), encoding="UTF-8") as file:
+        meta = json.load(file)
+    
+    image_filenames = []
+    c2ws = []
+
+    fx_fixed = "fl_x" in meta
+    fy_fixed = "fl_y" in meta
+    cx_fixed = "cx" in meta
+    cy_fixed = "cy" in meta
+    height_fixed = "h" in meta
+    width_fixed = "w" in meta
+
+    fx = []
+    fy = []
+    cx = []
+    cy = []
+    height = []
+    width = []
+
+    # sort the frames by fname
+    fnames = []
+    for frame in meta["frames"]:
+        filepath = Path(frame["file_path"])
+        fnames.append(Path(path) / filepath)
+    inds = np.argsort(fnames)
+    frames = [meta["frames"][ind] for ind in inds]
+
+    for frame in frames:
+        filepath = Path(frame["file_path"])
+        fname = Path(path) / filepath
+
+        if not fx_fixed:
+            assert "fl_x" in frame, "fx not specified in frame"
+            fx.append(float(frame["fl_x"]))
+        if not fy_fixed:
+            assert "fl_y" in frame, "fy not specified in frame"
+            fy.append(float(frame["fl_y"]))
+        if not cx_fixed:
+            assert "cx" in frame, "cx not specified in frame"
+            cx.append(float(frame["cx"]))
+        if not cy_fixed:
+            assert "cy" in frame, "cy not specified in frame"
+            cy.append(float(frame["cy"]))
+        if not height_fixed:
+            assert "h" in frame, "height not specified in frame"
+            height.append(int(frame["h"]))
+        if not width_fixed:
+            assert "w" in frame, "width not specified in frame"
+            width.append(int(frame["w"]))
+
+        image_filenames.append(fname)
+        
+        pose = np.array(frame["transform_matrix"])
+        pose[:, 1:3] *= -1  # convention opengl to opencv
+        
+        # assuming the scale factor can be read from nerfstudio outputs
+        dataparser_transforms_path = Path(json_folder) / "dataparser_transforms.json"
+        try:
+            with open(dataparser_transforms_path, "r") as fp:
+                trans_scale = json.load(fp)
+                scale_factor = trans_scale["scale"]
+        except:
+            scale_factor = 1.0
+        pose[3:, 3] /= scale_factor
+        c2ws.append(pose)
+
+    # construct cam_infos
+    cam_infos = []
+    for idx, c2w in enumerate(c2ws):
+        sys.stdout.write('\r')
+        # the exact output you're looking for:
+        sys.stdout.write("Reading camera {}/{}".format(idx+1, len(c2ws)))
+        sys.stdout.flush()
+
+        origin_height = height[idx]
+        origin_width = width[idx]
+        origin_aspect = origin_height/origin_width
+        aspect = h/w
+
+        uid = 1
+        R = c2w[:3, :3] # keep in c2w
+        w2c = np.linalg.inv(c2w)
+        T = w2c[:3, 3]  # keep in w2c
+        qvec = rotmat2qvec(w2c[:3, :3])  # keep in w2c
+
+        focal_length_x = fx[idx]
+        focal_length_y = fy[idx]
+        if origin_aspect > aspect: # shrink height
+            FovY = focal2fov(focal_length_y, origin_width * aspect)
+            FovX = focal2fov(focal_length_x, origin_width)
+        else: # shrink width
+            FovY = focal2fov(focal_length_y, origin_height)
+            FovX = focal2fov(focal_length_x, origin_height/aspect)
+
+        image_path = image_filenames[idx]
+        image_name = image_path.name.split(".")[0]
+        image = Image.open(image_path)
+
+        cam_info = CameraInfo(uid=uid, R=R, T=T, FovY=FovY, FovX=FovX, image=image, qvec=qvec,
+                              image_path=image_path, image_name=image_name, width=w, height=h)
+        cam_infos.append(cam_info)
+    sys.stdout.write('\n')
+
+    if eval:
+        train_cam_infos = [c for idx, c in enumerate(cam_infos) if idx % llffhold != 0]
+        test_cam_infos = [c for idx, c in enumerate(cam_infos) if idx % llffhold == 0]
+    else:
+        train_cam_infos = cam_infos
+        test_cam_infos = []
+
+    nerf_normalization = getNerfppNorm(train_cam_infos)
+    
+    # we do not need a init point cloud for editing 
+    pcd = None
+    ply_path = ""
+
+    scene_info = SceneInfo(point_cloud=pcd,
+                           train_cameras=train_cam_infos,
+                           test_cameras=test_cam_infos,
+                           nerf_normalization=nerf_normalization,
+                           ply_path=ply_path)
+    return scene_info
+
 sceneLoadTypeCallbacks = {
     "Colmap": readColmapSceneInfo,
     "Colmap_hw": readColmapSceneInfo_hw,
-    "Blender" : readNerfSyntheticInfo
+    "Blender" : readNerfSyntheticInfo,
+    "Nerfstudio_hw" : readNerfstudioInfo_hw
 }

@@ -9,6 +9,7 @@ data_type: "gs-load"
 data:
   batch_size: 1
   source: ???
+  exp_folder: ???
   max_view_num: 20
   eval_camera_distance: 4.0
   camera_distance_range: [1.5, 4.0]

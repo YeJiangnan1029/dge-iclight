@@ -1,5 +1,6 @@
 import copy
 import gc
+from pathlib import Path
 from transformers import Qwen2_5_VLForConditionalGeneration, AutoTokenizer, AutoProcessor
 from qwen_vl_utils import process_vision_info
 import torch
@@ -22,7 +23,8 @@ class QwenModel:
             
         self.model = None
         self.processor = AutoProcessor.from_pretrained(self.model_path)
-        
+
+        assets_folder = Path(__file__).parents[3] / "test_assets"
         self.messages = [
             # system 指令
             {
@@ -47,7 +49,7 @@ class QwenModel:
                 "content": [
                     {
                         "type": "image",
-                        "image": "file:///homeB/Public/yejiangnan/work/dge/test_assets/front.png",
+                        "image": f"file://{Path(assets_folder) / 'front.png'}",
                     },
                     {"type": "text", "text": "This is an image which will be edited according to the text prompt: \"cyberpunk, neon light, indoor\". Tell me what light source position is relative to which objects in the edited image."}
                 ]

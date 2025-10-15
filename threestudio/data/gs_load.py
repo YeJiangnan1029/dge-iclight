@@ -176,6 +176,7 @@ class GSLoadDataModuleConfig:
     # height, width, and batch_size should be Union[int, List[int]]
     # but OmegaConf does not support Union of containers
     source: str = None
+    exp_folder: str = None
     height: Any = 512
     width: Any = 512
     batch_size: Any = 1
@@ -356,11 +357,11 @@ class GS_load(pl.LightningDataModule):
             self.cfg.width = self.cfg.eval_width
         
         self.train_scene = CamScene(
-            self.cfg.source, h=self.cfg.height, w=self.cfg.width
+            self.cfg.source, h=self.cfg.height, w=self.cfg.width, transforms_path=self.cfg.exp_folder
         )
         self.eval_scene = CamScene(
             # self.cfg.source, h=self.cfg.eval_height, w=self.cfg.eval_width
-            self.cfg.source, h=self.cfg.height, w=self.cfg.width
+            self.cfg.source, h=self.cfg.height, w=self.cfg.width, transforms_path=self.cfg.exp_folder
         )
 
     def setup(self, stage=None) -> None:
