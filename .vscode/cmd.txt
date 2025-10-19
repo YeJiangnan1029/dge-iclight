@@ -1,0 +1,15 @@
+## bear
+"args": [
+                "--config", "configs/dge.yaml",
+                "--train",
+                "exp_root_dir=\"/mnt/16T/yejiangnan/data/dge_iclight_output\"",
+                "data.source=\"/mnt/16T/yejiangnan/data/in2n/bear\"",
+                "data.exp_folder=\"/mnt/16T/yejiangnan/data/3dgs_output/in2n/bear/splatfacto/exp\"",
+                "system.gs_source=\"/mnt/16T/yejiangnan/data/3dgs_output/in2n/bear/splatfacto/exp/nerfstudio_models/splat.ply\"",
+                "system.cache_dir=\"/mnt/16T/yejiangnan/data/3dgs_output/in2n/bear/splatfacto/exp/cache\"",
+                "system.prompt_processor.prompt=\"detailed bear statue, marble, twilight, golden autumn forest, sunset glory from left side\"",
+                "system.guidance_type=\"dge-iclight\"",
+                "name=\"dge-iclight-bear-pam\"",
+                "system.ref_id=\"64\"",
+                "data.max_view_num=\"30\""
+            ]

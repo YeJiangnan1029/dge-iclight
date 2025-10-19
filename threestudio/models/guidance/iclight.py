@@ -252,7 +252,7 @@ class IClight(DGEGuidance):
             shading.append(toTensor(img))
         
         rgb_BCHW = torch.stack(shading, dim=0).to(self.device)
-        # rgb_BCHW = torch.zeros_like(rgb_BCHW)
+        # rgb_BCHW = torch.zeros_like(rgb_BCHW) # this line uncommented will disable the shading input
         del shading  # 立即删除shading列表
 
         RH, RW = (rgb_BCHW.shape[2] // 8) * 8, (rgb_BCHW.shape[3] // 8) * 8

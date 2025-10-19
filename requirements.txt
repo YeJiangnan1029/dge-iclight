@@ -5,8 +5,8 @@ typeguard
 nerfacc==0.3.3
 pyrender
 git+https://github.com/NVlabs/tiny-cuda-nn/#subdirectory=bindings/torch
-diffusers[torch]==0.19.3
-transformers
+diffusers[torch]
+transformers==4.57.0
 accelerate
 opencv-python
 tensorboard
@@ -27,7 +27,6 @@ torchmetrics
 
 # for zero123
 einops
-kornia==0.7.0
 # taming-transformers-rom1504
 git+https://github.com/openai/CLIP.git
 
@@ -52,3 +51,8 @@ gaussiansplatting/submodules/diff-gaussian-rasterization
 gaussiansplatting/submodules/simple-knn
 
 git+https://github.com/kornia/kornia
+
+# vggt
+./vggt
+qwen-vl-utils==0.0.14
+lpips

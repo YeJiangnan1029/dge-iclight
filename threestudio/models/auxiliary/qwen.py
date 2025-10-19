@@ -13,7 +13,7 @@ class QwenModel:
 
     def __init__(self, model_path: str|None=None, device=None) -> None:
         if model_path is None:
-            model_path = "/homeC/Public/yjn_data/hf_models/Qwen2.5-VL-7B-Instruct"
+            model_path = "/mnt/16T/yejiangnan/.cache/hf_models/Qwen2.5-VL-7B-Instruct"
             # model_path = "/data/vjuicefs_ai_camera_vgroup_ql/11184175/models/Qwen2.5-VL-7B-Instruct"
         self.model_path = model_path
             

@@ -47,13 +47,15 @@ class CamScene:
 
         # if too much cameras, tends to cause CUDA OOM
         train_num, test_num = len(scene_info.train_cameras), len(scene_info.test_cameras)
-        num_th = 50
+        num_th = 70
         new_train_cameras, new_test_cameras = scene_info.train_cameras, scene_info.test_cameras
         if train_num>num_th or test_num>num_th:
             print(f"[INFO] Too many cameras, randomly select {num_th} cameras for training and testing.")
             train_num, test_num = min(train_num, num_th), min(test_num, num_th)
-            train_ids = np.random.permutation(train_num)[:num_th]
-            test_ids = np.random.permutation(test_num)[:num_th]
+            # to ensure the random would not affect train/test dataset sequence 
+            rng = np.random.default_rng(seed=42)
+            train_ids = rng.permutation(train_num)[:num_th]
+            test_ids = rng.permutation(test_num)[:num_th]
             new_train_cameras = [scene_info.train_cameras[i] for i in train_ids]
             new_test_cameras = [scene_info.test_cameras[i] for i in test_ids]
             scene_info = scene_info._replace(train_cameras=new_train_cameras, test_cameras=new_test_cameras)
