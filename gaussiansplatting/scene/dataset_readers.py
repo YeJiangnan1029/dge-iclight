@@ -431,21 +431,33 @@ def readNerfstudioInfo_hw(path, json_folder, h, w, images, eval, llffhold=8):
         if not fx_fixed:
             assert "fl_x" in frame, "fx not specified in frame"
             fx.append(float(frame["fl_x"]))
+        else:
+            fx.append(float(meta["fl_x"]))
         if not fy_fixed:
             assert "fl_y" in frame, "fy not specified in frame"
             fy.append(float(frame["fl_y"]))
+        else:
+            fy.append(float(meta["fl_y"]))
         if not cx_fixed:
             assert "cx" in frame, "cx not specified in frame"
             cx.append(float(frame["cx"]))
+        else:
+            cx.append(float(meta["cx"]))
         if not cy_fixed:
             assert "cy" in frame, "cy not specified in frame"
             cy.append(float(frame["cy"]))
+        else:
+            cy.append(float(meta["cy"]))
         if not height_fixed:
             assert "h" in frame, "height not specified in frame"
             height.append(int(frame["h"]))
+        else:
+            height.append(int(meta["h"]))
         if not width_fixed:
             assert "w" in frame, "width not specified in frame"
             width.append(int(frame["w"]))
+        else:
+            width.append(int(meta["w"]))
 
         image_filenames.append(fname)
         

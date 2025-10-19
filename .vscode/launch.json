@@ -23,9 +23,9 @@
                 "data.exp_folder=\"output/3dgs_output/in2n/person-small/splatfacto/exp\"",
                 "system.gs_source=\"output/3dgs_output/in2n/person-small/splatfacto/exp/nerfstudio_models/splat.ply\"",
                 "system.cache_dir=\"output/3dgs_output/in2n/person-small/splatfacto/exp/cache\"",
-                "system.prompt_processor.prompt=\"detailed bear statue, marble, twilight, golden autumn forest, sunset glory from left side\"",
+                "system.prompt_processor.prompt=\"detailed portrait, cold tune, bule stage lighting from top\"",
                 "system.guidance_type=\"dge-iclight\"",
-                "name=\"dge-iclight-bear-pam\"",
+                "name=\"dge-iclight-person-pam\"",
                 "system.ref_id=\"64\"",
                 "data.max_view_num=\"30\""
             ]
