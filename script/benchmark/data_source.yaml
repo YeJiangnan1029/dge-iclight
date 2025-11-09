@@ -1,0 +1,48 @@
+in2n:
+  base_path: /mnt/16T/yejiangnan/data/in2n
+  gs_base_path: /mnt/16T/yejiangnan/data/3dgs_output/in2n
+  scenes:
+    - bear
+    - campsite-small
+    - face
+    - fangzhou-small
+    - farm-small
+    - person-small
+  gs_ply: splatfacto/exp/nerfstudio_models/splat.ply
+  cache_path: splatfacto/exp/cache
+  exp_folder: splatfacto/exp
+
+mip360:
+  base_path: /mnt/16T/yejiangnan/data/mipnerf360
+  gs_base_path: /mnt/16T/yejiangnan/data/3dgs_output/mipnerf360
+  scenes:
+      - 'bicycle'
+      - 'bonsai'
+      - 'counter'
+      - 'flowers'
+      - 'garden'
+      - 'kitchen'
+      - 'room'
+      - 'stump'
+      - 'treehill'
+  gs_ply: point_cloud/iteration_30000/point_cloud.ply
+  cache_path: cache
+
+
+scannetpp:
+  base_path: /mnt/16T/yejiangnan/data/scannetpp
+  gs_base_path: /mnt/16T/yejiangnan/data/3dgs_output/scannetpp_3dgs
+  scenes:
+      - 0c5385e84b
+      - 5a269ba6fe
+      - 08bbbdcc3d
+      - 39f36da05b
+      - 56a0ec536c
+      - a1d9da703c
+      - bc2fce1d81
+      - dc263dfbf0
+      - ef18cf0708
+      - fb564c935d
+  scene_subfolder: dslr
+  gs_ply: point_cloud/iteration_30000/point_cloud.ply
+  cache_path: cache

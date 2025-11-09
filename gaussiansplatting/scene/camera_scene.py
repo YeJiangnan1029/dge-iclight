@@ -17,14 +17,14 @@ from gaussiansplatting.utils.camera_utils import cameraList_load
 
 
 class CamScene:
-    def __init__(self, source_path, h=512, w=512, aspect=-1, tag="train", transforms_path=""):
+    def __init__(self, source_path, h=512, w=512, aspect=-1, tag="train", transforms_path="", image_limit=70):
         """b
         :param path: Path to colmap scene main folder.
         """
         if aspect != -1:
             h = 512
             w = 512 * aspect
-
+        print(f"source_path: {source_path}")
         if os.path.exists(os.path.join(source_path, "sparse")):
             if h == -1 or w == -1:
                 scene_info = sceneLoadTypeCallbacks["Colmap"](source_path, None, False)
@@ -38,6 +38,8 @@ class CamScene:
                 scene_info = sceneLoadTypeCallbacks["Colmap_hw"](source_path, h, w, None, False)
         elif os.path.exists(os.path.join(source_path, "transforms.json")):
             scene_info = sceneLoadTypeCallbacks["Nerfstudio_hw"](source_path, transforms_path, h, w, None, False)
+        elif os.path.exists(os.path.join(source_path, "nerfstudio/transforms_undistorted.json")):
+            scene_info = sceneLoadTypeCallbacks["ScanNetpp"](source_path, True, "", False, h, w)
         else:
             assert False, "Could not recognize scene type!"
 
@@ -47,15 +49,14 @@ class CamScene:
 
         # if too much cameras, tends to cause CUDA OOM
         train_num, test_num = len(scene_info.train_cameras), len(scene_info.test_cameras)
-        num_th = 70
         new_train_cameras, new_test_cameras = scene_info.train_cameras, scene_info.test_cameras
-        if train_num>num_th or test_num>num_th:
-            print(f"[INFO] Too many cameras, randomly select {num_th} cameras for training and testing.")
-            train_num, test_num = min(train_num, num_th), min(test_num, num_th)
+        if image_limit>0 and (train_num>image_limit or test_num>image_limit):
+            print(f"[INFO] Too many cameras, randomly select {image_limit} cameras for training and testing.")
+            train_num, test_num = min(train_num, image_limit), min(test_num, image_limit)
             # to ensure the random would not affect train/test dataset sequence 
             rng = np.random.default_rng(seed=42)
-            train_ids = rng.permutation(train_num)[:num_th]
-            test_ids = rng.permutation(test_num)[:num_th]
+            train_ids = rng.permutation(train_num)[:image_limit]
+            test_ids = rng.permutation(test_num)[:image_limit]
             new_train_cameras = [scene_info.train_cameras[i] for i in train_ids]
             new_test_cameras = [scene_info.test_cameras[i] for i in test_ids]
             scene_info = scene_info._replace(train_cameras=new_train_cameras, test_cameras=new_test_cameras)

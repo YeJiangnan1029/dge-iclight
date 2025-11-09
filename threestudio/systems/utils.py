@@ -51,8 +51,8 @@ def compute_metrics(img1, img2, lpips_model=None):
 
 # 加载 CLIP 模型
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
-clip_model = CLIPModel.from_pretrained("openai/clip-vit-large-patch14").to(device)
-clip_processor = CLIPProcessor.from_pretrained("openai/clip-vit-large-patch14")
+clip_model = CLIPModel.from_pretrained("/mnt/16T/yejiangnan/.cache/hf_models/clip-vit-large-patch14", local_files_only=True).to(device)
+clip_processor = CLIPProcessor.from_pretrained("/mnt/16T/yejiangnan/.cache/hf_models/clip-vit-large-patch14", local_files_only=True)
 
 
 def clip_preprocess_tensor(tensor: torch.Tensor):

@@ -531,7 +531,7 @@ class GaussianModel:
             torch.tensor(rots, dtype=torch.float, device="cuda").requires_grad_(True)
         )
 
-        self.active_sh_degree = self.max_sh_degree
+        self.active_sh_degree = min(self.max_sh_degree, 0)
         self._generation = torch.zeros(
             self._opacity.shape[0],
             dtype=torch.int64,

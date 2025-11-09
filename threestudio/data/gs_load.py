@@ -176,7 +176,7 @@ class GSLoadDataModuleConfig:
     # height, width, and batch_size should be Union[int, List[int]]
     # but OmegaConf does not support Union of containers
     source: str = None
-    exp_folder: str = None
+    exp_folder: str | None = None
     height: Any = 512
     width: Any = 512
     batch_size: Any = 1

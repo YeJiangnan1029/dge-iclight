@@ -1,0 +1,127 @@
+{
+    "in2n/bear": [
+        "bear, forest, sunlight filtering through trees, natural lighting, warm atmosphere, light from top",
+        "bear, woodland, twilight glow, golden hour, soft light, light from the left",
+        "bear, forest, moonlight through branches, cool tone, mysterious shadows, light from the right"
+    ],
+    "in2n/campsite-small": [
+        "camping tents, outdoor, sunset, golden hour, warm firelight, light from bottom",
+        "camping site, outdoor, night sky, moonlight, cool blue tone, light from top",
+        "camping tents, outdoor, early morning fog, soft natural light, light from the right"
+    ],
+    "in2n/face": [
+        "portrait, detailed face, sunshine from window, warm atmosphere, light from the left",
+        "portrait, detailed face, neon light, city night, cinematic tone, light from the right",
+        "portrait, detailed face, candle light, low-key lighting, moody shadows, light from the left"
+    ],
+    "in2n/fangzhou-small": [
+        "young man, detailed face, natural lighting, outdoor, warm, light from the left",
+        "young man, detailed face, neon light, city reflection, cool tone, light from top",
+        "young man, detailed face, sunlight through blinds, soft indoor atmosphere, light from the left"
+    ],
+    "in2n/farm-small": [
+        "open field, outdoor, bright sunlight, summer noon, high contrast, light from the right",
+        "farmland, outdoor, cloudy weather, diffused lighting, calm mood, light from the right",
+        "field, outdoor, starry night, silver moonlight, tranquil tone, light from the right"
+    ],
+    "in2n/person-small": [
+        "man, indoor, sunshine from window, warm tone, light from the right",
+        "man, indoor, neon reflection, city light, cinematic, light from the left",
+        "man, indoor, shadow from blinds, dramatic lighting, light from the left"
+    ],
+    "mip360/bicycle": [
+        "bicycle, outdoor, morning sunlight, warm hue, light from the right",
+        "bicycle, street night, neon reflections, cool blue tone, light from the right",
+        "bicycle, sunset, orange glow, long shadows, light from the left"
+    ],
+    "mip360/bonsai": [
+        "bonsai tree, indoor, soft daylight from window, natural lighting, light from top",
+        "bonsai tree, indoor, warm desk lamp illumination, cozy atmosphere, light from bottom",
+        "bonsai tree, indoor, moonlight through window, tranquil cool tone, light from bottom"
+    ],
+    "mip360/counter": [
+        "kitchen counter, indoor, warm sunlight from window, morning atmosphere, light from bottom",
+        "kitchen counter, indoor, fluorescent light, evening cool tone, light from the right",
+        "kitchen counter, indoor, candle light, intimate mood, light from the right"
+    ],
+    "mip360/flowers": [
+        "flowers, outdoor, sunlight, bright and vivid colors, light from the right",
+        "flowers, outdoor, golden sunset light, soft focus, light from the right",
+        "flowers, outdoor, early morning dew, misty lighting, light from the right"
+    ],
+    "mip360/garden": [
+        "garden, outdoor, sunlight filtering through leaves, warm tone, light from top",
+        "garden, outdoor, rainy day, overcast lighting, muted colors, light from the right",
+        "garden, outdoor, night scene, moonlight and fireflies, magical atmosphere, light from bottom"
+    ],
+    "mip360/kitchen": [
+        "kitchen, indoor, natural lighting from window, bright morning, light from top",
+        "kitchen, indoor, warm yellow lamp, cozy night atmosphere, light from the left",
+        "kitchen, indoor, cool blue fluorescent light, modern tone, light from the right"
+    ],
+    "mip360/room": [
+        "living room, indoor, natural sunlight, soft shadows, light from the left",
+        "living room, indoor, warm lamp light, cozy and calm, light from the left",
+        "living room, indoor, moonlight from window, blue tone, light from bottom"
+    ],
+    "mip360/stump": [
+        "tree stump, forest, sunlight through trees, golden time, light from bottom",
+        "tree stump, forest, rainy day, misty and soft lighting, light from the right",
+        "tree stump, forest, moonlight, silvery cool tone, light from the left"
+    ],
+    "mip360/treehill": [
+        "tree on hill, outdoor, sunrise, orange glow, soft mist, light from the right",
+        "tree on hill, outdoor, midday sun, bright lighting, light from the left",
+        "tree on hill, outdoor, sunset, purple sky, dramatic atmosphere, light from the right"
+    ],
+    "scannetpp/0c5385e84b": [
+        "ceiling, indoor, sunlight reflection, warm white tone, light from the left",
+        "ceiling, indoor, artificial light, dim and moody, light from the left",
+        "ceiling, indoor, morning daylight, natural soft tone, light from bottom"
+    ],
+    "scannetpp/5a269ba6fe": [
+        "office, indoor, natural lighting, sunlight from window, light from top",
+        "office, indoor, desk lamp light, warm tone, light from the left",
+        "office, indoor, fluorescent light, cold corporate mood, light from the left"
+    ],
+    "scannetpp/08bbbdcc3d": [
+        "classroom, indoor, sunlight from window, bright and cheerful, light from the left",
+        "classroom, indoor, artificial light, soft evening tone, light from the right",
+        "classroom, indoor, moonlight, blue tone, calm atmosphere, light from the left"
+    ],
+    "scannetpp/39f36da05b": [
+        "office, indoor, warm sunlight, golden tone, light from top",
+        "office, indoor, dim light, night atmosphere, light from the left",
+        "office, indoor, green tone, gothic Yharnam mood, light from the left"
+    ],
+    "scannetpp/56a0ec536c": [
+        "office, indoor, sunlight from window, bright workspace, light from bottom",
+        "office, indoor, desk lamp light, shadowed corners, light from the left",
+        "office, indoor, mixed lighting, sunlight and lamp blend, light from the left"
+    ],
+    "scannetpp/a1d9da703c": [
+        "office, indoor, sunlight from ceiling window, natural tone, light from the left",
+        "office, indoor, warm lamp lighting, cozy workspace, light from the right",
+        "office, indoor, moonlight reflection, cool tone, light from the right"
+    ],
+    "scannetpp/bc2fce1d81": [
+        "office, indoor, daylight from window, clear tone, light from the right",
+        "office, indoor, evening lamp light, golden hue, light from the left",
+        "office, indoor, night fluorescent light, blue tone, light from the left"
+    ],
+    "scannetpp/dc263dfbf0": [
+        "classroom, indoor, morning light, bright and clear, light from the right",
+        "classroom, indoor, afternoon sunlight, golden hue, light from the right",
+        "classroom, indoor, night light, dim and calm, light from the right"
+    ],
+    "scannetpp/ef18cf0708": [
+        "office, indoor, sunlight from window, bright tone, light from bottom",
+        "office, indoor, ceiling light, artificial illumination, dim, light from the right",
+        "office, indoor, balanced mix of sunlight and ceiling light, light from the right"
+    ],
+    "scannetpp/fb564c935d": [
+        "office desk, indoor, sunlight through blinds, striped shadows, light from bottom",
+        "office desk, indoor, warm desk lamp light, cozy atmosphere, light from top",
+        "office desk, indoor, night scene, cool fluorescent light, light from the right"
+    ]
+}

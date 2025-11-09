@@ -329,7 +329,8 @@ class SaverMixin:
         return save_path
 
     def save_image(self, filename, img) -> str:
-        save_path = self.get_save_path(filename)
+        # save_path = self.get_save_path(filename)
+        save_path = filename
         img = self.convert_data(img)
         assert img.dtype == np.uint8 or img.dtype == np.uint16
         if img.ndim == 3 and img.shape[-1] == 3:

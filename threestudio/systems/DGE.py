@@ -304,17 +304,17 @@ class DGE(BaseLift3DSystem):
                     viewspace_point_tensor_grad, self.visibility_filter
                 )
                 # Densification
-                # if (
-                #         self.true_global_step >= self.cfg.densify_from_iter
-                #         and self.true_global_step % self.cfg.densification_interval == 0
-                # ):  # 500 100
-                #     self.gaussian.densify_and_prune(
-                #         self.cfg.max_grad,
-                #         self.cfg.max_densify_percent,
-                #         self.cfg.min_opacity,
-                #         self.cameras_extent,
-                #         5,
-                #     )
+                if (
+                        self.true_global_step >= self.cfg.densify_from_iter
+                        and self.true_global_step % self.cfg.densification_interval == 0
+                ):  # 500 100
+                    self.gaussian.densify_and_prune(
+                        self.cfg.max_grad,
+                        self.cfg.max_densify_percent,
+                        self.cfg.min_opacity,
+                        self.cameras_extent,
+                        5,
+                    )
 
     def validation_step(self, batch, batch_idx):
         batch["camera"] = [
@@ -497,6 +497,11 @@ class DGE(BaseLift3DSystem):
         save_list = []
         clip_scores = []
         clip_d_scores = []
+        save_dir = self.get_save_dir()
+        edited_save_dir = os.path.join(save_dir, "edited_images")
+        origin_save_dir = os.path.join(save_dir, "origin_images")
+        os.makedirs(edited_save_dir, exist_ok=True)
+        os.makedirs(origin_save_dir, exist_ok=True)
         for index, image in sorted(self.edit_frames.items(), key=lambda item: item[0]):
             # add clip score to record
             image_before = self.origin_frames[index]
@@ -512,6 +517,10 @@ class DGE(BaseLift3DSystem):
                     "kwargs": {"data_format": "HWC"},
                 },
             )
+            image_before = (image_before[0]*255).to(torch.uint8)
+            image_after = (image_after[0]*255).to(torch.uint8)
+            self.save_image(os.path.join(edited_save_dir, f"{index:03d}.png"), image_after)
+            self.save_image(os.path.join(origin_save_dir, f"{index:03d}.png"), image_before)
         if len(clip_scores) > 0:
             mean_clip_score = np.mean(np.array(clip_scores))
             self.log("test/clip_score", value=mean_clip_score)
@@ -882,7 +891,8 @@ class DGE(BaseLift3DSystem):
 
     def training_step(self, batch, batch_idx):
         # if self.true_global_step % self.cfg.camera_update_per_step == 0 and self.cfg.guidance_type == 'dge-guidance' and not self.cfg.loss.use_sds:
-        if self.true_global_step % self.cfg.camera_update_per_step == 0 and (self.cfg.guidance_type == 'dge-guidance' or self.cfg.guidance_type == 'dge-iclight') and not self.cfg.loss.use_sds:
+        white_list = ['dge-guidance', 'dge-iclight', 'dge-simple-iclight']
+        if self.true_global_step % self.cfg.camera_update_per_step == 0 and (self.cfg.guidance_type in white_list) and not self.cfg.loss.use_sds:
             self.edit_all_view(original_render_name='origin_render', cache_name="edited_views", update_camera=self.true_global_step >= self.cfg.camera_update_per_step, global_step=self.true_global_step) 
     
         self.gaussian.update_learning_rate(self.true_global_step)
@@ -890,7 +900,7 @@ class DGE(BaseLift3DSystem):
 
         if isinstance(batch_index, int):
             batch_index = [batch_index]
-        if (self.cfg.guidance_type == 'dge-guidance' or self.cfg.guidance_type == 'dge-iclight'): 
+        if (self.cfg.guidance_type in white_list): 
             for img_index, cur_index in enumerate(batch_index):
                 if cur_index not in self.edit_frames:
                     batch_index[img_index] = self.view_list[img_index]

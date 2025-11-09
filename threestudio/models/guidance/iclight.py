@@ -246,12 +246,32 @@ class IClight(DGEGuidance):
 
         # 处理rgb图像
         toTensor = transforms.ToTensor()
-        shading = []
-        for cam in cams:
-            img = Image.open(f"{kwargs.get('init_latents_dir', '')}/{cam.uid:04d}.png")
-            shading.append(toTensor(img))
+        shading_imgs = []
+        for cam, image_origin in zip(cams, rgb):
+            shading = Image.open(f"{kwargs.get('init_latents_dir', '')}/{cam.uid:04d}.png")
+            shading = np.array(shading)
+            shading = shading.astype(np.float32) / 255.0
+            shading = shading[:, :, 0]  # H,W
+            K = 0.9
+            shading = 1.0 + K * (shading - 0.5) * 2.0  # [1-k, 1+k]
+
+            image_origin = image_origin.detach().cpu().numpy()
+            image_lab = cv2.cvtColor(image_origin, cv2.COLOR_RGB2LAB).astype(np.float32)
+            L = image_lab[..., 0] / 100.0  # [0,1]
+
+            L_scaled = L * shading
+            alpha = 6.0
+            L_new = 1 / (1 + np.exp(-alpha * (L_scaled - 0.5))) * 100.0  # scale back to [0,100]
+            image_lab[..., 0] = L_new
+            rgb_new = cv2.cvtColor(image_lab, cv2.COLOR_LAB2RGB)
+            shading_img = (np.clip(rgb_new, 0, 1) * 255).astype(np.uint8)
+            shading_img = Image.fromarray(shading_img)
+            shading_img = toTensor(shading_img)
+            shading_imgs.append(shading_img)
+            
+            # shading.append(toTensor(img))
         
-        rgb_BCHW = torch.stack(shading, dim=0).to(self.device)
+        rgb_BCHW = torch.stack(shading_imgs, dim=0).to(self.device)
         # rgb_BCHW = torch.zeros_like(rgb_BCHW) # this line uncommented will disable the shading input
         del shading  # 立即删除shading列表
 
@@ -385,8 +405,10 @@ class IClight(DGEGuidance):
 
         self.scheduler.set_timesteps(self.cfg.diffusion_steps)
         timesteps = self.scheduler.timesteps
-        add_t = timesteps[1:2]
+        add_t = timesteps[3:4]
         timesteps = timesteps[timesteps <= add_t]
+
+        threestudio.info(f"Denoising with timesteps {timesteps}")
 
         current_H = image_cond_latents.shape[2]
         current_W = image_cond_latents.shape[3]

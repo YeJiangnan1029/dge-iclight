@@ -1,0 +1,127 @@
+{
+    "in2n/bear": [
+        "bear, forest, sunlight filtering through trees, natural lighting, warm atmosphere",
+        "bear, woodland, twilight glow, golden hour, soft light",
+        "bear, forest, moonlight through branches, cool tone, mysterious shadows"
+    ],
+    "in2n/campsite-small": [
+        "camping tents, outdoor, sunset, golden hour, warm firelight",
+        "camping site, outdoor, night sky, moonlight, cool blue tone",
+        "camping tents, outdoor, early morning fog, soft natural light"
+    ],
+    "in2n/face": [
+        "portrait, detailed face, sunshine from window, warm atmosphere",
+        "portrait, detailed face, neon light, city night, cinematic tone",
+        "portrait, detailed face, candle light, low-key lighting, moody shadows"
+    ],
+    "in2n/fangzhou-small": [
+        "young man, detailed face, natural lighting, outdoor, warm",
+        "young man, detailed face, neon light, city reflection, cool tone",
+        "young man, detailed face, sunlight through blinds, soft indoor atmosphere"
+    ],
+    "in2n/farm-small": [
+        "open field, outdoor, bright sunlight, summer noon, high contrast",
+        "farmland, outdoor, cloudy weather, diffused lighting, calm mood",
+        "field, outdoor, starry night, silver moonlight, tranquil tone"
+    ],
+    "in2n/person-small": [
+        "man, indoor, sunshine from window, warm tone",
+        "man, indoor, neon reflection, city light, cinematic",
+        "man, indoor, shadow from blinds, dramatic lighting"
+    ],
+    "mip360/bicycle": [
+        "bicycle, outdoor, morning sunlight, warm hue",
+        "bicycle, street night, neon reflections, cool blue tone",
+        "bicycle, sunset, orange glow, long shadows"
+    ],
+    "mip360/bonsai": [
+        "bonsai tree, indoor, soft daylight from window, natural lighting",
+        "bonsai tree, indoor, warm desk lamp illumination, cozy atmosphere",
+        "bonsai tree, indoor, moonlight through window, tranquil cool tone"
+    ],
+    "mip360/counter": [
+        "kitchen counter, indoor, warm sunlight from window, morning atmosphere",
+        "kitchen counter, indoor, fluorescent light, evening cool tone",
+        "kitchen counter, indoor, candle light, intimate mood"
+    ],
+    "mip360/flowers": [
+        "flowers, outdoor, sunlight, bright and vivid colors",
+        "flowers, outdoor, golden sunset light, soft focus",
+        "flowers, outdoor, early morning dew, misty lighting"
+    ],
+    "mip360/garden": [
+        "garden, outdoor, sunlight filtering through leaves, warm tone",
+        "garden, outdoor, rainy day, overcast lighting, muted colors",
+        "garden, outdoor, night scene, moonlight and fireflies, magical atmosphere"
+    ],
+    "mip360/kitchen": [
+        "kitchen, indoor, natural lighting from window, bright morning",
+        "kitchen, indoor, warm yellow lamp, cozy night atmosphere",
+        "kitchen, indoor, cool blue fluorescent light, modern tone"
+    ],
+    "mip360/room": [
+        "living room, indoor, natural sunlight, soft shadows",
+        "living room, indoor, warm lamp light, cozy and calm",
+        "living room, indoor, moonlight from window, blue tone"
+    ],
+    "mip360/stump": [
+        "tree stump, forest, sunlight through trees, golden time",
+        "tree stump, forest, rainy day, misty and soft lighting",
+        "tree stump, forest, moonlight, silvery cool tone"
+    ],
+    "mip360/treehill": [
+        "tree on hill, outdoor, sunrise, orange glow, soft mist",
+        "tree on hill, outdoor, midday sun, bright lighting",
+        "tree on hill, outdoor, sunset, purple sky, dramatic atmosphere"
+    ],
+    "scannetpp/0c5385e84b": [
+        "ceiling, indoor, sunlight reflection, warm white tone",
+        "ceiling, indoor, artificial light, dim and moody",
+        "ceiling, indoor, morning daylight, natural soft tone"
+    ],
+    "scannetpp/5a269ba6fe": [
+        "office, indoor, natural lighting, sunlight from window",
+        "office, indoor, desk lamp light, warm tone",
+        "office, indoor, fluorescent light, cold corporate mood"
+    ],
+    "scannetpp/08bbbdcc3d": [
+        "classroom, indoor, sunlight from window, bright and cheerful",
+        "classroom, indoor, artificial light, soft evening tone",
+        "classroom, indoor, moonlight, blue tone, calm atmosphere"
+    ],
+    "scannetpp/39f36da05b": [
+        "office, indoor, warm sunlight, golden tone",
+        "office, indoor, dim light, night atmosphere",
+        "office, indoor, green tone, gothic Yharnam mood"
+    ],
+    "scannetpp/56a0ec536c": [
+        "office, indoor, sunlight from window, bright workspace",
+        "office, indoor, desk lamp light, shadowed corners",
+        "office, indoor, mixed lighting, sunlight and lamp blend"
+    ],
+    "scannetpp/a1d9da703c": [
+        "office, indoor, sunlight from ceiling window, natural tone",
+        "office, indoor, warm lamp lighting, cozy workspace",
+        "office, indoor, moonlight reflection, cool tone"
+    ],
+    "scannetpp/bc2fce1d81": [
+        "office, indoor, daylight from window, clear tone",
+        "office, indoor, evening lamp light, golden hue",
+        "office, indoor, night fluorescent light, blue tone"
+    ],
+    "scannetpp/dc263dfbf0": [
+        "classroom, indoor, morning light, bright and clear",
+        "classroom, indoor, afternoon sunlight, golden hue",
+        "classroom, indoor, night light, dim and calm"
+    ],
+    "scannetpp/ef18cf0708": [
+        "office, indoor, sunlight from window, bright tone",
+        "office, indoor, ceiling light, artificial illumination, dim",
+        "office, indoor, balanced mix of sunlight and ceiling light"
+    ],
+    "scannetpp/fb564c935d": [
+        "office desk, indoor, sunlight through blinds, striped shadows",
+        "office desk, indoor, warm desk lamp light, cozy atmosphere",
+        "office desk, indoor, night scene, cool fluorescent light"
+    ]
+}

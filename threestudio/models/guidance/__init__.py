@@ -1,4 +1,5 @@
 from . import (
     dge_guidance,
-    iclight
+    iclight,
+    simple_iclight
 )

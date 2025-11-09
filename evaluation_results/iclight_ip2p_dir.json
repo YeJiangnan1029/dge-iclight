@@ -1,0 +1,1372 @@
+{
+    "subject_consistency": [
+        0.8490754278352013,
+        [
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_bear_0/bear,_forest,_sunlight_filtering_through_trees,_natural_lighting,_warm_atmosphere,_light_from_top@20251104-032208/edited_trajectory.mp4",
+                "video_results": 0.8381004250294026
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_bear_1/bear,_woodland,_twilight_glow,_golden_hour,_soft_light,_light_from_the_left@20251104-032605/edited_trajectory.mp4",
+                "video_results": 0.8634228355689003
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_bear_2/bear,_forest,_moonlight_through_branches,_cool_tone,_mysterious_shadows,_light_from_the_right@20251104-033007/edited_trajectory.mp4",
+                "video_results": 0.8339880378652447
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_campsite-small_0/camping_tents,_outdoor,_sunset,_golden_hour,_warm_firelight,_light_from_bottom@20251104-033408/edited_trajectory.mp4",
+                "video_results": 0.803780022553142
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_campsite-small_1/camping_site,_outdoor,_night_sky,_moonlight,_cool_blue_tone,_light_from_top@20251104-033801/edited_trajectory.mp4",
+                "video_results": 0.8195818261386458
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_campsite-small_2/camping_tents,_outdoor,_early_morning_fog,_soft_natural_light,_light_from_the_right@20251104-034144/edited_trajectory.mp4",
+                "video_results": 0.8093603937696887
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_face_0/portrait,_detailed_face,_sunshine_from_window,_warm_atmosphere,_light_from_the_left@20251104-034538/edited_trajectory.mp4",
+                "video_results": 0.8945150984492047
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_face_1/portrait,_detailed_face,_neon_light,_city_night,_cinematic_tone,_light_from_the_right@20251104-034930/edited_trajectory.mp4",
+                "video_results": 0.902709963646802
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_face_2/portrait,_detailed_face,_candle_light,_low-key_lighting,_moody_shadows,_light_from_the_left@20251104-035321/edited_trajectory.mp4",
+                "video_results": 0.8813646847738368
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_fangzhou-small_0/young_man,_detailed_face,_natural_lighting,_outdoor,_warm,_light_from_the_left@20251104-035704/edited_trajectory.mp4",
+                "video_results": 0.9665869179190513
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_fangzhou-small_1/young_man,_detailed_face,_neon_light,_city_reflection,_cool_tone,_light_from_top@20251104-040053/edited_trajectory.mp4",
+                "video_results": 0.9620418460765229
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_fangzhou-small_2/young_man,_detailed_face,_sunlight_through_blinds,_soft_indoor_atmosphere,_light_from_the_left@20251104-040441/edited_trajectory.mp4",
+                "video_results": 0.9634038404237514
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_farm-small_0/open_field,_outdoor,_bright_sunlight,_summer_noon,_high_contrast,_light_from_the_right@20251104-040829/edited_trajectory.mp4",
+                "video_results": 0.7811373599737789
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_farm-small_1/farmland,_outdoor,_cloudy_weather,_diffused_lighting,_calm_mood,_light_from_the_right@20251104-041224/edited_trajectory.mp4",
+                "video_results": 0.790125322099016
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_farm-small_2/field,_outdoor,_starry_night,_silver_moonlight,_tranquil_tone,_light_from_the_right@20251104-041617/edited_trajectory.mp4",
+                "video_results": 0.7960779376818469
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_person-small_0/man,_indoor,_sunshine_from_window,_warm_tone,_light_from_the_right@20251104-042013/edited_trajectory.mp4",
+                "video_results": 0.8769998739599061
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_person-small_1/man,_indoor,_neon_reflection,_city_light,_cinematic,_light_from_the_left@20251104-042401/edited_trajectory.mp4",
+                "video_results": 0.8683716352083093
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_person-small_2/man,_indoor,_shadow_from_blinds,_dramatic_lighting,_light_from_the_left@20251104-042741/edited_trajectory.mp4",
+                "video_results": 0.8541213524846074
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_bicycle_0/bicycle,_outdoor,_morning_sunlight,_warm_hue,_light_from_the_right@20251104-043130/edited_trajectory.mp4",
+                "video_results": 0.7529722345660099
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_bicycle_1/bicycle,_street_night,_neon_reflections,_cool_blue_tone,_light_from_the_right@20251104-043721/edited_trajectory.mp4",
+                "video_results": 0.788523167465174
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_bicycle_2/bicycle,_sunset,_orange_glow,_long_shadows,_light_from_the_left@20251104-044259/edited_trajectory.mp4",
+                "video_results": 0.7599016547576761
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_bonsai_0/bonsai_tree,_indoor,_soft_daylight_from_window,_natural_lighting,_light_from_top@20251104-044841/edited_trajectory.mp4",
+                "video_results": 0.6991205108950505
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_bonsai_1/bonsai_tree,_indoor,_warm_desk_lamp_illumination,_cozy_atmosphere,_light_from_bottom@20251104-045256/edited_trajectory.mp4",
+                "video_results": 0.7933802972766673
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_bonsai_2/bonsai_tree,_indoor,_moonlight_through_window,_tranquil_cool_tone,_light_from_bottom@20251104-045707/edited_trajectory.mp4",
+                "video_results": 0.5694115019248664
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_counter_0/kitchen_counter,_indoor,_warm_sunlight_from_window,_morning_atmosphere,_light_from_bottom@20251104-050118/edited_trajectory.mp4",
+                "video_results": 0.8475446359117202
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_counter_1/kitchen_counter,_indoor,_fluorescent_light,_evening_cool_tone,_light_from_the_right@20251104-050530/edited_trajectory.mp4",
+                "video_results": 0.8500353713581181
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_counter_2/kitchen_counter,_indoor,_candle_light,_intimate_mood,_light_from_the_right@20251104-050940/edited_trajectory.mp4",
+                "video_results": 0.8499242892272794
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_flowers_0/flowers,_outdoor,_sunlight,_bright_and_vivid_colors,_light_from_the_right@20251104-051350/edited_trajectory.mp4",
+                "video_results": 0.9281603436111283
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_flowers_1/flowers,_outdoor,_golden_sunset_light,_soft_focus,_light_from_the_right@20251104-051916/edited_trajectory.mp4",
+                "video_results": 0.8975503242875341
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_flowers_2/flowers,_outdoor,_early_morning_dew,_misty_lighting,_light_from_the_right@20251104-052410/edited_trajectory.mp4",
+                "video_results": 0.9289929794854132
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_garden_0/garden,_outdoor,_sunlight_filtering_through_leaves,_warm_tone,_light_from_top@20251104-052859/edited_trajectory.mp4",
+                "video_results": 0.9313350580515907
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_garden_1/garden,_outdoor,_rainy_day,_overcast_lighting,_muted_colors,_light_from_the_right@20251104-053434/edited_trajectory.mp4",
+                "video_results": 0.9344164485281165
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_garden_2/garden,_outdoor,_night_scene,_moonlight_and_fireflies,_magical_atmosphere,_light_from_bottom@20251104-054006/edited_trajectory.mp4",
+                "video_results": 0.937571329663166
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_kitchen_0/kitchen,_indoor,_natural_lighting_from_window,_bright_morning,_light_from_top@20251104-054546/edited_trajectory.mp4",
+                "video_results": 0.7921284432975476
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_kitchen_1/kitchen,_indoor,_warm_yellow_lamp,_cozy_night_atmosphere,_light_from_the_left@20251104-055032/edited_trajectory.mp4",
+                "video_results": 0.8361987384695991
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_kitchen_2/kitchen,_indoor,_cool_blue_fluorescent_light,_modern_tone,_light_from_the_right@20251104-055500/edited_trajectory.mp4",
+                "video_results": 0.81648610625708
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_room_0/living_room,_indoor,_natural_sunlight,_soft_shadows,_light_from_the_left@20251104-055927/edited_trajectory.mp4",
+                "video_results": 0.8050051526776676
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_room_1/living_room,_indoor,_warm_lamp_light,_cozy_and_calm,_light_from_the_left@20251104-060346/edited_trajectory.mp4",
+                "video_results": 0.7721210403782447
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_room_2/living_room,_indoor,_moonlight_from_window,_blue_tone,_light_from_bottom@20251104-060810/edited_trajectory.mp4",
+                "video_results": 0.7598435467687147
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_stump_0/tree_stump,_forest,_sunlight_through_trees,_golden_time,_light_from_bottom@20251104-061224/edited_trajectory.mp4",
+                "video_results": 0.8498901155861941
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_stump_1/tree_stump,_forest,_rainy_day,_misty_and_soft_lighting,_light_from_the_right@20251104-061747/edited_trajectory.mp4",
+                "video_results": 0.8686749931413178
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_stump_2/tree_stump,_forest,_moonlight,_silvery_cool_tone,_light_from_the_left@20251104-062306/edited_trajectory.mp4",
+                "video_results": 0.8476198168944415
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_treehill_0/tree_on_hill,_outdoor,_sunrise,_orange_glow,_soft_mist,_light_from_the_right@20251104-062827/edited_trajectory.mp4",
+                "video_results": 0.9063130313513047
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_treehill_1/tree_on_hill,_outdoor,_midday_sun,_bright_lighting,_light_from_the_left@20251104-063322/edited_trajectory.mp4",
+                "video_results": 0.8908210699461097
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_treehill_2/tree_on_hill,_outdoor,_sunset,_purple_sky,_dramatic_atmosphere,_light_from_the_right@20251104-063810/edited_trajectory.mp4",
+                "video_results": 0.9116945411531155
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_0c5385e84b_0/ceiling,_indoor,_sunlight_reflection,_warm_white_tone,_light_from_the_left@20251104-064254/edited_trajectory.mp4",
+                "video_results": 0.8152705794404667
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_0c5385e84b_1/ceiling,_indoor,_artificial_light,_dim_and_moody,_light_from_the_left@20251104-064914/edited_trajectory.mp4",
+                "video_results": 0.8549407476728613
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_0c5385e84b_2/ceiling,_indoor,_morning_daylight,_natural_soft_tone,_light_from_bottom@20251104-065421/edited_trajectory.mp4",
+                "video_results": 0.8458889251966087
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_5a269ba6fe_0/office,_indoor,_natural_lighting,_sunlight_from_window,_light_from_top@20251104-065912/edited_trajectory.mp4",
+                "video_results": 0.8519184536134188
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_5a269ba6fe_1/office,_indoor,_desk_lamp_light,_warm_tone,_light_from_the_left@20251104-070407/edited_trajectory.mp4",
+                "video_results": 0.8453224318154553
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_5a269ba6fe_2/office,_indoor,_fluorescent_light,_cold_corporate_mood,_light_from_the_left@20251104-070900/edited_trajectory.mp4",
+                "video_results": 0.8535868003263742
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_08bbbdcc3d_0/classroom,_indoor,_sunlight_from_window,_bright_and_cheerful,_light_from_the_left@20251104-071358/edited_trajectory.mp4",
+                "video_results": 0.9204039634395169
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_08bbbdcc3d_1/classroom,_indoor,_artificial_light,_soft_evening_tone,_light_from_the_right@20251104-071936/edited_trajectory.mp4",
+                "video_results": 0.9176314090112907
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_08bbbdcc3d_2/classroom,_indoor,_moonlight,_blue_tone,_calm_atmosphere,_light_from_the_left@20251104-072450/edited_trajectory.mp4",
+                "video_results": 0.9291938776880222
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_39f36da05b_0/office,_indoor,_warm_sunlight,_golden_tone,_light_from_top@20251104-073038/edited_trajectory.mp4",
+                "video_results": 0.8237198898130823
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_39f36da05b_1/office,_indoor,_dim_light,_night_atmosphere,_light_from_the_left@20251104-073634/edited_trajectory.mp4",
+                "video_results": 0.8532258542166982
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_39f36da05b_2/office,_indoor,_green_tone,_gothic_Yharnam_mood,_light_from_the_left@20251104-074342/edited_trajectory.mp4",
+                "video_results": 0.860315134065652
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_56a0ec536c_0/office,_indoor,_sunlight_from_window,_bright_workspace,_light_from_bottom@20251104-075002/edited_trajectory.mp4",
+                "video_results": 0.8671293940663711
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_56a0ec536c_1/office,_indoor,_desk_lamp_light,_shadowed_corners,_light_from_the_left@20251104-075509/edited_trajectory.mp4",
+                "video_results": 0.8254116725959001
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_56a0ec536c_2/office,_indoor,_mixed_lighting,_sunlight_and_lamp_blend,_light_from_the_left@20251104-080018/edited_trajectory.mp4",
+                "video_results": 0.8507758790983302
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_a1d9da703c_0/office,_indoor,_sunlight_from_ceiling_window,_natural_tone,_light_from_the_left@20251104-080531/edited_trajectory.mp4",
+                "video_results": 0.8648448653729358
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_a1d9da703c_1/office,_indoor,_warm_lamp_lighting,_cozy_workspace,_light_from_the_right@20251104-081059/edited_trajectory.mp4",
+                "video_results": 0.8420251000637545
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_a1d9da703c_2/office,_indoor,_moonlight_reflection,_cool_tone,_light_from_the_right@20251104-081616/edited_trajectory.mp4",
+                "video_results": 0.8594633471629463
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_bc2fce1d81_0/office,_indoor,_daylight_from_window,_clear_tone,_light_from_the_right@20251104-082130/edited_trajectory.mp4",
+                "video_results": 0.8563337536254273
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_bc2fce1d81_1/office,_indoor,_evening_lamp_light,_golden_hue,_light_from_the_left@20251104-082635/edited_trajectory.mp4",
+                "video_results": 0.8501588032350271
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_bc2fce1d81_2/office,_indoor,_night_fluorescent_light,_blue_tone,_light_from_the_left@20251104-083135/edited_trajectory.mp4",
+                "video_results": 0.8829587135569055
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_dc263dfbf0_0/classroom,_indoor,_morning_light,_bright_and_clear,_light_from_the_right@20251104-083623/edited_trajectory.mp4",
+                "video_results": 0.8546392064670036
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_dc263dfbf0_1/classroom,_indoor,_afternoon_sunlight,_golden_hue,_light_from_the_right@20251104-084134/edited_trajectory.mp4",
+                "video_results": 0.8719848286956081
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_dc263dfbf0_2/classroom,_indoor,_night_light,_dim_and_calm,_light_from_the_right@20251104-084635/edited_trajectory.mp4",
+                "video_results": 0.8623737103326193
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_ef18cf0708_0/office,_indoor,_sunlight_from_window,_bright_tone,_light_from_bottom@20251104-085155/edited_trajectory.mp4",
+                "video_results": 0.8515130735490015
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_ef18cf0708_1/office,_indoor,_ceiling_light,_artificial_illumination,_dim,_light_from_the_right@20251104-085747/edited_trajectory.mp4",
+                "video_results": 0.8409918881135301
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_ef18cf0708_2/office,_indoor,_balanced_mix_of_sunlight_and_ceiling_light,_light_from_the_right@20251104-090353/edited_trajectory.mp4",
+                "video_results": 0.8919961595423169
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_fb564c935d_0/office_desk,_indoor,_sunlight_through_blinds,_striped_shadows,_light_from_bottom@20251104-090942/edited_trajectory.mp4",
+                "video_results": 0.7692430678953571
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_fb564c935d_1/office_desk,_indoor,_warm_desk_lamp_light,_cozy_atmosphere,_light_from_top@20251104-091433/edited_trajectory.mp4",
+                "video_results": 0.8436984394598157
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_fb564c935d_2/office_desk,_indoor,_night_scene,_cool_fluorescent_light,_light_from_the_right@20251104-091903/edited_trajectory.mp4",
+                "video_results": 0.7922975537732103
+            }
+        ]
+    ],
+    "background_consistency": [
+        0.9078112077970181,
+        [
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_bear_0/bear,_forest,_sunlight_filtering_through_trees,_natural_lighting,_warm_atmosphere,_light_from_top@20251104-032208/edited_trajectory.mp4",
+                "video_results": 0.8801246426458991,
+                "video_sim": 278.99951171875,
+                "cnt_per_video": 317
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_bear_1/bear,_woodland,_twilight_glow,_golden_hour,_soft_light,_light_from_the_left@20251104-032605/edited_trajectory.mp4",
+                "video_results": 0.8561657445287855,
+                "video_sim": 271.404541015625,
+                "cnt_per_video": 317
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_bear_2/bear,_forest,_moonlight_through_branches,_cool_tone,_mysterious_shadows,_light_from_the_right@20251104-033007/edited_trajectory.mp4",
+                "video_results": 0.882392762963328,
+                "video_sim": 279.718505859375,
+                "cnt_per_video": 317
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_campsite-small_0/camping_tents,_outdoor,_sunset,_golden_hour,_warm_firelight,_light_from_bottom@20251104-033408/edited_trajectory.mp4",
+                "video_results": 0.8970966398902821,
+                "video_sim": 286.173828125,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_campsite-small_1/camping_site,_outdoor,_night_sky,_moonlight,_cool_blue_tone,_light_from_top@20251104-033801/edited_trajectory.mp4",
+                "video_results": 0.8977441100117555,
+                "video_sim": 286.38037109375,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_campsite-small_2/camping_tents,_outdoor,_early_morning_fog,_soft_natural_light,_light_from_the_right@20251104-034144/edited_trajectory.mp4",
+                "video_results": 0.8965264682112069,
+                "video_sim": 285.991943359375,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_face_0/portrait,_detailed_face,_sunshine_from_window,_warm_atmosphere,_light_from_the_left@20251104-034538/edited_trajectory.mp4",
+                "video_results": 0.8788350742065048,
+                "video_sim": 280.348388671875,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_face_1/portrait,_detailed_face,_neon_light,_city_night,_cinematic_tone,_light_from_the_right@20251104-034930/edited_trajectory.mp4",
+                "video_results": 0.9045088717182602,
+                "video_sim": 288.538330078125,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_face_2/portrait,_detailed_face,_candle_light,_low-key_lighting,_moody_shadows,_light_from_the_left@20251104-035321/edited_trajectory.mp4",
+                "video_results": 0.8765926540458464,
+                "video_sim": 279.633056640625,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_fangzhou-small_0/young_man,_detailed_face,_natural_lighting,_outdoor,_warm,_light_from_the_left@20251104-035704/edited_trajectory.mp4",
+                "video_results": 0.9234370408013323,
+                "video_sim": 294.576416015625,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_fangzhou-small_1/young_man,_detailed_face,_neon_light,_city_reflection,_cool_tone,_light_from_top@20251104-040053/edited_trajectory.mp4",
+                "video_results": 0.9556100301234326,
+                "video_sim": 304.839599609375,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_fangzhou-small_2/young_man,_detailed_face,_sunlight_through_blinds,_soft_indoor_atmosphere,_light_from_the_left@20251104-040441/edited_trajectory.mp4",
+                "video_results": 0.9438430642633229,
+                "video_sim": 301.0859375,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_farm-small_0/open_field,_outdoor,_bright_sunlight,_summer_noon,_high_contrast,_light_from_the_right@20251104-040829/edited_trajectory.mp4",
+                "video_results": 0.928025200822884,
+                "video_sim": 296.0400390625,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_farm-small_1/farmland,_outdoor,_cloudy_weather,_diffused_lighting,_calm_mood,_light_from_the_right@20251104-041224/edited_trajectory.mp4",
+                "video_results": 0.9108710692594044,
+                "video_sim": 290.56787109375,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_farm-small_2/field,_outdoor,_starry_night,_silver_moonlight,_tranquil_tone,_light_from_the_right@20251104-041617/edited_trajectory.mp4",
+                "video_results": 0.8959968590811128,
+                "video_sim": 285.822998046875,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_person-small_0/man,_indoor,_sunshine_from_window,_warm_tone,_light_from_the_right@20251104-042013/edited_trajectory.mp4",
+                "video_results": 0.8808838655956113,
+                "video_sim": 281.001953125,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_person-small_1/man,_indoor,_neon_reflection,_city_light,_cinematic,_light_from_the_left@20251104-042401/edited_trajectory.mp4",
+                "video_results": 0.9214739664968652,
+                "video_sim": 293.9501953125,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_person-small_2/man,_indoor,_shadow_from_blinds,_dramatic_lighting,_light_from_the_left@20251104-042741/edited_trajectory.mp4",
+                "video_results": 0.8995816700137147,
+                "video_sim": 286.966552734375,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_bicycle_0/bicycle,_outdoor,_morning_sunlight,_warm_hue,_light_from_the_right@20251104-043130/edited_trajectory.mp4",
+                "video_results": 0.881955329153605,
+                "video_sim": 281.34375,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_bicycle_1/bicycle,_street_night,_neon_reflections,_cool_blue_tone,_light_from_the_right@20251104-043721/edited_trajectory.mp4",
+                "video_results": 0.8581810834639498,
+                "video_sim": 273.759765625,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_bicycle_2/bicycle,_sunset,_orange_glow,_long_shadows,_light_from_the_left@20251104-044259/edited_trajectory.mp4",
+                "video_results": 0.8776166670748433,
+                "video_sim": 279.959716796875,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_bonsai_0/bonsai_tree,_indoor,_soft_daylight_from_window,_natural_lighting,_light_from_top@20251104-044841/edited_trajectory.mp4",
+                "video_results": 0.8201005032817398,
+                "video_sim": 261.612060546875,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_bonsai_1/bonsai_tree,_indoor,_warm_desk_lamp_illumination,_cozy_atmosphere,_light_from_bottom@20251104-045256/edited_trajectory.mp4",
+                "video_results": 0.8948687610207681,
+                "video_sim": 285.463134765625,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_bonsai_2/bonsai_tree,_indoor,_moonlight_through_window,_tranquil_cool_tone,_light_from_bottom@20251104-045707/edited_trajectory.mp4",
+                "video_results": 0.8165654388714734,
+                "video_sim": 260.484375,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_counter_0/kitchen_counter,_indoor,_warm_sunlight_from_window,_morning_atmosphere,_light_from_bottom@20251104-050118/edited_trajectory.mp4",
+                "video_results": 0.8634228362558778,
+                "video_sim": 275.431884765625,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_counter_1/kitchen_counter,_indoor,_fluorescent_light,_evening_cool_tone,_light_from_the_right@20251104-050530/edited_trajectory.mp4",
+                "video_results": 0.8828186226489029,
+                "video_sim": 281.619140625,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_counter_2/kitchen_counter,_indoor,_candle_light,_intimate_mood,_light_from_the_right@20251104-050940/edited_trajectory.mp4",
+                "video_results": 0.8811723954251567,
+                "video_sim": 281.093994140625,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_flowers_0/flowers,_outdoor,_sunlight,_bright_and_vivid_colors,_light_from_the_right@20251104-051350/edited_trajectory.mp4",
+                "video_results": 0.9566049605701411,
+                "video_sim": 305.156982421875,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_flowers_1/flowers,_outdoor,_golden_sunset_light,_soft_focus,_light_from_the_right@20251104-051916/edited_trajectory.mp4",
+                "video_results": 0.9238794021845611,
+                "video_sim": 294.717529296875,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_flowers_2/flowers,_outdoor,_early_morning_dew,_misty_lighting,_light_from_the_right@20251104-052410/edited_trajectory.mp4",
+                "video_results": 0.8949789687010188,
+                "video_sim": 285.498291015625,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_garden_0/garden,_outdoor,_sunlight_filtering_through_leaves,_warm_tone,_light_from_top@20251104-052859/edited_trajectory.mp4",
+                "video_results": 0.9090932050842476,
+                "video_sim": 290.000732421875,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_garden_1/garden,_outdoor,_rainy_day,_overcast_lighting,_muted_colors,_light_from_the_right@20251104-053434/edited_trajectory.mp4",
+                "video_results": 0.9127032719435737,
+                "video_sim": 291.15234375,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_garden_2/garden,_outdoor,_night_scene,_moonlight_and_fireflies,_magical_atmosphere,_light_from_bottom@20251104-054006/edited_trajectory.mp4",
+                "video_results": 0.9263330537323667,
+                "video_sim": 295.500244140625,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_kitchen_0/kitchen,_indoor,_natural_lighting_from_window,_bright_morning,_light_from_top@20251104-054546/edited_trajectory.mp4",
+                "video_results": 0.8854835055838558,
+                "video_sim": 282.46923828125,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_kitchen_1/kitchen,_indoor,_warm_yellow_lamp,_cozy_night_atmosphere,_light_from_the_left@20251104-055032/edited_trajectory.mp4",
+                "video_results": 0.9131571132934952,
+                "video_sim": 291.297119140625,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_kitchen_2/kitchen,_indoor,_cool_blue_fluorescent_light,_modern_tone,_light_from_the_right@20251104-055500/edited_trajectory.mp4",
+                "video_results": 0.8964491697688087,
+                "video_sim": 285.96728515625,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_room_0/living_room,_indoor,_natural_sunlight,_soft_shadows,_light_from_the_left@20251104-055927/edited_trajectory.mp4",
+                "video_results": 0.9236811814263323,
+                "video_sim": 294.654296875,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_room_1/living_room,_indoor,_warm_lamp_light,_cozy_and_calm,_light_from_the_left@20251104-060346/edited_trajectory.mp4",
+                "video_results": 0.8963955965909091,
+                "video_sim": 285.9501953125,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_room_2/living_room,_indoor,_moonlight_from_window,_blue_tone,_light_from_bottom@20251104-060810/edited_trajectory.mp4",
+                "video_results": 0.8722379200137147,
+                "video_sim": 278.243896484375,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_stump_0/tree_stump,_forest,_sunlight_through_trees,_golden_time,_light_from_bottom@20251104-061224/edited_trajectory.mp4",
+                "video_results": 0.9024616109913793,
+                "video_sim": 287.88525390625,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_stump_1/tree_stump,_forest,_rainy_day,_misty_and_soft_lighting,_light_from_the_right@20251104-061747/edited_trajectory.mp4",
+                "video_results": 0.8993612546532131,
+                "video_sim": 286.896240234375,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_stump_2/tree_stump,_forest,_moonlight,_silvery_cool_tone,_light_from_the_left@20251104-062306/edited_trajectory.mp4",
+                "video_results": 0.8931789099235894,
+                "video_sim": 284.924072265625,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_treehill_0/tree_on_hill,_outdoor,_sunrise,_orange_glow,_soft_mist,_light_from_the_right@20251104-062827/edited_trajectory.mp4",
+                "video_results": 0.9140984705623041,
+                "video_sim": 291.597412109375,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_treehill_1/tree_on_hill,_outdoor,_midday_sun,_bright_lighting,_light_from_the_left@20251104-063322/edited_trajectory.mp4",
+                "video_results": 0.9210446157425548,
+                "video_sim": 293.813232421875,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_treehill_2/tree_on_hill,_outdoor,_sunset,_purple_sky,_dramatic_atmosphere,_light_from_the_right@20251104-063810/edited_trajectory.mp4",
+                "video_results": 0.9308576912715517,
+                "video_sim": 296.943603515625,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_0c5385e84b_0/ceiling,_indoor,_sunlight_reflection,_warm_white_tone,_light_from_the_left@20251104-064254/edited_trajectory.mp4",
+                "video_results": 0.9251261265673981,
+                "video_sim": 295.115234375,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_0c5385e84b_1/ceiling,_indoor,_artificial_light,_dim_and_moody,_light_from_the_left@20251104-064914/edited_trajectory.mp4",
+                "video_results": 0.9167656494905956,
+                "video_sim": 292.4482421875,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_0c5385e84b_2/ceiling,_indoor,_morning_daylight,_natural_soft_tone,_light_from_bottom@20251104-065421/edited_trajectory.mp4",
+                "video_results": 0.922503336843652,
+                "video_sim": 294.278564453125,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_5a269ba6fe_0/office,_indoor,_natural_lighting,_sunlight_from_window,_light_from_top@20251104-065912/edited_trajectory.mp4",
+                "video_results": 0.9218344374510188,
+                "video_sim": 294.065185546875,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_5a269ba6fe_1/office,_indoor,_desk_lamp_light,_warm_tone,_light_from_the_left@20251104-070407/edited_trajectory.mp4",
+                "video_results": 0.8990872661148119,
+                "video_sim": 286.808837890625,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_5a269ba6fe_2/office,_indoor,_fluorescent_light,_cold_corporate_mood,_light_from_the_left@20251104-070900/edited_trajectory.mp4",
+                "video_results": 0.8967843847962382,
+                "video_sim": 286.07421875,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_08bbbdcc3d_0/classroom,_indoor,_sunlight_from_window,_bright_and_cheerful,_light_from_the_left@20251104-071358/edited_trajectory.mp4",
+                "video_results": 0.9574131502253135,
+                "video_sim": 305.414794921875,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_08bbbdcc3d_1/classroom,_indoor,_artificial_light,_soft_evening_tone,_light_from_the_right@20251104-071936/edited_trajectory.mp4",
+                "video_results": 0.9563569932895768,
+                "video_sim": 305.077880859375,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_08bbbdcc3d_2/classroom,_indoor,_moonlight,_blue_tone,_calm_atmosphere,_light_from_the_left@20251104-072450/edited_trajectory.mp4",
+                "video_results": 0.9542125355113636,
+                "video_sim": 304.393798828125,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_39f36da05b_0/office,_indoor,_warm_sunlight,_golden_tone,_light_from_top@20251104-073038/edited_trajectory.mp4",
+                "video_results": 0.9166317165458464,
+                "video_sim": 292.405517578125,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_39f36da05b_1/office,_indoor,_dim_light,_night_atmosphere,_light_from_the_left@20251104-073634/edited_trajectory.mp4",
+                "video_results": 0.9297647984423981,
+                "video_sim": 296.594970703125,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_39f36da05b_2/office,_indoor,_green_tone,_gothic_Yharnam_mood,_light_from_the_left@20251104-074342/edited_trajectory.mp4",
+                "video_results": 0.9129328712774295,
+                "video_sim": 291.2255859375,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_56a0ec536c_0/office,_indoor,_sunlight_from_window,_bright_workspace,_light_from_bottom@20251104-075002/edited_trajectory.mp4",
+                "video_results": 0.8854184524392633,
+                "video_sim": 282.448486328125,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_56a0ec536c_1/office,_indoor,_desk_lamp_light,_shadowed_corners,_light_from_the_left@20251104-075509/edited_trajectory.mp4",
+                "video_results": 0.9471577133130877,
+                "video_sim": 302.143310546875,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_56a0ec536c_2/office,_indoor,_mixed_lighting,_sunlight_and_lamp_blend,_light_from_the_left@20251104-080018/edited_trajectory.mp4",
+                "video_results": 0.9243562034678683,
+                "video_sim": 294.86962890625,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_a1d9da703c_0/office,_indoor,_sunlight_from_ceiling_window,_natural_tone,_light_from_the_left@20251104-080531/edited_trajectory.mp4",
+                "video_results": 0.9241220121473355,
+                "video_sim": 294.794921875,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_a1d9da703c_1/office,_indoor,_warm_lamp_lighting,_cozy_workspace,_light_from_the_right@20251104-081059/edited_trajectory.mp4",
+                "video_results": 0.929656121424373,
+                "video_sim": 296.560302734375,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_a1d9da703c_2/office,_indoor,_moonlight_reflection,_cool_tone,_light_from_the_right@20251104-081616/edited_trajectory.mp4",
+                "video_results": 0.9400278886657524,
+                "video_sim": 299.868896484375,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_bc2fce1d81_0/office,_indoor,_daylight_from_window,_clear_tone,_light_from_the_right@20251104-082130/edited_trajectory.mp4",
+                "video_results": 0.9234668887147336,
+                "video_sim": 294.5859375,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_bc2fce1d81_1/office,_indoor,_evening_lamp_light,_golden_hue,_light_from_the_left@20251104-082635/edited_trajectory.mp4",
+                "video_results": 0.9031840835619123,
+                "video_sim": 288.11572265625,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_bc2fce1d81_2/office,_indoor,_night_fluorescent_light,_blue_tone,_light_from_the_left@20251104-083135/edited_trajectory.mp4",
+                "video_results": 0.9125838802899686,
+                "video_sim": 291.1142578125,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_dc263dfbf0_0/classroom,_indoor,_morning_light,_bright_and_clear,_light_from_the_right@20251104-083623/edited_trajectory.mp4",
+                "video_results": 0.9399230383032915,
+                "video_sim": 299.83544921875,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_dc263dfbf0_1/classroom,_indoor,_afternoon_sunlight,_golden_hue,_light_from_the_right@20251104-084134/edited_trajectory.mp4",
+                "video_results": 0.9411376187793887,
+                "video_sim": 300.222900390625,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_dc263dfbf0_2/classroom,_indoor,_night_light,_dim_and_calm,_light_from_the_right@20251104-084635/edited_trajectory.mp4",
+                "video_results": 0.9425320520670063,
+                "video_sim": 300.667724609375,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_ef18cf0708_0/office,_indoor,_sunlight_from_window,_bright_tone,_light_from_bottom@20251104-085155/edited_trajectory.mp4",
+                "video_results": 0.9270738942496082,
+                "video_sim": 295.736572265625,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_ef18cf0708_1/office,_indoor,_ceiling_light,_artificial_illumination,_dim,_light_from_the_right@20251104-085747/edited_trajectory.mp4",
+                "video_results": 0.9286619563087775,
+                "video_sim": 296.2431640625,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_ef18cf0708_2/office,_indoor,_balanced_mix_of_sunlight_and_ceiling_light,_light_from_the_right@20251104-090353/edited_trajectory.mp4",
+                "video_results": 0.9359379591986677,
+                "video_sim": 298.564208984375,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_fb564c935d_0/office_desk,_indoor,_sunlight_through_blinds,_striped_shadows,_light_from_bottom@20251104-090942/edited_trajectory.mp4",
+                "video_results": 0.9112751640869906,
+                "video_sim": 290.69677734375,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_fb564c935d_1/office_desk,_indoor,_warm_desk_lamp_light,_cozy_atmosphere,_light_from_top@20251104-091433/edited_trajectory.mp4",
+                "video_results": 0.9144895547609718,
+                "video_sim": 291.72216796875,
+                "cnt_per_video": 319
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_fb564c935d_2/office_desk,_indoor,_night_scene,_cool_fluorescent_light,_light_from_the_right@20251104-091903/edited_trajectory.mp4",
+                "video_results": 0.8663548197492164,
+                "video_sim": 276.3671875,
+                "cnt_per_video": 319
+            }
+        ]
+    ],
+    "aesthetic_quality": [
+        0.555355410973231,
+        [
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_bear_0/bear,_forest,_sunlight_filtering_through_trees,_natural_lighting,_warm_atmosphere,_light_from_top@20251104-032208/edited_trajectory.mp4",
+                "video_results": 0.6377801895141602
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_bear_1/bear,_woodland,_twilight_glow,_golden_hour,_soft_light,_light_from_the_left@20251104-032605/edited_trajectory.mp4",
+                "video_results": 0.6547363996505737
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_bear_2/bear,_forest,_moonlight_through_branches,_cool_tone,_mysterious_shadows,_light_from_the_right@20251104-033007/edited_trajectory.mp4",
+                "video_results": 0.6208626627922058
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_campsite-small_0/camping_tents,_outdoor,_sunset,_golden_hour,_warm_firelight,_light_from_bottom@20251104-033408/edited_trajectory.mp4",
+                "video_results": 0.48725828528404236
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_campsite-small_1/camping_site,_outdoor,_night_sky,_moonlight,_cool_blue_tone,_light_from_top@20251104-033801/edited_trajectory.mp4",
+                "video_results": 0.4627699851989746
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_campsite-small_2/camping_tents,_outdoor,_early_morning_fog,_soft_natural_light,_light_from_the_right@20251104-034144/edited_trajectory.mp4",
+                "video_results": 0.45108404755592346
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_face_0/portrait,_detailed_face,_sunshine_from_window,_warm_atmosphere,_light_from_the_left@20251104-034538/edited_trajectory.mp4",
+                "video_results": 0.601348340511322
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_face_1/portrait,_detailed_face,_neon_light,_city_night,_cinematic_tone,_light_from_the_right@20251104-034930/edited_trajectory.mp4",
+                "video_results": 0.6331148743629456
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_face_2/portrait,_detailed_face,_candle_light,_low-key_lighting,_moody_shadows,_light_from_the_left@20251104-035321/edited_trajectory.mp4",
+                "video_results": 0.5530723929405212
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_fangzhou-small_0/young_man,_detailed_face,_natural_lighting,_outdoor,_warm,_light_from_the_left@20251104-035704/edited_trajectory.mp4",
+                "video_results": 0.5910379886627197
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_fangzhou-small_1/young_man,_detailed_face,_neon_light,_city_reflection,_cool_tone,_light_from_top@20251104-040053/edited_trajectory.mp4",
+                "video_results": 0.5450479388237
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_fangzhou-small_2/young_man,_detailed_face,_sunlight_through_blinds,_soft_indoor_atmosphere,_light_from_the_left@20251104-040441/edited_trajectory.mp4",
+                "video_results": 0.5750187039375305
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_farm-small_0/open_field,_outdoor,_bright_sunlight,_summer_noon,_high_contrast,_light_from_the_right@20251104-040829/edited_trajectory.mp4",
+                "video_results": 0.5428906679153442
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_farm-small_1/farmland,_outdoor,_cloudy_weather,_diffused_lighting,_calm_mood,_light_from_the_right@20251104-041224/edited_trajectory.mp4",
+                "video_results": 0.5110265612602234
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_farm-small_2/field,_outdoor,_starry_night,_silver_moonlight,_tranquil_tone,_light_from_the_right@20251104-041617/edited_trajectory.mp4",
+                "video_results": 0.5198017954826355
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_person-small_0/man,_indoor,_sunshine_from_window,_warm_tone,_light_from_the_right@20251104-042013/edited_trajectory.mp4",
+                "video_results": 0.5603346228599548
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_person-small_1/man,_indoor,_neon_reflection,_city_light,_cinematic,_light_from_the_left@20251104-042401/edited_trajectory.mp4",
+                "video_results": 0.5935336947441101
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_person-small_2/man,_indoor,_shadow_from_blinds,_dramatic_lighting,_light_from_the_left@20251104-042741/edited_trajectory.mp4",
+                "video_results": 0.5730769038200378
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_bicycle_0/bicycle,_outdoor,_morning_sunlight,_warm_hue,_light_from_the_right@20251104-043130/edited_trajectory.mp4",
+                "video_results": 0.6594606637954712
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_bicycle_1/bicycle,_street_night,_neon_reflections,_cool_blue_tone,_light_from_the_right@20251104-043721/edited_trajectory.mp4",
+                "video_results": 0.6473619937896729
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_bicycle_2/bicycle,_sunset,_orange_glow,_long_shadows,_light_from_the_left@20251104-044259/edited_trajectory.mp4",
+                "video_results": 0.6575471758842468
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_bonsai_0/bonsai_tree,_indoor,_soft_daylight_from_window,_natural_lighting,_light_from_top@20251104-044841/edited_trajectory.mp4",
+                "video_results": 0.548640787601471
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_bonsai_1/bonsai_tree,_indoor,_warm_desk_lamp_illumination,_cozy_atmosphere,_light_from_bottom@20251104-045256/edited_trajectory.mp4",
+                "video_results": 0.6123524904251099
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_bonsai_2/bonsai_tree,_indoor,_moonlight_through_window,_tranquil_cool_tone,_light_from_bottom@20251104-045707/edited_trajectory.mp4",
+                "video_results": 0.5918050408363342
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_counter_0/kitchen_counter,_indoor,_warm_sunlight_from_window,_morning_atmosphere,_light_from_bottom@20251104-050118/edited_trajectory.mp4",
+                "video_results": 0.6348509788513184
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_counter_1/kitchen_counter,_indoor,_fluorescent_light,_evening_cool_tone,_light_from_the_right@20251104-050530/edited_trajectory.mp4",
+                "video_results": 0.6180611848831177
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_counter_2/kitchen_counter,_indoor,_candle_light,_intimate_mood,_light_from_the_right@20251104-050940/edited_trajectory.mp4",
+                "video_results": 0.6274192929267883
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_flowers_0/flowers,_outdoor,_sunlight,_bright_and_vivid_colors,_light_from_the_right@20251104-051350/edited_trajectory.mp4",
+                "video_results": 0.7180503606796265
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_flowers_1/flowers,_outdoor,_golden_sunset_light,_soft_focus,_light_from_the_right@20251104-051916/edited_trajectory.mp4",
+                "video_results": 0.5952454209327698
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_flowers_2/flowers,_outdoor,_early_morning_dew,_misty_lighting,_light_from_the_right@20251104-052410/edited_trajectory.mp4",
+                "video_results": 0.6412651538848877
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_garden_0/garden,_outdoor,_sunlight_filtering_through_leaves,_warm_tone,_light_from_top@20251104-052859/edited_trajectory.mp4",
+                "video_results": 0.6109026074409485
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_garden_1/garden,_outdoor,_rainy_day,_overcast_lighting,_muted_colors,_light_from_the_right@20251104-053434/edited_trajectory.mp4",
+                "video_results": 0.6007405519485474
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_garden_2/garden,_outdoor,_night_scene,_moonlight_and_fireflies,_magical_atmosphere,_light_from_bottom@20251104-054006/edited_trajectory.mp4",
+                "video_results": 0.694341778755188
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_kitchen_0/kitchen,_indoor,_natural_lighting_from_window,_bright_morning,_light_from_top@20251104-054546/edited_trajectory.mp4",
+                "video_results": 0.5123248100280762
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_kitchen_1/kitchen,_indoor,_warm_yellow_lamp,_cozy_night_atmosphere,_light_from_the_left@20251104-055032/edited_trajectory.mp4",
+                "video_results": 0.5601119995117188
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_kitchen_2/kitchen,_indoor,_cool_blue_fluorescent_light,_modern_tone,_light_from_the_right@20251104-055500/edited_trajectory.mp4",
+                "video_results": 0.5353010892868042
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_room_0/living_room,_indoor,_natural_sunlight,_soft_shadows,_light_from_the_left@20251104-055927/edited_trajectory.mp4",
+                "video_results": 0.31947407126426697
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_room_1/living_room,_indoor,_warm_lamp_light,_cozy_and_calm,_light_from_the_left@20251104-060346/edited_trajectory.mp4",
+                "video_results": 0.501458466053009
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_room_2/living_room,_indoor,_moonlight_from_window,_blue_tone,_light_from_bottom@20251104-060810/edited_trajectory.mp4",
+                "video_results": 0.5147534012794495
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_stump_0/tree_stump,_forest,_sunlight_through_trees,_golden_time,_light_from_bottom@20251104-061224/edited_trajectory.mp4",
+                "video_results": 0.5819598436355591
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_stump_1/tree_stump,_forest,_rainy_day,_misty_and_soft_lighting,_light_from_the_right@20251104-061747/edited_trajectory.mp4",
+                "video_results": 0.5795198678970337
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_stump_2/tree_stump,_forest,_moonlight,_silvery_cool_tone,_light_from_the_left@20251104-062306/edited_trajectory.mp4",
+                "video_results": 0.5468515753746033
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_treehill_0/tree_on_hill,_outdoor,_sunrise,_orange_glow,_soft_mist,_light_from_the_right@20251104-062827/edited_trajectory.mp4",
+                "video_results": 0.607756495475769
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_treehill_1/tree_on_hill,_outdoor,_midday_sun,_bright_lighting,_light_from_the_left@20251104-063322/edited_trajectory.mp4",
+                "video_results": 0.6192368865013123
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_treehill_2/tree_on_hill,_outdoor,_sunset,_purple_sky,_dramatic_atmosphere,_light_from_the_right@20251104-063810/edited_trajectory.mp4",
+                "video_results": 0.5620604753494263
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_0c5385e84b_0/ceiling,_indoor,_sunlight_reflection,_warm_white_tone,_light_from_the_left@20251104-064254/edited_trajectory.mp4",
+                "video_results": 0.31374067068099976
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_0c5385e84b_1/ceiling,_indoor,_artificial_light,_dim_and_moody,_light_from_the_left@20251104-064914/edited_trajectory.mp4",
+                "video_results": 0.3927108347415924
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_0c5385e84b_2/ceiling,_indoor,_morning_daylight,_natural_soft_tone,_light_from_bottom@20251104-065421/edited_trajectory.mp4",
+                "video_results": 0.4301357865333557
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_5a269ba6fe_0/office,_indoor,_natural_lighting,_sunlight_from_window,_light_from_top@20251104-065912/edited_trajectory.mp4",
+                "video_results": 0.581233024597168
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_5a269ba6fe_1/office,_indoor,_desk_lamp_light,_warm_tone,_light_from_the_left@20251104-070407/edited_trajectory.mp4",
+                "video_results": 0.5658775568008423
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_5a269ba6fe_2/office,_indoor,_fluorescent_light,_cold_corporate_mood,_light_from_the_left@20251104-070900/edited_trajectory.mp4",
+                "video_results": 0.5847301483154297
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_08bbbdcc3d_0/classroom,_indoor,_sunlight_from_window,_bright_and_cheerful,_light_from_the_left@20251104-071358/edited_trajectory.mp4",
+                "video_results": 0.5868920683860779
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_08bbbdcc3d_1/classroom,_indoor,_artificial_light,_soft_evening_tone,_light_from_the_right@20251104-071936/edited_trajectory.mp4",
+                "video_results": 0.5665468573570251
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_08bbbdcc3d_2/classroom,_indoor,_moonlight,_blue_tone,_calm_atmosphere,_light_from_the_left@20251104-072450/edited_trajectory.mp4",
+                "video_results": 0.6148250699043274
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_39f36da05b_0/office,_indoor,_warm_sunlight,_golden_tone,_light_from_top@20251104-073038/edited_trajectory.mp4",
+                "video_results": 0.5680642127990723
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_39f36da05b_1/office,_indoor,_dim_light,_night_atmosphere,_light_from_the_left@20251104-073634/edited_trajectory.mp4",
+                "video_results": 0.5521345734596252
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_39f36da05b_2/office,_indoor,_green_tone,_gothic_Yharnam_mood,_light_from_the_left@20251104-074342/edited_trajectory.mp4",
+                "video_results": 0.5774023532867432
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_56a0ec536c_0/office,_indoor,_sunlight_from_window,_bright_workspace,_light_from_bottom@20251104-075002/edited_trajectory.mp4",
+                "video_results": 0.536357581615448
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_56a0ec536c_1/office,_indoor,_desk_lamp_light,_shadowed_corners,_light_from_the_left@20251104-075509/edited_trajectory.mp4",
+                "video_results": 0.2587392032146454
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_56a0ec536c_2/office,_indoor,_mixed_lighting,_sunlight_and_lamp_blend,_light_from_the_left@20251104-080018/edited_trajectory.mp4",
+                "video_results": 0.4491126537322998
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_a1d9da703c_0/office,_indoor,_sunlight_from_ceiling_window,_natural_tone,_light_from_the_left@20251104-080531/edited_trajectory.mp4",
+                "video_results": 0.5068119168281555
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_a1d9da703c_1/office,_indoor,_warm_lamp_lighting,_cozy_workspace,_light_from_the_right@20251104-081059/edited_trajectory.mp4",
+                "video_results": 0.5140209794044495
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_a1d9da703c_2/office,_indoor,_moonlight_reflection,_cool_tone,_light_from_the_right@20251104-081616/edited_trajectory.mp4",
+                "video_results": 0.5213703513145447
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_bc2fce1d81_0/office,_indoor,_daylight_from_window,_clear_tone,_light_from_the_right@20251104-082130/edited_trajectory.mp4",
+                "video_results": 0.5438462495803833
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_bc2fce1d81_1/office,_indoor,_evening_lamp_light,_golden_hue,_light_from_the_left@20251104-082635/edited_trajectory.mp4",
+                "video_results": 0.5819444060325623
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_bc2fce1d81_2/office,_indoor,_night_fluorescent_light,_blue_tone,_light_from_the_left@20251104-083135/edited_trajectory.mp4",
+                "video_results": 0.5808818936347961
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_dc263dfbf0_0/classroom,_indoor,_morning_light,_bright_and_clear,_light_from_the_right@20251104-083623/edited_trajectory.mp4",
+                "video_results": 0.572049617767334
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_dc263dfbf0_1/classroom,_indoor,_afternoon_sunlight,_golden_hue,_light_from_the_right@20251104-084134/edited_trajectory.mp4",
+                "video_results": 0.589146077632904
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_dc263dfbf0_2/classroom,_indoor,_night_light,_dim_and_calm,_light_from_the_right@20251104-084635/edited_trajectory.mp4",
+                "video_results": 0.5549413561820984
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_ef18cf0708_0/office,_indoor,_sunlight_from_window,_bright_tone,_light_from_bottom@20251104-085155/edited_trajectory.mp4",
+                "video_results": 0.5094489455223083
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_ef18cf0708_1/office,_indoor,_ceiling_light,_artificial_illumination,_dim,_light_from_the_right@20251104-085747/edited_trajectory.mp4",
+                "video_results": 0.4811757504940033
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_ef18cf0708_2/office,_indoor,_balanced_mix_of_sunlight_and_ceiling_light,_light_from_the_right@20251104-090353/edited_trajectory.mp4",
+                "video_results": 0.5312178730964661
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_fb564c935d_0/office_desk,_indoor,_sunlight_through_blinds,_striped_shadows,_light_from_bottom@20251104-090942/edited_trajectory.mp4",
+                "video_results": 0.45147791504859924
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_fb564c935d_1/office_desk,_indoor,_warm_desk_lamp_light,_cozy_atmosphere,_light_from_top@20251104-091433/edited_trajectory.mp4",
+                "video_results": 0.5653058886528015
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_fb564c935d_2/office_desk,_indoor,_night_scene,_cool_fluorescent_light,_light_from_the_right@20251104-091903/edited_trajectory.mp4",
+                "video_results": 0.5568634867668152
+            }
+        ]
+    ],
+    "imaging_quality": [
+        0.5536337428486346,
+        [
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_bear_0/bear,_forest,_sunlight_filtering_through_trees,_natural_lighting,_warm_atmosphere,_light_from_top@20251104-032208/edited_trajectory.mp4",
+                "video_results": 71.72827172429307
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_bear_1/bear,_woodland,_twilight_glow,_golden_hour,_soft_light,_light_from_the_left@20251104-032605/edited_trajectory.mp4",
+                "video_results": 76.24178354995055
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_bear_2/bear,_forest,_moonlight_through_branches,_cool_tone,_mysterious_shadows,_light_from_the_right@20251104-033007/edited_trajectory.mp4",
+                "video_results": 76.37315303874466
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_campsite-small_0/camping_tents,_outdoor,_sunset,_golden_hour,_warm_firelight,_light_from_bottom@20251104-033408/edited_trajectory.mp4",
+                "video_results": 45.92628362178802
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_campsite-small_1/camping_site,_outdoor,_night_sky,_moonlight,_cool_blue_tone,_light_from_top@20251104-033801/edited_trajectory.mp4",
+                "video_results": 48.90556811094284
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_campsite-small_2/camping_tents,_outdoor,_early_morning_fog,_soft_natural_light,_light_from_the_right@20251104-034144/edited_trajectory.mp4",
+                "video_results": 40.543307942152026
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_face_0/portrait,_detailed_face,_sunshine_from_window,_warm_atmosphere,_light_from_the_left@20251104-034538/edited_trajectory.mp4",
+                "video_results": 77.94128835201263
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_face_1/portrait,_detailed_face,_neon_light,_city_night,_cinematic_tone,_light_from_the_right@20251104-034930/edited_trajectory.mp4",
+                "video_results": 72.47498233318329
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_face_2/portrait,_detailed_face,_candle_light,_low-key_lighting,_moody_shadows,_light_from_the_left@20251104-035321/edited_trajectory.mp4",
+                "video_results": 73.00553317070008
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_fangzhou-small_0/young_man,_detailed_face,_natural_lighting,_outdoor,_warm,_light_from_the_left@20251104-035704/edited_trajectory.mp4",
+                "video_results": 69.09298076629639
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_fangzhou-small_1/young_man,_detailed_face,_neon_light,_city_reflection,_cool_tone,_light_from_top@20251104-040053/edited_trajectory.mp4",
+                "video_results": 62.53875648975372
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_fangzhou-small_2/young_man,_detailed_face,_sunlight_through_blinds,_soft_indoor_atmosphere,_light_from_the_left@20251104-040441/edited_trajectory.mp4",
+                "video_results": 65.01843392848969
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_farm-small_0/open_field,_outdoor,_bright_sunlight,_summer_noon,_high_contrast,_light_from_the_right@20251104-040829/edited_trajectory.mp4",
+                "video_results": 49.94031908512115
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_farm-small_1/farmland,_outdoor,_cloudy_weather,_diffused_lighting,_calm_mood,_light_from_the_right@20251104-041224/edited_trajectory.mp4",
+                "video_results": 47.0523766040802
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_farm-small_2/field,_outdoor,_starry_night,_silver_moonlight,_tranquil_tone,_light_from_the_right@20251104-041617/edited_trajectory.mp4",
+                "video_results": 49.240325236320494
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_person-small_0/man,_indoor,_sunshine_from_window,_warm_tone,_light_from_the_right@20251104-042013/edited_trajectory.mp4",
+                "video_results": 56.54178887605667
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_person-small_1/man,_indoor,_neon_reflection,_city_light,_cinematic,_light_from_the_left@20251104-042401/edited_trajectory.mp4",
+                "video_results": 51.48125755786896
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_in2n_person-small_2/man,_indoor,_shadow_from_blinds,_dramatic_lighting,_light_from_the_left@20251104-042741/edited_trajectory.mp4",
+                "video_results": 57.675782322883606
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_bicycle_0/bicycle,_outdoor,_morning_sunlight,_warm_hue,_light_from_the_right@20251104-043130/edited_trajectory.mp4",
+                "video_results": 73.92460625171661
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_bicycle_1/bicycle,_street_night,_neon_reflections,_cool_blue_tone,_light_from_the_right@20251104-043721/edited_trajectory.mp4",
+                "video_results": 69.60174018144608
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_bicycle_2/bicycle,_sunset,_orange_glow,_long_shadows,_light_from_the_left@20251104-044259/edited_trajectory.mp4",
+                "video_results": 72.86273494958877
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_bonsai_0/bonsai_tree,_indoor,_soft_daylight_from_window,_natural_lighting,_light_from_top@20251104-044841/edited_trajectory.mp4",
+                "video_results": 67.0302093744278
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_bonsai_1/bonsai_tree,_indoor,_warm_desk_lamp_illumination,_cozy_atmosphere,_light_from_bottom@20251104-045256/edited_trajectory.mp4",
+                "video_results": 65.41416070461273
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_bonsai_2/bonsai_tree,_indoor,_moonlight_through_window,_tranquil_cool_tone,_light_from_bottom@20251104-045707/edited_trajectory.mp4",
+                "video_results": 67.00336390137673
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_counter_0/kitchen_counter,_indoor,_warm_sunlight_from_window,_morning_atmosphere,_light_from_bottom@20251104-050118/edited_trajectory.mp4",
+                "video_results": 76.80775132179261
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_counter_1/kitchen_counter,_indoor,_fluorescent_light,_evening_cool_tone,_light_from_the_right@20251104-050530/edited_trajectory.mp4",
+                "video_results": 74.41854689121246
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_counter_2/kitchen_counter,_indoor,_candle_light,_intimate_mood,_light_from_the_right@20251104-050940/edited_trajectory.mp4",
+                "video_results": 77.07469913959503
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_flowers_0/flowers,_outdoor,_sunlight,_bright_and_vivid_colors,_light_from_the_right@20251104-051350/edited_trajectory.mp4",
+                "video_results": 77.08305234909058
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_flowers_1/flowers,_outdoor,_golden_sunset_light,_soft_focus,_light_from_the_right@20251104-051916/edited_trajectory.mp4",
+                "video_results": 68.03771010637283
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_flowers_2/flowers,_outdoor,_early_morning_dew,_misty_lighting,_light_from_the_right@20251104-052410/edited_trajectory.mp4",
+                "video_results": 72.00377073287964
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_garden_0/garden,_outdoor,_sunlight_filtering_through_leaves,_warm_tone,_light_from_top@20251104-052859/edited_trajectory.mp4",
+                "video_results": 75.69275171756745
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_garden_1/garden,_outdoor,_rainy_day,_overcast_lighting,_muted_colors,_light_from_the_right@20251104-053434/edited_trajectory.mp4",
+                "video_results": 75.43092513084412
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_garden_2/garden,_outdoor,_night_scene,_moonlight_and_fireflies,_magical_atmosphere,_light_from_bottom@20251104-054006/edited_trajectory.mp4",
+                "video_results": 73.65086779594421
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_kitchen_0/kitchen,_indoor,_natural_lighting_from_window,_bright_morning,_light_from_top@20251104-054546/edited_trajectory.mp4",
+                "video_results": 67.39932010173797
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_kitchen_1/kitchen,_indoor,_warm_yellow_lamp,_cozy_night_atmosphere,_light_from_the_left@20251104-055032/edited_trajectory.mp4",
+                "video_results": 76.60264413356781
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_kitchen_2/kitchen,_indoor,_cool_blue_fluorescent_light,_modern_tone,_light_from_the_right@20251104-055500/edited_trajectory.mp4",
+                "video_results": 71.28981146812438
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_room_0/living_room,_indoor,_natural_sunlight,_soft_shadows,_light_from_the_left@20251104-055927/edited_trajectory.mp4",
+                "video_results": 24.69787601232529
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_room_1/living_room,_indoor,_warm_lamp_light,_cozy_and_calm,_light_from_the_left@20251104-060346/edited_trajectory.mp4",
+                "video_results": 65.58533483743668
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_room_2/living_room,_indoor,_moonlight_from_window,_blue_tone,_light_from_bottom@20251104-060810/edited_trajectory.mp4",
+                "video_results": 67.12300992012024
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_stump_0/tree_stump,_forest,_sunlight_through_trees,_golden_time,_light_from_bottom@20251104-061224/edited_trajectory.mp4",
+                "video_results": 71.83032668828965
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_stump_1/tree_stump,_forest,_rainy_day,_misty_and_soft_lighting,_light_from_the_right@20251104-061747/edited_trajectory.mp4",
+                "video_results": 68.41125248670578
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_stump_2/tree_stump,_forest,_moonlight,_silvery_cool_tone,_light_from_the_left@20251104-062306/edited_trajectory.mp4",
+                "video_results": 73.55322543382644
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_treehill_0/tree_on_hill,_outdoor,_sunrise,_orange_glow,_soft_mist,_light_from_the_right@20251104-062827/edited_trajectory.mp4",
+                "video_results": 73.51702182292938
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_treehill_1/tree_on_hill,_outdoor,_midday_sun,_bright_lighting,_light_from_the_left@20251104-063322/edited_trajectory.mp4",
+                "video_results": 68.18214203119278
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_mip360_treehill_2/tree_on_hill,_outdoor,_sunset,_purple_sky,_dramatic_atmosphere,_light_from_the_right@20251104-063810/edited_trajectory.mp4",
+                "video_results": 67.82564623355866
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_0c5385e84b_0/ceiling,_indoor,_sunlight_reflection,_warm_white_tone,_light_from_the_left@20251104-064254/edited_trajectory.mp4",
+                "video_results": 10.106640416383744
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_0c5385e84b_1/ceiling,_indoor,_artificial_light,_dim_and_moody,_light_from_the_left@20251104-064914/edited_trajectory.mp4",
+                "video_results": 30.017489969730377
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_0c5385e84b_2/ceiling,_indoor,_morning_daylight,_natural_soft_tone,_light_from_bottom@20251104-065421/edited_trajectory.mp4",
+                "video_results": 31.338665440678596
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_5a269ba6fe_0/office,_indoor,_natural_lighting,_sunlight_from_window,_light_from_top@20251104-065912/edited_trajectory.mp4",
+                "video_results": 40.15713701844216
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_5a269ba6fe_1/office,_indoor,_desk_lamp_light,_warm_tone,_light_from_the_left@20251104-070407/edited_trajectory.mp4",
+                "video_results": 41.69501633048058
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_5a269ba6fe_2/office,_indoor,_fluorescent_light,_cold_corporate_mood,_light_from_the_left@20251104-070900/edited_trajectory.mp4",
+                "video_results": 37.4455847620964
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_08bbbdcc3d_0/classroom,_indoor,_sunlight_from_window,_bright_and_cheerful,_light_from_the_left@20251104-071358/edited_trajectory.mp4",
+                "video_results": 41.59607760310173
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_08bbbdcc3d_1/classroom,_indoor,_artificial_light,_soft_evening_tone,_light_from_the_right@20251104-071936/edited_trajectory.mp4",
+                "video_results": 39.441420996189116
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_08bbbdcc3d_2/classroom,_indoor,_moonlight,_blue_tone,_calm_atmosphere,_light_from_the_left@20251104-072450/edited_trajectory.mp4",
+                "video_results": 41.24851872324943
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_39f36da05b_0/office,_indoor,_warm_sunlight,_golden_tone,_light_from_top@20251104-073038/edited_trajectory.mp4",
+                "video_results": 64.16413656473159
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_39f36da05b_1/office,_indoor,_dim_light,_night_atmosphere,_light_from_the_left@20251104-073634/edited_trajectory.mp4",
+                "video_results": 58.68748199939728
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_39f36da05b_2/office,_indoor,_green_tone,_gothic_Yharnam_mood,_light_from_the_left@20251104-074342/edited_trajectory.mp4",
+                "video_results": 60.67643096446991
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_56a0ec536c_0/office,_indoor,_sunlight_from_window,_bright_workspace,_light_from_bottom@20251104-075002/edited_trajectory.mp4",
+                "video_results": 38.70428243875504
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_56a0ec536c_1/office,_indoor,_desk_lamp_light,_shadowed_corners,_light_from_the_left@20251104-075509/edited_trajectory.mp4",
+                "video_results": 16.82169154882431
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_56a0ec536c_2/office,_indoor,_mixed_lighting,_sunlight_and_lamp_blend,_light_from_the_left@20251104-080018/edited_trajectory.mp4",
+                "video_results": 33.0738109767437
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_a1d9da703c_0/office,_indoor,_sunlight_from_ceiling_window,_natural_tone,_light_from_the_left@20251104-080531/edited_trajectory.mp4",
+                "video_results": 34.769149073958395
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_a1d9da703c_1/office,_indoor,_warm_lamp_lighting,_cozy_workspace,_light_from_the_right@20251104-081059/edited_trajectory.mp4",
+                "video_results": 32.380461767315865
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_a1d9da703c_2/office,_indoor,_moonlight_reflection,_cool_tone,_light_from_the_right@20251104-081616/edited_trajectory.mp4",
+                "video_results": 30.84926680922508
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_bc2fce1d81_0/office,_indoor,_daylight_from_window,_clear_tone,_light_from_the_right@20251104-082130/edited_trajectory.mp4",
+                "video_results": 42.90140442848205
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_bc2fce1d81_1/office,_indoor,_evening_lamp_light,_golden_hue,_light_from_the_left@20251104-082635/edited_trajectory.mp4",
+                "video_results": 59.71185888051987
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_bc2fce1d81_2/office,_indoor,_night_fluorescent_light,_blue_tone,_light_from_the_left@20251104-083135/edited_trajectory.mp4",
+                "video_results": 35.082089960575104
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_dc263dfbf0_0/classroom,_indoor,_morning_light,_bright_and_clear,_light_from_the_right@20251104-083623/edited_trajectory.mp4",
+                "video_results": 34.69572323560715
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_dc263dfbf0_1/classroom,_indoor,_afternoon_sunlight,_golden_hue,_light_from_the_right@20251104-084134/edited_trajectory.mp4",
+                "video_results": 54.868029832839966
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_dc263dfbf0_2/classroom,_indoor,_night_light,_dim_and_calm,_light_from_the_right@20251104-084635/edited_trajectory.mp4",
+                "video_results": 44.50526275038719
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_ef18cf0708_0/office,_indoor,_sunlight_from_window,_bright_tone,_light_from_bottom@20251104-085155/edited_trajectory.mp4",
+                "video_results": 36.13110187649727
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_ef18cf0708_1/office,_indoor,_ceiling_light,_artificial_illumination,_dim,_light_from_the_right@20251104-085747/edited_trajectory.mp4",
+                "video_results": 34.8952202796936
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_ef18cf0708_2/office,_indoor,_balanced_mix_of_sunlight_and_ceiling_light,_light_from_the_right@20251104-090353/edited_trajectory.mp4",
+                "video_results": 36.37810504436493
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_fb564c935d_0/office_desk,_indoor,_sunlight_through_blinds,_striped_shadows,_light_from_bottom@20251104-090942/edited_trajectory.mp4",
+                "video_results": 29.25402680039406
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_fb564c935d_1/office_desk,_indoor,_warm_desk_lamp_light,_cozy_atmosphere,_light_from_top@20251104-091433/edited_trajectory.mp4",
+                "video_results": 46.53618078231811
+            },
+            {
+                "video_path": "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir/dge-iclight_scannetpp_fb564c935d_2/office_desk,_indoor,_night_scene,_cool_fluorescent_light,_light_from_the_right@20251104-091903/edited_trajectory.mp4",
+                "video_results": 40.34410966038704
+            }
+        ]
+    ]
+}

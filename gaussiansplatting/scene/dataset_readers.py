@@ -198,14 +198,16 @@ def storePly(path, xyz, rgb):
     ply_data.write(path)
 
 def readColmapSceneInfo_hw(path, h, w, images, eval, llffhold=8):
+    sub_folder = "sparse/0" if os.path.exists(os.path.join(path, "sparse/0")) else "sparse"
+        
     try:
-        cameras_extrinsic_file = os.path.join(path, "sparse/0", "images.bin")
-        cameras_intrinsic_file = os.path.join(path, "sparse/0", "cameras.bin")
+        cameras_extrinsic_file = os.path.join(path, sub_folder, "images.bin")
+        cameras_intrinsic_file = os.path.join(path, sub_folder, "cameras.bin")
         cam_extrinsics = read_extrinsics_binary(cameras_extrinsic_file)
         cam_intrinsics = read_intrinsics_binary(cameras_intrinsic_file)
     except:
-        cameras_extrinsic_file = os.path.join(path, "sparse/0", "images.txt")
-        cameras_intrinsic_file = os.path.join(path, "sparse/0", "cameras.txt")
+        cameras_extrinsic_file = os.path.join(path, sub_folder, "images.txt")
+        cameras_intrinsic_file = os.path.join(path, sub_folder, "cameras.txt")
         cam_extrinsics = read_extrinsics_text(cameras_extrinsic_file)
         cam_intrinsics = read_intrinsics_text(cameras_intrinsic_file)
 
@@ -247,9 +249,9 @@ def readColmapSceneInfo_hw(path, h, w, images, eval, llffhold=8):
 
     nerf_normalization = getNerfppNorm(train_cam_infos)
 
-    ply_path = os.path.join(path, "sparse/0/points3D.ply")
-    bin_path = os.path.join(path, "sparse/0/points3D.bin")
-    txt_path = os.path.join(path, "sparse/0/points3D.txt")
+    ply_path = os.path.join(path, sub_folder, "points3D.ply")
+    bin_path = os.path.join(path, sub_folder, "points3D.bin")
+    txt_path = os.path.join(path, sub_folder, "points3D.txt")
     if not os.path.exists(ply_path):
         print("Converting point3d.bin to .ply, will happen only the first time you open the scene.")
         try:
@@ -270,14 +272,16 @@ def readColmapSceneInfo_hw(path, h, w, images, eval, llffhold=8):
     return scene_info
 
 def readColmapSceneInfo(path, images, eval, llffhold=8):
+    sub_folder = "sparse/0" if os.path.exists(os.path.join(path, "sparse/0")) else "sparse"
+        
     try:
-        cameras_extrinsic_file = os.path.join(path, "sparse/0", "images.bin")
-        cameras_intrinsic_file = os.path.join(path, "sparse/0", "cameras.bin")
+        cameras_extrinsic_file = os.path.join(path, sub_folder, "images.bin")
+        cameras_intrinsic_file = os.path.join(path, sub_folder, "cameras.bin")
         cam_extrinsics = read_extrinsics_binary(cameras_extrinsic_file)
         cam_intrinsics = read_intrinsics_binary(cameras_intrinsic_file)
     except:
-        cameras_extrinsic_file = os.path.join(path, "sparse/0", "images.txt")
-        cameras_intrinsic_file = os.path.join(path, "sparse/0", "cameras.txt")
+        cameras_extrinsic_file = os.path.join(path, sub_folder, "images.txt")
+        cameras_intrinsic_file = os.path.join(path, sub_folder, "cameras.txt")
         cam_extrinsics = read_extrinsics_text(cameras_extrinsic_file)
         cam_intrinsics = read_intrinsics_text(cameras_intrinsic_file)
 
@@ -298,9 +302,9 @@ def readColmapSceneInfo(path, images, eval, llffhold=8):
 
     nerf_normalization = getNerfppNorm(train_cam_infos)
 
-    ply_path = os.path.join(path, "sparse/0/points3D.ply")
-    bin_path = os.path.join(path, "sparse/0/points3D.bin")
-    txt_path = os.path.join(path, "sparse/0/points3D.txt")
+    ply_path = os.path.join(path, sub_folder, "points3D.ply")
+    bin_path = os.path.join(path, sub_folder, "points3D.bin")
+    txt_path = os.path.join(path, sub_folder, "points3D.txt")
     if not os.path.exists(ply_path):
         print("Converting point3d.bin to .ply, will happen only the first time you open the scene.")
         try:
@@ -532,9 +536,178 @@ def readNerfstudioInfo_hw(path, json_folder, h, w, images, eval, llffhold=8):
                            ply_path=ply_path)
     return scene_info
 
+def readCamerasFromScannetppTransforms(path, transformsfile, depths_folder, white_background, eval, extension=".png", new_h=512, new_w=512):
+    cam_train_infos, cam_test_infos = [], []
+
+    with open(os.path.join(path, transformsfile)) as json_file:
+        contents = json.load(json_file)
+
+        # camera_model = contents["camera_model"]
+        # orientation_override = contents["orientation_override"]
+        frame_same = False
+        if "fl_x" in contents:
+            frame_same = True
+            fl_x = contents["fl_x"]
+            fl_y = contents["fl_y"]
+            cx = contents["cx"]
+            cy = contents["cy"]
+            h = contents["h"]
+            w = contents["w"]
+        
+        has_test_split = "test_frames" in contents
+        LLFF_hold_num = 8
+
+        frames = contents["frames"]
+        for idx, frame in enumerate(frames):
+            image_path = os.path.join(path, "resized_undistorted_images", frame["file_path"])
+            if not frame_same:
+                fl_x = frame["fl_x"]
+                fl_y = frame["fl_y"]
+                cx = frame["cx"]
+                cy = frame["cy"]
+                h = frame["h"]
+                w = frame["w"]
+
+
+            # NeRF 'transform_matrix' is a camera-to-world transform
+            c2w = np.array(frame["transform_matrix"])
+            # change from OpenGL/Blender camera axes (Y up, Z back) to COLMAP (Y down, Z forward)
+            c2w[:3, 1:3] *= -1
+
+            # get the world-to-camera transform and set R, T
+            w2c = np.linalg.inv(c2w)
+            R = np.transpose(w2c[:3,:3])  # R is stored transposed due to 'glm' in CUDA code
+            T = w2c[:3, 3]
+            qvec = rotmat2qvec(w2c[:3, :3])  # keep in w2c
+
+            image_name = Path(image_path).stem
+            image = Image.open(image_path)
+
+            im_data = np.array(image.convert("RGBA"))
+
+            bg = np.array([1,1,1]) if white_background else np.array([0, 0, 0])
+
+            norm_data = im_data / 255.0
+            arr = norm_data[:,:,:3] * norm_data[:, :, 3:4] + bg * (1 - norm_data[:, :, 3:4])
+            image = Image.fromarray(np.array(arr*255.0, dtype=np.byte), "RGB")
+
+            origin_height = h
+            origin_width = w
+            origin_aspect = origin_height/origin_width
+            aspect = new_h/new_w
+            focal_length_x = fl_x
+            focal_length_y = fl_y
+            if origin_aspect > aspect: # shrink height
+                FovY = focal2fov(focal_length_y, origin_width * aspect)
+                FovX = focal2fov(focal_length_x, origin_width)
+            else: # shrink width
+                FovY = focal2fov(focal_length_y, origin_height)
+                FovX = focal2fov(focal_length_x, origin_height/aspect)
+
+            depth_path = os.path.join(depths_folder, f"{image_name}.png") if depths_folder != "" else ""
+
+            if eval and not has_test_split and (idx%LLFF_hold_num==0):
+                 
+                cam_test_infos.append(CameraInfo(uid=idx, R=R, T=T, FovY=FovY, FovX=FovX, image=image, qvec=qvec,
+                              image_path=image_path, image_name=image_name, width=w, height=h))
+
+            else:
+                cam_train_infos.append(CameraInfo(uid=idx, R=R, T=T, FovY=FovY, FovX=FovX, image=image, qvec=qvec,
+                              image_path=image_path, image_name=image_name, width=w, height=h))
+                
+        if has_test_split:
+            test_frames = contents["test_frames"]
+            for idx, frame in enumerate(test_frames):
+                image_path = os.path.join(path, "resized_undistorted_images", frame["file_path"])
+                if not frame_same:
+                    fl_x = frame["fl_x"]
+                    fl_y = frame["fl_y"]
+                    cx = frame["cx"]
+                    cy = frame["cy"]
+                    h = frame["h"]
+                    w = frame["w"]
+
+
+                # NeRF 'transform_matrix' is a camera-to-world transform
+                c2w = np.array(frame["transform_matrix"])
+                # change from OpenGL/Blender camera axes (Y up, Z back) to COLMAP (Y down, Z forward)
+                c2w[:3, 1:3] *= -1
+
+                # get the world-to-camera transform and set R, T
+                w2c = np.linalg.inv(c2w)
+                R = np.transpose(w2c[:3,:3])  # R is stored transposed due to 'glm' in CUDA code
+                T = w2c[:3, 3]
+                qvec = rotmat2qvec(w2c[:3, :3])  # keep in w2c
+
+                image_name = Path(image_path).stem
+                image = Image.open(image_path)
+
+                im_data = np.array(image.convert("RGBA"))
+
+                bg = np.array([1,1,1]) if white_background else np.array([0, 0, 0])
+
+                norm_data = im_data / 255.0
+                arr = norm_data[:,:,:3] * norm_data[:, :, 3:4] + bg * (1 - norm_data[:, :, 3:4])
+                image = Image.fromarray(np.array(arr*255.0, dtype=np.byte), "RGB")
+
+                origin_height = h
+                origin_width = w
+                origin_aspect = origin_height/origin_width
+                aspect = new_h/new_w
+                focal_length_x = fl_x
+                focal_length_y = fl_y
+                if origin_aspect > aspect: # shrink height
+                    FovY = focal2fov(focal_length_y, origin_width * aspect)
+                    FovX = focal2fov(focal_length_x, origin_width)
+                else: # shrink width
+                    FovY = focal2fov(focal_length_y, origin_height)
+                    FovX = focal2fov(focal_length_x, origin_height/aspect)
+
+                depth_path = os.path.join(depths_folder, f"{image_name}.png") if depths_folder != "" else ""
+
+                if eval:
+                    cam_test_infos.append(CameraInfo(uid=idx, R=R, T=T, FovY=FovY, FovX=FovX, image=image, qvec=qvec,
+                              image_path=image_path, image_name=image_name, width=w, height=h))
+                else:
+                    cam_train_infos.append(CameraInfo(uid=idx, R=R, T=T, FovY=FovY, FovX=FovX, image=image, qvec=qvec,
+                              image_path=image_path, image_name=image_name, width=w, height=h))
+    
+    return cam_train_infos, cam_test_infos
+
+def readScannetppInfo_hw(path, white_background, depths, eval, h, w):
+    depths_folder=os.path.join(path, depths) if depths != "" else ""
+    print("Reading All Transforms")
+    train_cam_infos, test_cam_infos = readCamerasFromScannetppTransforms(path, "nerfstudio/transforms_undistorted.json", depths_folder, white_background, eval, h, w)
+
+    nerf_normalization = getNerfppNorm(train_cam_infos)
+
+    ply_path = os.path.join(path, "colmap", "points3D.ply")
+    bin_path = os.path.join(path, "colmap", "points3D.bin")
+    txt_path = os.path.join(path, "colmap", "points3D.txt")
+    if not os.path.exists(ply_path):
+        print("Converting point3d.bin to .ply, will happen only the first time you open the scene.")
+        try:
+            xyz, rgb, _ = read_points3D_binary(bin_path)
+        except:
+            xyz, rgb, _ = read_points3D_text(txt_path)
+        storePly(ply_path, xyz, rgb)
+    try:
+        pcd = fetchPly(ply_path)
+    except:
+        pcd = None
+
+    scene_info = SceneInfo(point_cloud=pcd,
+                           train_cameras=train_cam_infos,
+                           test_cameras=test_cam_infos,
+                           nerf_normalization=nerf_normalization,
+                           ply_path=ply_path)
+    return scene_info
+
+
 sceneLoadTypeCallbacks = {
     "Colmap": readColmapSceneInfo,
     "Colmap_hw": readColmapSceneInfo_hw,
     "Blender" : readNerfSyntheticInfo,
-    "Nerfstudio_hw" : readNerfstudioInfo_hw
+    "Nerfstudio_hw" : readNerfstudioInfo_hw,
+    "ScanNetpp": readScannetppInfo_hw,
 }

@@ -79,7 +79,7 @@ def get_spiral_path(cameras, center, radius, up, frames=200, n_rot=1):
         up_dir = np.cross(right_dir, forward_dir)
 
         c2w = np.eye(4, dtype=np.float64)
-        c2w[:3, 0] = right_dir
+        c2w[:3, 0] = -right_dir
         c2w[:3, 1] = up_dir
         c2w[:3, 2] = forward_dir
         c2w[:3, 3] = pos
