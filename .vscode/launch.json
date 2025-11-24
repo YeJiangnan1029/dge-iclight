@@ -18,10 +18,10 @@
                 "--config", "configs/dge.yaml",
                 "--train",
                 "exp_root_dir=\"output/dge_iclight_192\"",
-                "data.source=\"data/in2n/person-small\"",
-                "data.exp_folder=\"data/3dgs_output/in2n/person-small/splatfacto/exp\"",
-                "system.gs_source=\"data/3dgs_output/in2n/person-small/splatfacto/exp/nerfstudio_models/splat.ply\"",
-                "system.cache_dir=\"data/3dgs_output/in2n/person-small/splatfacto/exp/cache\"",
+                "data.source=\"data/in2n/bear\"",
+                "data.exp_folder=\"data/3dgs_output/in2n/bear/splatfacto/exp\"",
+                "system.gs_source=\"data/3dgs_output/in2n/bear/splatfacto/exp/nerfstudio_models/splat.ply\"",
+                "system.cache_dir=\"data/3dgs_output/in2n/bear/splatfacto/exp/cache\"",
                 "system.prompt_processor.prompt=\"man, indoor, neon reflection, city light, cinematic\"",
                 "system.guidance_type=\"dge-iclight\"",
                 "name=\"dge-iclight-in2n\"",
@@ -86,7 +86,7 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "env": {
-                "CUDA_VISIBLE_DEVICES": "0"
+                "CUDA_VISIBLE_DEVICES": "1"
             },
             "justMyCode": false,
             "args": [

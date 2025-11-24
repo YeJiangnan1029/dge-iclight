@@ -12,12 +12,12 @@ print("Loading data source config:", source_config)
 with open(source_config, "r") as f:
     data_sources = yaml.safe_load(f)
 
-task_base_folder = Path("/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir")
+task_base_folder = Path("/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ablation_mv/full_dir")
 print(f"Task base folder: {task_base_folder}")
 
 video_paths = []
 for dataset_name, dataset_info in data_sources.items():
-    # if dataset_name != 'scannetpp': continue
+    if dataset_name != 'in2n': continue
     scenes = dataset_info.get("scenes", [])
     base_path = Path(dataset_info['base_path'])
     gs_base_path = Path(dataset_info['gs_base_path'])
@@ -47,7 +47,7 @@ for dataset_name, dataset_info in data_sources.items():
                     continue
                 print(f"Rendering scene: {scene_key}, experiment: {exp_subfolder.name}")
 
-                video_path = str(exp_subfolder / "edited_trajectory.mp4")
+                video_path = str(exp_subfolder / "save" / "edited_scene.mp4")
                 video_paths.append(video_path)
 
 print(f"Collected {len(video_paths)} videos for scoring.")

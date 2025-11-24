@@ -274,6 +274,7 @@ class IClight(DGEGuidance):
         rgb_BCHW = torch.stack(shading_imgs, dim=0).to(self.device)
         # rgb_BCHW = torch.zeros_like(rgb_BCHW) # this line uncommented will disable the shading input
         del shading  # 立即删除shading列表
+        # rgb_BCHW = rgb.permute(0, 3, 1, 2)
 
         RH, RW = (rgb_BCHW.shape[2] // 8) * 8, (rgb_BCHW.shape[3] // 8) * 8
         rgb_BCHW_HW8 = F.interpolate(rgb_BCHW, (RH, RW), mode="bilinear", align_corners=False)
@@ -406,6 +407,7 @@ class IClight(DGEGuidance):
         self.scheduler.set_timesteps(self.cfg.diffusion_steps)
         timesteps = self.scheduler.timesteps
         add_t = timesteps[3:4]
+        # add_t = timesteps[8:9]
         timesteps = timesteps[timesteps <= add_t]
 
         threestudio.info(f"Denoising with timesteps {timesteps}")

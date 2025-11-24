@@ -9,3 +9,4 @@ threestudio/models/weights
 *.csv
 
 output
+evaluation_results

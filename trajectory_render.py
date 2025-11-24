@@ -469,7 +469,7 @@ print("Loading data source config:", source_config)
 with open(source_config, "r") as f:
     data_sources = yaml.safe_load(f)
 
-task_base_folder = Path("/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ip2p_dir")
+task_base_folder = Path("/mnt/16T/yejiangnan/work/cvpr25_EditSplat/output/editsplat_output")
 
 for dataset_name, dataset_info in data_sources.items():
     # if dataset_name != 'scannetpp': continue
@@ -495,13 +495,13 @@ for dataset_name, dataset_info in data_sources.items():
         exp_path = gs_base_path / scene_full / exp_folder if exp_folder else ""
 
         for idx in range(3):
-            task_name = f"dge-iclight_{dataset_name}_{scene_name}_{idx}"
+            task_name = f"editsplat_{dataset_name}_{scene_name}_{idx}"
             task_folder = task_base_folder / task_name
-            for exp_subfolder in task_folder.iterdir():
-                if not exp_subfolder.is_dir():
-                    continue
-                print(f"Rendering scene: {scene_key}, experiment: {exp_subfolder.name}")
 
-                gs_source = exp_subfolder / "save" / "last.ply"
-                
-                render_views(data_source, gs_source, exp_path, pipeline, scene_key.replace('/', '_'), exp_subfolder)
+            gs_source = task_folder / "point_cloud/iteration_30650/point_cloud.ply"
+
+            if not gs_source.exists() or (Path(task_folder) / "edited_trajectory.mp4").exists():
+                print(f"Skipping {task_name}, either gs_source missing or video already exists.")
+                continue
+            
+            render_views(data_source, gs_source, exp_path, pipeline, scene_key.replace('/', '_'), task_folder)

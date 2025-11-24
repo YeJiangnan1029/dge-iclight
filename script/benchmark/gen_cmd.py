@@ -7,7 +7,7 @@ from pathlib import Path
 # ----------------------------
 data_source_path = "script/benchmark/data_source.yaml"
 scene_prompt_path = "script/benchmark/scene_prompt_dir.json"
-output_sh_path = "script/benchmark/batch_run_dir.sh"
+output_sh_path = "pickup_mv.sh"
 
 # ----------------------------
 # 读取配置
@@ -23,17 +23,17 @@ with open(scene_prompt_path, "r") as f:
 # ----------------------------
 lines = [
     "#!/bin/bash\n",
-    "set -e\n",
-    "export CUDA_VISIBLE_DEVICES=1\n",
+    "export CUDA_VISIBLE_DEVICES=0\n",
     "\n"
 ]
 
-exp_root_dir = "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_iclight_dir"
+exp_root_dir = "/mnt/16T/yejiangnan/work/dge-iclight/output/dge_benchmark/dge_ablation_mv/mv"
 
 # ----------------------------
 # 遍历数据源与场景
 # ----------------------------
 for source_name, source_cfg in data_source.items():
+    if source_name != "in2n": continue  # 仅处理 in2n 数据源
     base_path = source_cfg.get("base_path", "")
     gs_base_path = source_cfg.get("gs_base_path", base_path)
     image_pick = source_cfg.get("image_pick", "")

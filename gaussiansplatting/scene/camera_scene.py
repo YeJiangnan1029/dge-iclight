@@ -13,7 +13,7 @@ import os
 
 import numpy as np
 from gaussiansplatting.scene.dataset_readers import sceneLoadTypeCallbacks
-from gaussiansplatting.utils.camera_utils import cameraList_load
+from gaussiansplatting.utils.camera_utils import cameraList_load, get_poses_from_cams, interp_curve, my_get_ellipse_path
 
 
 class CamScene:
@@ -46,13 +46,21 @@ class CamScene:
         self.cameras_extent = scene_info.nerf_normalization["radius"]
         self.scene_center = scene_info.nerf_normalization["center"]
         self.cameras_up = scene_info.nerf_normalization["up"]
+        
+        # generate render c2ws
+        training_poses = get_poses_from_cams(scene_info.train_cameras)
+        if "in2n" in source_path:
+            render_poses = interp_curve(training_poses, smooth=0.3, n_samples=320)
+        else:
+            render_poses = my_get_ellipse_path(training_poses, 320, z_variation=0.1)
+        self.render_c2ws = render_poses
 
         # if too much cameras, tends to cause CUDA OOM
         train_num, test_num = len(scene_info.train_cameras), len(scene_info.test_cameras)
         new_train_cameras, new_test_cameras = scene_info.train_cameras, scene_info.test_cameras
         if image_limit>0 and (train_num>image_limit or test_num>image_limit):
             print(f"[INFO] Too many cameras, randomly select {image_limit} cameras for training and testing.")
-            train_num, test_num = min(train_num, image_limit), min(test_num, image_limit)
+            # train_num, test_num = min(train_num, image_limit), min(test_num, image_limit)
             # to ensure the random would not affect train/test dataset sequence 
             rng = np.random.default_rng(seed=42)
             train_ids = rng.permutation(train_num)[:image_limit]

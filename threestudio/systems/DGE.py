@@ -675,11 +675,7 @@ class DGE(BaseLift3DSystem):
         self.render_all_view(cache_name="origin_render")
 
         # 编辑前场景render
-        cameras = self.trainer.datamodule.train_dataset.scene.cameras
-        radius = self.trainer.datamodule.train_dataset.scene.cameras_extent
-        center = self.trainer.datamodule.train_dataset.scene.scene_center
-        up = self.trainer.datamodule.train_dataset.scene.cameras_up
-        self.render_c2ws = get_spiral_path(cameras, center, radius, up, frames=200)
+        self.render_c2ws = self.trainer.datamodule.train_dataset.scene.render_c2ws
         self.render_scene_video("origin_scene")
 
         if self.cfg.guidance_type=="dge-iclight":
